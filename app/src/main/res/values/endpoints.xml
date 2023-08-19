@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- route send hash to find user and save profile with file json on internal memory of app -->
+    <string name="login">dtiararipe.ce.gov.br/chamados/api/login/{{hash}}</string>
+
+    <!-- route list chamados by searchs params  -->
+    <string name="called">dtiararipe.ce.gov.br/chamados/api/called/{{hash}}/{{search}}</string>
+
+    <!-- route view log chamado by id  -->
+    <string name="calls">dtiararipe.ce.gov.br/chamados/api/callsview/{{hash}}/{{id}}</string>
+
+    <!-- route update log atendimento by id with data param content -->
+    <string name="up_calls">dtiararipe.ce.gov.br/chamados/api/callsupdate/{{hash}}/{{id}}/{{data}}</string>
+
+</resources>
