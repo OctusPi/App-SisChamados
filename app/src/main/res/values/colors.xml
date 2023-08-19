@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="bs_blue">#0d6efd</color>
+    <color name="bs_indigo">#6610f2</color>
+    <color name="bs_purple">#6f42c1</color>
+    <color name="bs_pink">#d63384</color>
+    <color name="bs_red">#dc3545</color>
+    <color name="bs_orange">#fd7e14</color>
+    <color name="bs_yellow">#ffc107</color>
+    <color name="bs_green">#198754</color>
+    <color name="bs_teal">#20c997</color>
+    <color name="bs_cyan">#0dcaf0</color>
+    <color name="bs_white">#fff</color>
+    <color name="bs_gray">#6c757d</color>
+    <color name="bs_gray_dark">#343a40</color>
+    <color name="bs_primary">#0d6efd</color>
+    <color name="bs_secondary">#6c757d</color>
+    <color name="bs_success">#198754</color>
+    <color name="bs_info">#0dcaf0</color>
+    <color name="bs_warning">#ffc107</color>
+    <color name="bs_danger">#dc3545</color>
+    <color name="bs_light">#f8f9fa</color>
+    <color name="bs_dark">#212529</color>
 </resources>
