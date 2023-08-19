@@ -1,0 +1,16 @@
+TELA LOGIN
+Inputs: E-mail e Senha
+Views: Botao e ProgressBar Circular (indicar load)
+***************************************************
+
+TELA LISTA CHAMADOS
+Inputs: Filtro (data, tipo, setor, equipamento, técnico, status)
+Views: Lista Chamados (Data Abertura, Data Previsao de Atendimento, Cód Chamado, Tipo, Setor, Equipamento, Descricao, Status)
+Status = [ABERTO, EM ATENDIMENTO, SOLUCIONADO, REABERTO, FINALIZADO]
+*****************************************************
+
+TELA ATENDIMENTO CHAMADOS
+Inputs: TextArea e Select Status
+Views: Dados do Chamado (Data Abertura, Data Previsao de Atendimento, Cód Chamado, Tipo, Setor, Equipamento, Descricao, Status),
+Lista Msgs de Interação do Atendimento entre o Técnico e a Central uma abaixo da outra
+Botão de Envio e ProgressBar Circular (indicar load)
