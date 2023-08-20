@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">App SisChamados</string>
     <string name="app_sub">Sistema de Gestão e Controle de Chamados</string>
+    <string name="app_footer">&#169;2023 Departamento de Tecnologia Araripe</string>
 </resources>

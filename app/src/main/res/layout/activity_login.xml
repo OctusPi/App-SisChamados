@@ -11,6 +11,7 @@
         android:layout_width="332dp"
         android:layout_height="314dp"
         android:layout_marginTop="32dp"
+        android:contentDescription="Uma arte ilustrativa de duas pessoas com o telefone"
         android:src="@drawable/login_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/poppins_bold"
+        android:paddingBottom="0dp"
         android:text="@string/app_name"
-        android:textSize="24sp"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bg" />
@@ -31,6 +35,8 @@
         android:id="@+id/app_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/poppins"
         android:text="@string/app_sub"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +44,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_email"
-        android:layout_width="340dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/input_width"
+        android:layout_height="@dimen/input_height"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,17 +55,20 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elegantTextHeight="false"
+            android:fontFamily="@font/poppins"
             android:hint="Email"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:textColor="@color/bs_dark"
             android:textSize="14sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_password"
-        android:layout_width="340dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/input_width"
+        android:layout_height="@dimen/input_height"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,24 +78,44 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="@font/poppins"
             android:hint="Senha"
+            android:inputType="text|textPassword"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:textColor="@color/bs_dark"
             android:textSize="14sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/form_submit"
-        android:layout_width="340dp"
-        android:layout_height="52dp"
+        android:layout_width="@dimen/input_width"
+        android:layout_height="@dimen/button_height"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/bs_blue"
-        android:drawableStart="@drawable/baseline_check_circle_24"
-        android:drawablePadding="4dp"
-        android:drawableTint="@color/bs_light"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
         android:text="Entrar"
+        app:icon="@drawable/baseline_check_circle_24"
+        app:iconGravity="textEnd"
+        app:iconPadding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/form_password" />
+
+    <TextView
+        android:id="@+id/app_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/poppins"
+        android:text="@string/app_footer"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
