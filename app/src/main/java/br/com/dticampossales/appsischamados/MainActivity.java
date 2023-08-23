@@ -9,7 +9,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chamados);
+        setContentView(R.layout.activity_main);
 
         String a = String.valueOf(R.string.login);
     }
