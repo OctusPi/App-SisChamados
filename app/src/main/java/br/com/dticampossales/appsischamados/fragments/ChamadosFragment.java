@@ -1,4 +1,4 @@
-package br.com.dticampossales.appsischamados;
+package br.com.dticampossales.appsischamados.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import br.com.dticampossales.appsischamados.R;
 
 /**
  * A simple {@link Fragment} subclass.
