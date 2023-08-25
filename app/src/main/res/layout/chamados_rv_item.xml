@@ -59,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center|start"
-                android:text="1101101101"
+                android:text="Cód. 1101111111"
                 android:textSize="15sp" />
 
             <TextView
@@ -75,7 +75,7 @@
     </LinearLayout>
     <View
         android:layout_width="8dp"
-        android:layout_gravity="end"
+        android:layout_gravity="end|center"
         android:background="@color/bs_red"
-        android:layout_height="match_parent"/>
+        android:layout_height="75dp"/>
 </FrameLayout>
