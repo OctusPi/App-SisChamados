@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ChamadosFragment">
 
-    <TextView
-        android:id="@+id/chamados_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Chamados"
-        android:textSize="20sp" />
+    <androidx.fragment.app.FragmentContainerView
+    android:id="@+id/chamados_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:name="br.com.dticampossales.appsischamados.fragments.ChamadosRVFragment"
+    tools:layout="@layout/fragment_chamados_rv" />
+
 </FrameLayout>
