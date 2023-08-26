@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">App SisChamados</string>
-    <string name="app_sub">Sistema de Gestão e Controle de Chamados</string>
+    <string name="app_name">Sis Chamados</string>
+    <string name="app_sub">Gestão e Controle de Chamados</string>
     <string name="app_footer">&#169;2023 Departamento de Tecnologia Araripe</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -11,6 +11,15 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <!--  values of references inputs  -->
+    <string name="txt_inp_email">E-mail</string>\
+    <string name="txt_inp_pass">Senha</string>
+    <string name="txt_inp_btnin">Acessar Sistema</string>
+
+    <!--  values of ad accessibility  -->
+    <string name="ad_desc_logomain">Logo Sistema Chamados</string>
+
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
