@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/chamado_information"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:paddingEnd="26dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chamado_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:elegantTextHeight="true"
+                android:text="1"
+                android:minHeight="20sp"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/chamado_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center|end"
+                android:text="Sec. Educação"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/chamado_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="end"
+            android:text="Suporte técnico"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chamado_code"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center|start"
+                android:text="Cód. 1101111111"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/chamado_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center|end"
+                android:text="11/11/2024"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="8dp"
+        android:layout_gravity="end|center"
+        android:background="@color/bs_red"
+        android:layout_height="75dp"/>
+</FrameLayout>

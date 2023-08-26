@@ -1,0 +1,1 @@
+package br.com.dticampossales.appsischamados.adapters;

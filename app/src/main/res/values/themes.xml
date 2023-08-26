@@ -1,9 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AppSisChamados" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.AppSisChamados" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/bs_blue</item>
     </style>
 
     <style name="Theme.AppSisChamados" parent="Base.Theme.AppSisChamados" />
+
+    <style name="Theme.AppSisChamados.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AppSisChamados.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.AppSisChamados.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
