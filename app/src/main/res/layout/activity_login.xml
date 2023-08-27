@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,12 +14,12 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:id="@+id/app_bg"
-        android:layout_width="332dp"
-        android:layout_height="314dp"
-        android:layout_marginTop="16dp"
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
         android:contentDescription="@string/app_bg_alt"
-        android:src="@drawable/login_bg" />
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/app_title"
@@ -27,7 +27,6 @@
         android:layout_height="35dp"
         android:layout_marginTop="32dp"
         android:elegantTextHeight="true"
-        android:fontFamily="@font/poppins_bold"
         android:paddingBottom="0dp"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -42,69 +41,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elegantTextHeight="true"
-        android:fontFamily="@font/poppins"
         android:text="@string/app_sub" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_email"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="18dp"
         android:textSize="12sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/baseline_email_24"
-        android:layout_marginTop="18dp">
+        app:startIconDrawable="@drawable/baseline_email_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:maxLines="1"
-            android:inputType="textEmailAddress"
             android:id="@+id/email"
-            android:layout_width="@dimen/input_width"
-            android:layout_height="@dimen/input_height"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:elegantTextHeight="true"
-            android:fontFamily="@font/poppins"
             android:hint="@string/login_form_email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
             android:padding="0dp"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            tools:ignore="TextContrastCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_password"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="12dp"
         app:passwordToggleEnabled="true"
-        app:startIconDrawable="@drawable/baseline_key_24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
+        app:startIconDrawable="@drawable/baseline_key_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:maxLines="1"
             android:id="@+id/password"
-            android:layout_width="@dimen/input_width"
-            android:layout_height="@dimen/input_height"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:elegantTextHeight="true"
-            android:padding="0dp"
-            android:fontFamily="@font/poppins"
             android:hint="@string/login_form_senha"
             android:inputType="textPassword"
-            android:textSize="15sp" />
+            android:maxLines="1"
+            android:padding="0dp"
+            android:textSize="15sp"
+            tools:ignore="TextContrastCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/form_submit"
         android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/bs_blue"
         android:elegantTextHeight="true"
-        android:fontFamily="@font/poppins"
         android:text="@string/login_form_submit"
-        android:textColor="@color/bs_light"
+        android:textColor="@color/bs_white"
         app:cornerRadius="8dp"
         app:icon="@drawable/baseline_check_circle_24"
-        app:iconTint="@color/bs_white"
         app:iconGravity="textEnd"
         app:iconPadding="6dp"
-        />
+        app:iconTint="@color/bs_white"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/app_footer"
@@ -112,9 +109,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:elegantTextHeight="true"
-        android:fontFamily="@font/poppins"
         android:text="@string/app_footer"
         android:layout_marginTop="16dp"
         android:textSize="12sp" />
+
 </LinearLayout>
 </ScrollView>
