@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingVertical="18dp"
-    android:paddingHorizontal="28dp"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/app_bg"
         android:layout_width="332dp"
         android:layout_height="314dp"
-        android:layout_marginTop="44dp"
-        android:contentDescription="Uma arte ilustrativa de duas pessoas com o telefone"
-        android:src="@drawable/login_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.354"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/app_bg_alt"
+        android:src="@drawable/login_bg" />
 
     <TextView
         android:id="@+id/app_title"
@@ -31,9 +28,7 @@
         android:textColor="?android:textColorPrimary"
         android:text="@string/app_name"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bg" />
+        />
 
     <TextView
         android:id="@+id/app_sub"
@@ -44,77 +39,67 @@
         android:layout_height="wrap_content"
         android:elegantTextHeight="true"
         android:fontFamily="@font/poppins"
-        android:text="@string/app_sub"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_title" />
+        android:text="@string/app_sub" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_email"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/input_height"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_sub">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
             android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elegantTextHeight="false"
+            android:layout_width="@dimen/input_width"
+            android:layout_height="@dimen/input_height"
+            android:elegantTextHeight="true"
             android:textColorHighlight="@color/bs_white"
             android:fontFamily="@font/poppins"
-            android:hint="Email"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:hint="@string/login_form_email"
             android:textColor="@color/bs_dark"
-            android:textSize="14sp" />
+            android:padding="0dp"
+            android:textSize="15sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/form_password"
-
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/input_height"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_email">
+        app:passwordToggleEnabled="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:maxLines="1"
             android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+
+            android:layout_width="@dimen/input_width"
+            android:layout_height="@dimen/input_height"
+            android:elegantTextHeight="true"
+            android:padding="0dp"
             android:fontFamily="@font/poppins"
-            android:hint="Senha"
-            android:inputType="text|textPassword"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:hint="@string/login_form_senha"
+            android:inputType="textPassword"
             android:textColor="@color/bs_dark"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/form_submit"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/bs_blue"
         android:textColor="@color/bs_light"
         android:elegantTextHeight="true"
         android:fontFamily="@font/poppins"
-        android:includeFontPadding="false"
-        android:text="Entrar"
+        android:text="@string/login_form_submit"
         app:cornerRadius="8dp"
         app:icon="@drawable/baseline_check_circle_24"
         app:iconGravity="textEnd"
-        app:iconPadding="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_password" />
+        app:iconPadding="6dp" />
 
     <TextView
         android:id="@+id/app_footer"
@@ -123,9 +108,7 @@
         android:elegantTextHeight="true"
         android:fontFamily="@font/poppins"
         android:text="@string/app_footer"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="16dp"
+        android:textSize="12sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
