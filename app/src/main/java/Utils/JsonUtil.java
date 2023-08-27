@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
-import br.com.dticampossales.appsischamados.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -55,7 +54,6 @@ public class JsonUtil {
 
         if(file.exists()){
             jsonObject = new JSONObject(RWFiles.ReadFileInternalDir(context, writeRequest));
-            file.delete();
             return jsonObject;
         }else{
             return new JSONObject();
