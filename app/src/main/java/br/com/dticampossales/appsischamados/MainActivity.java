@@ -1,16 +1,32 @@
 package br.com.dticampossales.appsischamados;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+
+        Context context = getApplicationContext();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                getString(R.string.preference_key), MODE_PRIVATE);
+
+        Intent nextActivity;
+
+        if (sharedPref.getBoolean(getString(R.string.is_authenticated), false))
+            nextActivity = new Intent(this, ChamadosActivity.class);
+        else
+            nextActivity = new Intent(this, LoginActivity.class);
+
+        startActivity(nextActivity);
+        finish();
     }
 }

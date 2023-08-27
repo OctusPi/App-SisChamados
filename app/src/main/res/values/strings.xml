@@ -2,26 +2,10 @@
     <string name="app_name">Sis Chamados</string>
     <string name="app_sub">Gestão e Controle de Chamados</string>
     <string name="app_footer">&#169;2023 Departamento de Tecnologia Araripe</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <!--  values of references inputs  -->
-    <string name="txt_inp_email">E-mail</string>\
-    <string name="txt_inp_pass">Senha</string>
-    <string name="txt_inp_btnin">Acessar Sistema</string>
-
-    <!--  values of ad accessibility  -->
-    <string name="ad_desc_logomain">Logo Sistema Chamados</string>
-
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="login_form_submit">Acessar Sistema</string>
+    <string name="login_form_email">E-mail</string>
+    <string name="login_form_senha">Senha</string>
+    <string name="app_bg_alt">Logo Sistema Chamados</string>
+    <string name="preference_key">br.com.dticampossales.appsischamados.preference_key</string>
+    <string name="is_authenticated">isAuthenticated</string>
 </resources>

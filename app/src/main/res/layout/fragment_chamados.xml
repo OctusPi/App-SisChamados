@@ -5,11 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ChamadosFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-    android:id="@+id/chamados_list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="br.com.dticampossales.appsischamados.fragments.ChamadosRVFragment"
-    tools:layout="@layout/fragment_chamados_rv" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/card_chamado"/>
 
 </FrameLayout>
