@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">App SisChamados</string>
-    <string name="app_sub">Sistema de Gestão e Controle de Chamados</string>
+    <string name="app_name">Sis Chamados</string>
+    <string name="app_sub">Gestão e Controle de Chamados</string>
     <string name="app_footer">&#169;2023 Departamento de Tecnologia Araripe</string>
-    <string name="login_form_submit">Entrar</string>
-    <string name="login_form_email">Email</string>
+    <string name="login_form_submit">Acessar Sistema</string>
+    <string name="login_form_email">E-mail</string>
     <string name="login_form_senha">Senha</string>
-    <string name="app_bg_alt">Uma arte ilustrativa de duas pessoas com o telefone</string>
+    <string name="app_bg_alt">Logo Sistema Chamados</string>
     <string name="preference_key">br.com.dticampossales.appsischamados.preference_key</string>
     <string name="is_authenticated">isAuthenticated</string>
 </resources>
