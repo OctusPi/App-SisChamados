@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "data": "2023-08-28",
+    "type": "Maintenance",
+    "sector": "Department of Public Works",
+    "equipment": "Cutting machine",
+    "technician": "John Silva",
+    "status": "IN PROGRESS"
+  },
+  {
+    "id": 2,
+    "data": "2023-08-29",
+    "type": "Inspection",
+    "sector": "Department of Health",
+    "equipment": "Precision scale",
+    "technician": "Maria Santos",
+    "status": "SOLVED"
+  },
+  {
+    "id": 3,
+    "data": "2023-08-30",
+    "type": "Repair",
+    "sector": "Department of Public Works",
+    "equipment": "Conveyor belt",
+    "technician": "Carlos Rodrigues",
+    "status": "OPEN"
+  },
+  {
+    "id": 4,
+    "data": "2023-08-31",
+    "type": "Calibration",
+    "sector": "Department of Laboratory Services",
+    "equipment": "Spectrophotometer",
+    "technician": "Ana Ferreira",
+    "status": "REOPENED"
+  },
+  {
+    "id": 5,
+    "data": "2023-09-01",
+    "type": "Installation",
+    "sector": "Department of Technology",
+    "equipment": "Server",
+    "technician": "Rafael Costa",
+    "status": "COMPLETED"
+  },
+  {
+    "id": 6,
+    "data": "2023-09-02",
+    "type": "Maintenance",
+    "sector": "Department of Logistics",
+    "equipment": "Forklift",
+    "technician": "Paulo Oliveira",
+    "status": "IN PROGRESS"
+  },
+  {
+    "id": 7,
+    "data": "2023-09-03",
+    "type": "Repair",
+    "sector": "Department of Public Works",
+    "equipment": "Air compressor",
+    "technician": "Fernanda Almeida",
+    "status": "OPEN"
+  },
+  {
+    "id": 8,
+    "data": "2023-09-04",
+    "type": "Inspection",
+    "sector": "Department of Health",
+    "equipment": "Microscope",
+    "technician": "Pedro Ramos",
+    "status": "REOPENED"
+  },
+  {
+    "id": 9,
+    "data": "2023-09-05",
+    "type": "Calibration",
+    "sector": "Department of Laboratory Services",
+    "equipment": "pH Meter",
+    "technician": "Lucia Carvalho",
+    "status": "SOLVED"
+  },
+  {
+    "id": 10,
+    "data": "2023-09-06",
+    "type": "Installation",
+    "sector": "Department of Technology",
+    "equipment": "Printer",
+    "technician": "Gustavo Mendes",
+    "status": "OPEN"
+  }
+]
