@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "br.com.dticampossales.appsischamados"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "br.com.dticampossales.appsischamados"
@@ -39,10 +39,10 @@ android {
 }
 
 dependencies {
-    val nav_version = "2.7.1"
+    val navVersion = "2.7.1"
 
-    implementation ("androidx.navigation:navigation-fragment:$nav_version")
-    implementation ("androidx.navigation:navigation-ui:$nav_version")
+    implementation ("androidx.navigation:navigation-fragment:$navVersion")
+    implementation ("androidx.navigation:navigation-ui:$navVersion")
 
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
@@ -64,5 +64,5 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    //    implementation("com.google.android.material:material:$version")
+    //implementation("com.google.android.material:material:$version")
 }
