@@ -1,19 +1,22 @@
-package br.com.dticampossales.appsischamados.adapters;
+package br.com.dticampossales.appsischamados.adapters.Chamados;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.R;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
-public class ChamadosAdapter extends RecyclerView.Adapter<ChamadosAdapter.ViewHolder> {
-    private List<Object> dataSet;
+public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
+    private ArrayList<JSONObject> dataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Apenas para teste
@@ -34,7 +37,7 @@ public class ChamadosAdapter extends RecyclerView.Adapter<ChamadosAdapter.ViewHo
         }
     }
 
-    public ChamadosAdapter(List<Object> dataSet) {
+    public ChamadosListAdapter(ArrayList<JSONObject> dataSet) {
         this.dataSet = dataSet;
     }
 
@@ -48,12 +51,20 @@ public class ChamadosAdapter extends RecyclerView.Adapter<ChamadosAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        viewHolder.chamadoId.setText(JsonUtil.getJsonVal(dataSet.get(position),
+                viewHolder.itemView.getContext().getString(R.string.chamado_id)));
 
-        viewHolder.chamadoId.setText("ASDF");
-        viewHolder.chamadoCode.setText("ASDF");
-        viewHolder.chamadoType.setText("ASDF");
-        viewHolder.chamadoSector.setText("ASDF");
-        viewHolder.chamadoDate.setText("ASDF");
+        viewHolder.chamadoCode.setText(JsonUtil.getJsonVal(dataSet.get(position),
+                viewHolder.itemView.getContext().getString(R.string.chamado_code)));
+
+        viewHolder.chamadoType.setText(JsonUtil.getJsonVal(dataSet.get(position),
+                viewHolder.itemView.getContext().getString(R.string.chamado_type)));
+
+        viewHolder.chamadoSector.setText(JsonUtil.getJsonVal(dataSet.get(position),
+                viewHolder.itemView.getContext().getString(R.string.chamado_sector)));
+
+        viewHolder.chamadoDate.setText(JsonUtil.getJsonVal(dataSet.get(position),
+                viewHolder.itemView.getContext().getString(R.string.chamado_date)));
     }
 
     @Override

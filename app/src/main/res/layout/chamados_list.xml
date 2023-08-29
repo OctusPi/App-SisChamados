@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Chamados.ChamadosFragment">
+    tools:context=".fragments.Chamados.ChamadosListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chamados_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/chamado_card"/>

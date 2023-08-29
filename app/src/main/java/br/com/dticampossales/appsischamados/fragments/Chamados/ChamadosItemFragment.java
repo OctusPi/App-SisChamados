@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import br.com.dticampossales.appsischamados.R;
 
-public class ChamadoFragment extends Fragment {
+public class ChamadosItemFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

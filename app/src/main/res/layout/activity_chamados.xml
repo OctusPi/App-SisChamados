@@ -15,9 +15,9 @@
         android:theme="?attr/actionBarTheme" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/views"
+        android:id="@+id/chamados_list_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="br.com.dticampossales.appsischamados.fragments.Chamados.ChamadosFragment"
+        android:name="br.com.dticampossales.appsischamados.fragments.Chamados.ChamadosListFragment"
         tools:layout="@layout/chamados_list" />
 </LinearLayout>
