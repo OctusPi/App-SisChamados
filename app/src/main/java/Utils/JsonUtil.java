@@ -5,11 +5,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,7 +33,7 @@ public class JsonUtil {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Toast.makeText(context, "Falha ao Processar Solicitação.", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -43,8 +45,6 @@ public class JsonUtil {
                             Toast.makeText(context, "Falha ao Gravar Requisicão.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }else{
-                    Toast.makeText(context, "Falha ao Processar Solicitação.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -54,10 +54,22 @@ public class JsonUtil {
 
         if(file.exists()){
             jsonObject = new JSONObject(RWFiles.ReadFileInternalDir(context, writeRequest));
+            file.delete();
             return jsonObject;
         }else{
             return new JSONObject();
         }
+    }
+
+    public static ArrayList<JSONObject> jsonList(JSONArray jsonArray) throws JSONException {
+
+        ArrayList<JSONObject> jsonObjects = new ArrayList<JSONObject>();
+        for (int i=0; i<jsonArray.length(); i++){
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            jsonObjects.add(jsonObject);
+        }
+
+        return jsonObjects;
     }
 
     public static String getJsonVal(JSONObject obj, String key){
