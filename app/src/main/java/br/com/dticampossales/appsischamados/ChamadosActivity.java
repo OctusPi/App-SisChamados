@@ -20,4 +20,9 @@ public class ChamadosActivity extends AppCompatActivity {
 
         DataBindingUtil.setContentView(this, R.layout.activity_chamados);
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.sample_menu, menu);
+    }
 }

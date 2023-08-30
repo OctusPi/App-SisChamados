@@ -16,8 +16,8 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/chamados_list_fragment"
+        android:name="br.com.dticampossales.appsischamados.fragments.Chamados.ChamadosListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="br.com.dticampossales.appsischamados.fragments.Chamados.ChamadosListFragment"
         tools:layout="@layout/chamados_list" />
 </LinearLayout>

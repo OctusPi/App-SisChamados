@@ -11,6 +11,7 @@
     <color name="bs_teal">#20c997</color>
     <color name="bs_cyan">#0dcaf0</color>
     <color name="bs_white">#fff</color>
+    <color name="bs_gray_light">#eee</color>
     <color name="bs_gray">#6c757d</color>
     <color name="bs_gray_dark">#343a40</color>
     <color name="bs_primary">#0d6efd</color>

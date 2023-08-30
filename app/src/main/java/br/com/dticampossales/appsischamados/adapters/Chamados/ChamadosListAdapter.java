@@ -8,6 +8,7 @@ import android.widget.TextView;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.R;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONObject;
@@ -16,10 +17,9 @@ import java.util.ArrayList;
 
 
 public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
-    private ArrayList<JSONObject> dataSet;
+    private final ArrayList<JSONObject> dataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // Apenas para teste
         private final TextView chamadoId;
         private final TextView chamadoCode;
         private final TextView chamadoType;
@@ -28,12 +28,11 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
 
         public ViewHolder(View view) {
             super(view);
-
-            chamadoId = (TextView) view.findViewById(R.id.chamado_id);
-            chamadoCode = (TextView) view.findViewById(R.id.chamado_code);
-            chamadoType = (TextView) view.findViewById(R.id.chamado_type);
-            chamadoSector = (TextView) view.findViewById(R.id.chamado_sector);
-            chamadoDate = (TextView) view.findViewById(R.id.chamado_date);
+            chamadoId = view.findViewById(R.id.chamado_id);
+            chamadoCode = view.findViewById(R.id.chamado_code);
+            chamadoType = view.findViewById(R.id.chamado_type);
+            chamadoSector = view.findViewById(R.id.chamado_sector);
+            chamadoDate = view.findViewById(R.id.chamado_date);
         }
     }
 
@@ -41,8 +40,9 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         this.dataSet = dataSet;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.chamado_card, viewGroup, false);
 

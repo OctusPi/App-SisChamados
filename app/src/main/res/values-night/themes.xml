@@ -3,6 +3,7 @@
     <style name="Base.Theme.AppSisChamados" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/bs_blue</item>
-        <item name="android:textColorHint">@color/bs_green</item>
+        <item name="android:textColorPrimary">@color/bs_white</item>
+        <item name="android:textColorSecondary">@color/bs_gray_light</item>
     </style>
 </resources>
