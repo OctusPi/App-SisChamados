@@ -22,6 +22,12 @@
     <string name="app_bg_alt">Logo Sistema Chamados</string>
 
     <!-- ChamadosListFragment -->
+    <string name="label_cod">Código</string>
+    <string name="label_dataopen">Abertura</string>
+    <string name="label_dataprev">Previsão</string>
+    <string name="label_setor">Setor</string>
+
+
     <string name="chamado_id">id</string>
     <string name="chamado_code">code</string>
     <string name="chamado_type">type</string>
