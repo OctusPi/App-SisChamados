@@ -22,14 +22,28 @@
     <string name="app_bg_alt">Logo Sistema Chamados</string>
 
     <!-- ChamadosListFragment -->
+    <string name="label_cod">Código</string>
+    <string name="label_dataopen">Abertura</string>
+    <string name="label_dataprev">Previsão</string>
+    <string name="label_setor">Setor</string>
+
+
     <string name="chamado_id">id</string>
     <string name="chamado_code">code</string>
     <string name="chamado_type">type</string>
     <string name="chamado_date">data</string>
     <string name="chamado_sector">sector</string>
+    <string name="chamado_tec">technician</string>
+
     <string name="fragment_text">Fragment</string>
     <string name="menu_filter_title">Filtrar</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_search_title">Pesquisar</string>
+
+    <!-- Chamados Filter String arrays -->
+    <string-array name="filters">
+        <item>Setor</item>
+        <item>Equipamento</item>
+        <item>Status</item>
+    </string-array>
 
 </resources>

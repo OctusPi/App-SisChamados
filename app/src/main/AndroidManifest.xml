@@ -16,6 +16,7 @@
         android:theme="@style/Theme.AppSisChamados"
         tools:targetApi="31">
         <activity
+            android:label=""
             android:name=".ChamadosActivity"
             android:exported="false" />
         <activity
