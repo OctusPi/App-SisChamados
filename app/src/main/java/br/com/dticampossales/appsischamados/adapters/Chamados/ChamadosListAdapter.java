@@ -1,5 +1,6 @@
 package br.com.dticampossales.appsischamados.adapters.Chamados;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
-    private final ArrayList<JSONObject> dataSet;
+    private ArrayList<JSONObject> dataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Apenas para teste
@@ -43,6 +44,15 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
 
     public ChamadosListAdapter(ArrayList<JSONObject> dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public void applyFilter(ArrayList<JSONObject> filteredDataSet) {
+        this.dataSet = filteredDataSet;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<JSONObject> getDataSet() {
+        return this.dataSet;
     }
 
     @NonNull
