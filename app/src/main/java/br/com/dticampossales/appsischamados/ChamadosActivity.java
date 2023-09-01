@@ -1,96 +1,78 @@
 package br.com.dticampossales.appsischamados;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import java.util.Objects;
-import br.com.dticampossales.appsischamados.fragments.Chamados.ChamadosListFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ChamadosActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import Utils.JsonUtil;
+import Utils.RawJsonReader;
+import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapter;
+import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosSpinnerAdapter;
+
+public class ChamadosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        populateRecyclerView(findViewById(R.id.chamados_list),
+                RawJsonReader.makeDataSource(this, R.raw.data_test));
 
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(null);
-        getSupportActionBar().setTitle(null);
+        FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
+        floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
+        makeSpinnerItems(findViewById(R.id.filter_sector),
+                RawJsonReader.makeDataSource(this, R.raw.filter_sector_example));
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.chamados_list_fragment, ChamadosListFragment.class, null)
-                    .commit();
+        makeSpinnerItems(findViewById(R.id.filter_equipment),
+                RawJsonReader.makeDataSource(this, R.raw.filter_equipment_example));
+
+        makeSpinnerItems(findViewById(R.id.filter_status),
+                RawJsonReader.makeDataSource(this, R.raw.filter_status_example));
+    }
+
+    private void populateRecyclerView(RecyclerView recyclerView, ArrayList<JSONObject> dataSource) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new ChamadosListAdapter(dataSource));
+    }
+
+    private void toggleFilterLayout() {
+        ConstraintLayout filterLayout = findViewById(R.id.filter_layout);
+        if (filterLayout.getVisibility() == View.VISIBLE) {
+            filterLayout.setVisibility(View.GONE);
+        } else {
+            filterLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+    private void makeSpinnerItems(Spinner spinner, ArrayList<JSONObject> optionsList) {
+        ArrayList<CharSequence> optionsString = new ArrayList<CharSequence>();
 
-        makeSpinnerItems(
-                (Spinner) findViewById(R.id.spinner_filter),
-                getResources().getStringArray(R.array.filters));
+        optionsString.add(getString(R.string.filter_default));
 
-        makeSpinnerItems((Spinner) findViewById(R.id.spinner_value),
-                getResources().getStringArray(R.array.filters));
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        ConstraintLayout filterLayout = findViewById(R.id.filter_container);
-        LinearLayout searchLayout = findViewById(R.id.search_container);
-
-        if (item.getItemId() == R.id.menu_filter) {
-            if (filterLayout.getVisibility() != View.VISIBLE) {
-                filterLayout.setVisibility(View.VISIBLE);
-                searchLayout.setVisibility(View.GONE);
-            } else {
-                filterLayout.setVisibility(View.GONE);
-            }
-        } else if (item.getItemId() == R.id.menu_search) {
-            if (searchLayout.getVisibility() != View.VISIBLE) {
-                filterLayout.setVisibility(View.GONE);
-                searchLayout.setVisibility(View.VISIBLE);
-            } else {
-                searchLayout.setVisibility(View.GONE);
-            }
+        for (int i = 0; i < optionsList.size(); i++) {
+            optionsString.add(JsonUtil.getJsonVal(optionsList.get(i), "name"));
         }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void makeSpinnerItems(Spinner spinner, String[] options) {
         ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(
-                        getApplicationContext(), R.layout.spinner_item, options);
+                getApplicationContext(), R.layout.spinner_item, optionsString);
 
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(arrayAdapter);
 
-        spinner.setOnItemSelectedListener(this);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+        spinner.setOnItemSelectedListener(new ChamadosSpinnerAdapter());
     }
 }

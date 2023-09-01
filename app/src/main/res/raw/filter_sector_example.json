@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Department of Public Works"
+  },
+  {
+    "id": 2,
+    "name": "Department of Health"
+  },
+  {
+    "id": 3,
+    "name": "Department of Laboratory Services"
+  },
+  {
+    "id": 4,
+    "name": "Department of Technology"
+  },
+  {
+    "id": 5,
+    "name": "Department of Logistics"
+  }
+]

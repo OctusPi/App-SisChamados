@@ -16,17 +16,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class RawJsonReader {
-    private final Context context;
-    private final int resourceId;
+    public static ArrayList<JSONObject> makeDataSource(Context context, int resourceId) {
 
-    public RawJsonReader(Context context, int resourceId) {
-        this.context = context;
-        this.resourceId = resourceId;
-    }
-
-    public ArrayList<JSONObject> getDataSource() {
-
-        ArrayList<JSONObject> listJSON = null;
+        ArrayList<JSONObject> listJSON = new ArrayList<>();
 
         try {
             InputStream inputStream = context.getResources().openRawResource(resourceId);
@@ -54,8 +46,7 @@ public class RawJsonReader {
         return listJSON;
     }
 
-    public void printDataSource() {
-        ArrayList<JSONObject> dataSource = this.getDataSource();
+    public static void printDataSource(ArrayList<JSONObject> dataSource) {
         for (JSONObject var : dataSource)
             Log.println(Log.DEBUG, "RawJsonDataSource", var.toString() + "\n");
     }

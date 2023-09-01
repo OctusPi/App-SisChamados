@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Cutting machine"
+  },
+  {
+    "id": 2,
+    "name": "Precision scale"
+  },
+  {
+    "id": 3,
+    "name": "Conveyor belt"
+  },
+  {
+    "id": 4,
+    "name": "Spectrophotometer"
+  },
+  {
+    "id": 5,
+    "name": "Server"
+  },
+  {
+    "id": 6,
+    "name": "Forklift"
+  },
+  {
+    "id": 7,
+    "name": "Air compressor"
+  },
+  {
+    "id": 8,
+    "name": "Microscope"
+  },
+  {
+    "id": 9,
+    "name": "pH Meter"
+  },
+  {
+    "id": 10,
+    "name": "Printer"
+  }
+]

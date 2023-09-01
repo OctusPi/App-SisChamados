@@ -34,16 +34,15 @@
     <string name="chamado_date">data</string>
     <string name="chamado_sector">sector</string>
     <string name="chamado_tec">technician</string>
-
     <string name="fragment_text">Fragment</string>
-    <string name="menu_filter_title">Filtrar</string>
-    <string name="menu_search_title">Pesquisar</string>
 
-    <!-- Chamados Filter String arrays -->
-    <string-array name="filters">
-        <item>Setor</item>
-        <item>Equipamento</item>
-        <item>Status</item>
-    </string-array>
-
+    <!-- Chamados -->
+    <string name="chamados_floating_desc">Actions</string>
+    <string name="filter_title">Filtrar dados</string>
+    <string name="filter_sector_label">Setor:</string>
+    <string name="filter_equipment_label">Equipamento:</string>
+    <string name="filter_status_label">Status:</string>
+    <string name="filter_btn_text">Filtrar</string>
+    <string name="chamados_btn_desc">Aplicar filtro</string>
+    <string name="filter_default">Selecionar</string>
 </resources>

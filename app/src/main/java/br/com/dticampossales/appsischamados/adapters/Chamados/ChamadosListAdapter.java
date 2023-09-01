@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
 public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
     private final ArrayList<JSONObject> dataSet;
 

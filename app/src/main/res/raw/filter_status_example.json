@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "IN PROGRESS"
+  },
+  {
+    "id": 2,
+    "name": "SOLVED"
+  },
+  {
+    "id": 3,
+    "name": "OPEN"
+  },
+  {
+    "id": 4,
+    "name": "REOPENED"
+  },
+  {
+    "id": 5,
+    "name": "COMPLETED"
+  }
+]

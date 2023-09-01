@@ -2,12 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner_item_label"
     android:textColor="@color/bs_light"
-    android:textSize="14sp"
-    android:background="@color/bs_primary_shadow"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="6dp"
+    android:textSize="16sp"
+    android:paddingHorizontal="12dp"
+    android:textAlignment="inherit"
     android:singleLine="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:ellipsize="marquee"
-    android:textAlignment="inherit"/>
+    android:gravity="center_vertical"/>

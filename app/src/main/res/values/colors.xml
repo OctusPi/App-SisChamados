@@ -24,4 +24,5 @@
     <color name="bs_danger">#dc3545</color>
     <color name="bs_light">#f8f9fa</color>
     <color name="bs_dark">#212529</color>
+    <color name="bs_dark_shadow">#56606B76</color>
 </resources>
