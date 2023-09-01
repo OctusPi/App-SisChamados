@@ -29,16 +29,17 @@
 
 
     <string name="chamado_id">id</string>
-    <string name="chamado_code">code</string>
-    <string name="chamado_type">type</string>
-    <string name="chamado_date">data</string>
+    <string name="chamado_code">cod</string>
+    <string name="chamado_type">tipo</string>
+    <string name="chamado_date">dataabr</string>
     <string name="chamado_status">status</string>
-    <string name="chamado_equipment">equipment</string>
-    <string name="chamado_sector">sector</string>
-    <string name="chamado_tec">technician</string>
+    <string name="chamado_equipment">equipamento</string>
+    <string name="chamado_sector">setor</string>
+    <string name="chamado_tec">tecnico</string>
     <string name="fragment_text">Fragment</string>
 
     <!-- Chamados -->
+    <string name="chamados_list_key">chamados</string>
     <string name="chamados_floating_desc">Actions</string>
     <string name="filter_title">Filtrar dados</string>
     <string name="filter_sector_label">Setor:</string>

@@ -10,6 +10,8 @@
     <!-- route view log chamado by id  -->
     <string name="api_calls">https://dtiararipe.ce.gov.br/chamados/api/callsview/{{hash}}/{{id}}</string>
 
+    <string name="api_test">TESTE</string>
+
     <!-- route update log atendimento by id with data param content -->
     <string name="api_up_calls">https://dtiararipe.ce.gov.br/chamados/api/callsupdate/{{hash}}/{{id}}/{{data}}</string>
 

@@ -1,10 +1,15 @@
 package br.com.dticampossales.appsischamados;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,33 +19,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import Utils.JsonUtil;
 import Utils.RawJsonReader;
+import Utils.Security;
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapter;
 
 public class ChamadosActivity extends AppCompatActivity {
     private ArrayList<JSONObject> dataSource;
     private ChamadosListAdapter chamadosListAdapter;
 
-    private ArrayList<JSONObject> sectorFilter;
-    private ArrayList<JSONObject> equipmentFilter;
-    private ArrayList<JSONObject> statusFilter;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        dataSource = RawJsonReader.makeDataSource(this, R.raw.data_test);
+        dataSource = getChamadosList();
         chamadosListAdapter = new ChamadosListAdapter(dataSource);
 
-        sectorFilter = RawJsonReader.makeDataSource(this, R.raw.filter_sector_example);
-        equipmentFilter = RawJsonReader.makeDataSource(this, R.raw.filter_equipment_example);
-        statusFilter = RawJsonReader.makeDataSource(this, R.raw.filter_status_example);
+        ArrayList<JSONObject> sectorFilter = RawJsonReader.makeDataSource(this, R.raw.filter_sector_example);
+        ArrayList<JSONObject> equipmentFilter = RawJsonReader.makeDataSource(this, R.raw.filter_equipment_example);
+        ArrayList<JSONObject> statusFilter = RawJsonReader.makeDataSource(this, R.raw.filter_status_example);
 
         populateRecyclerView(findViewById(R.id.chamados_list), chamadosListAdapter);
 
@@ -65,6 +71,10 @@ public class ChamadosActivity extends AppCompatActivity {
 
             toggleFilterLayout();
         });
+
+        for (JSONObject chamado : dataSource) {
+            Log.println(Log.ASSERT, "msg", chamado.toString() + "\n");
+        }
     }
 
     private void populateRecyclerView(RecyclerView recyclerView, ChamadosListAdapter adapter) {
@@ -76,11 +86,8 @@ public class ChamadosActivity extends AppCompatActivity {
         ConstraintLayout filterLayout = findViewById(R.id.filter_layout);
         if (filterLayout.getVisibility() != View.VISIBLE) {
             filterLayout.setVisibility(View.VISIBLE);
-            filterLayout.animate().translationYBy(filterLayout.getHeight());
-
         } else {
             filterLayout.setVisibility(View.GONE);
-            filterLayout.animate().translationYBy(-filterLayout.getHeight());
         }
     }
 
@@ -113,5 +120,22 @@ public class ChamadosActivity extends AppCompatActivity {
         spinner.setAdapter(arrayAdapter);
     }
 
+    private ArrayList<JSONObject> getChamadosList() {
+        Context context   = getApplicationContext();
+        String urlRequest = String.format(getResources().getString(R.string.api_test));
+        ArrayList<JSONObject> chamadosList = new ArrayList<>();
 
+        try {
+            JSONObject dataObject = JsonUtil.requestJson(context, urlRequest);
+
+            chamadosList = JsonUtil.jsonList(
+                    new JSONArray(JsonUtil.getJsonVal(dataObject, getString(R.string.chamados_list_key))));
+
+        } catch (IOException | JSONException e) {
+            Toast.makeText(this, R.string.app_fail, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+        return chamadosList;
+    }
 }
