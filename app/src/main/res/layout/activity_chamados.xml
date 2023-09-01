@@ -22,48 +22,40 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
         android:id="@+id/filter_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="6dp"
-        android:paddingHorizontal="10dp"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        android:background="@color/bs_blue"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        android:persistentDrawingCache="animation"
+        android:translationZ="2dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_marginTop="6dp"
-            android:textColor="?android:textColorSecondary"
-            android:id="@+id/filter_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
-            android:text="@string/filter_title"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:drawableLeftCompat="@drawable/baseline_filter_list_24"
-            app:drawableTint="?android:textColorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/filter_sector_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/filter_sector_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/filter_sector_label"
+            android:textColor="@color/bs_gray_light"
             app:layout_constraintBottom_toTopOf="@+id/filter_sector"
-            app:layout_constraintStart_toStartOf="@+id/filter_sector" />
+            app:layout_constraintStart_toStartOf="@+id/filter_sector"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
             android:id="@+id/filter_sector"
             style="@android:style/Widget.Holo.Spinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_height"
-            android:layout_marginBottom="10dp"
-            android:spinnerMode="dialog"
+            android:layout_marginBottom="16dp"
+            android:spinnerMode="dropdown"
+            app:circularflow_defaultRadius="@dimen/nav_header_vertical_spacing"
             app:layout_constraintBottom_toTopOf="@+id/filter_equipment_label"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -72,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/filter_equipment_label"
+            android:textColor="@color/bs_gray_light"
             app:layout_constraintBottom_toTopOf="@+id/filter_equipment"
             app:layout_constraintStart_toStartOf="@+id/filter_equipment" />
 
@@ -80,7 +73,7 @@
             style="@android:style/Widget.Holo.Spinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_height"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/filter_status_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -91,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/filter_status_label"
+            android:textColor="@color/bs_gray_light"
             app:layout_constraintBottom_toTopOf="@+id/filter_status"
             app:layout_constraintStart_toStartOf="@+id/filter_status" />
 
@@ -99,7 +93,7 @@
             style="@android:style/Widget.Holo.Spinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_height"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="16dp"
             android:spinnerMode="dropdown"
             app:layout_constraintBottom_toTopOf="@+id/filter_button"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -108,6 +102,8 @@
             android:id="@+id/filter_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/bs_teal"
+            android:backgroundTintMode="src_in"
             android:contentDescription="@string/chamados_btn_desc"
             android:elegantTextHeight="true"
             android:text="@string/filter_btn_text"
@@ -117,6 +113,7 @@
             app:iconTint="@color/bs_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -125,11 +122,17 @@
         android:id="@+id/chamados_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="?attr/dialogPreferredPadding"
+        android:translationZ="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_layout"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/chamado_card" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/chamado_card"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

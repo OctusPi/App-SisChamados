@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -51,10 +53,13 @@ public class ChamadosActivity extends AppCompatActivity {
 
     private void toggleFilterLayout() {
         ConstraintLayout filterLayout = findViewById(R.id.filter_layout);
-        if (filterLayout.getVisibility() == View.VISIBLE) {
-            filterLayout.setVisibility(View.GONE);
-        } else {
+        if (filterLayout.getVisibility() != View.VISIBLE) {
             filterLayout.setVisibility(View.VISIBLE);
+            filterLayout.animate().translationYBy(filterLayout.getHeight());
+
+        } else {
+            filterLayout.setVisibility(View.GONE);
+            filterLayout.animate().translationYBy(-filterLayout.getHeight());
         }
     }
 
@@ -75,4 +80,6 @@ public class ChamadosActivity extends AppCompatActivity {
 
         spinner.setOnItemSelectedListener(new ChamadosSpinnerAdapter());
     }
+
+
 }

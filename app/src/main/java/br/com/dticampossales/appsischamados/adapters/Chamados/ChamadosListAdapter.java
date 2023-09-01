@@ -26,6 +26,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         private final TextView chamadoType;
         private final TextView chamadoSector;
         private final TextView chamadoDate;
+        private final TextView chamadoDatePrev;
         private final TextView chamadoTechnician;
 
         public ViewHolder(View view) {
@@ -35,6 +36,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
             chamadoType = view.findViewById(R.id.chamado_type);
             chamadoSector = view.findViewById(R.id.chamado_sector);
             chamadoDate = view.findViewById(R.id.chamado_date);
+            chamadoDatePrev = view.findViewById(R.id.chamado_date_prev);
             chamadoTechnician = view.findViewById(R.id.chamado_tec);
         }
     }
@@ -65,6 +67,9 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
                 viewHolder.itemView.getContext().getString(R.string.chamado_sector)));
 
         viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSet.get(position),
+                viewHolder.itemView.getContext().getString(R.string.chamado_date))));
+
+        viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSet.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_date))));
 
         viewHolder.chamadoTechnician.setText(JsonUtil.getJsonVal(dataSet.get(position),
