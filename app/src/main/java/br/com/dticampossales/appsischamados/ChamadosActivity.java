@@ -57,9 +57,14 @@ public class ChamadosActivity extends AppCompatActivity {
         makeSpinnerItems(statusSpinner, statusFilter);
 
         Button filterBtn = findViewById(R.id.filter_button);
+
         filterBtn.setOnClickListener(view -> {
-            Log.println(Log.ASSERT, "msg", sectorSpinner.getSelectedItem().toString());
-            filter("sector", sectorSpinner.getSelectedItem().toString(), dataSource);
+
+            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_sector), sectorSpinner.getSelectedItem().toString(), dataSource));
+            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_equipment), equipmentSpinner.getSelectedItem().toString(), chamadosListAdapter.getDataSet()));
+            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_status), statusSpinner.getSelectedItem().toString(),chamadosListAdapter.getDataSet()));
+
+            toggleFilterLayout();
         });
     }
 
@@ -77,17 +82,17 @@ public class ChamadosActivity extends AppCompatActivity {
         }
     }
 
-    private void filter(String key, String value, ArrayList<JSONObject> dataSet) {
+    private ArrayList<JSONObject> filter(String key, String value, ArrayList<JSONObject> dataSet) {
         ArrayList<JSONObject> filteredList = new ArrayList<>();
         if (!value.equals(getString(R.string.filter_default))) {
             for (int i = 0; i < dataSet.size(); i++) {
                 if (JsonUtil.getJsonVal(dataSet.get(i), key).equals(value)) {
                     filteredList.add(dataSet.get(i));
-                    Log.println(Log.ASSERT, "msg", JsonUtil.getJsonVal(dataSet.get(i), key));
                 }
             }
-            chamadosListAdapter.applyFilter(filteredList);
+            return filteredList;
         }
+        return dataSet;
     }
 
     private void makeSpinnerItems(Spinner spinner, ArrayList<JSONObject> optionsList) {
@@ -96,7 +101,7 @@ public class ChamadosActivity extends AppCompatActivity {
         optionsString.add(getString(R.string.filter_default));
 
         for (int i = 0; i < optionsList.size(); i++) {
-            optionsString.add(JsonUtil.getJsonVal(optionsList.get(i), "name"));
+            optionsString.add(JsonUtil.getJsonVal(optionsList.get(i), getString(R.string.filter_name)));
         }
 
         ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(

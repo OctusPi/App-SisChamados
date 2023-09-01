@@ -32,6 +32,8 @@
     <string name="chamado_code">code</string>
     <string name="chamado_type">type</string>
     <string name="chamado_date">data</string>
+    <string name="chamado_status">status</string>
+    <string name="chamado_equipment">equipment</string>
     <string name="chamado_sector">sector</string>
     <string name="chamado_tec">technician</string>
     <string name="fragment_text">Fragment</string>
@@ -45,4 +47,5 @@
     <string name="filter_btn_text">Filtrar</string>
     <string name="chamados_btn_desc">Aplicar filtro</string>
     <string name="filter_default">Selecionar</string>
+    <string name="filter_name">name</string>
 </resources>

@@ -49,6 +49,10 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         notifyDataSetChanged();
     }
 
+    public ArrayList<JSONObject> getDataSet() {
+        return this.dataSet;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
