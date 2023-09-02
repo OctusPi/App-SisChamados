@@ -31,6 +31,7 @@ import Utils.JsonUtil;
 import Utils.RawJsonReader;
 import Utils.Security;
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapter;
+import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
 public class ChamadosActivity extends AppCompatActivity {
     private ArrayList<JSONObject> dataSource;
@@ -41,7 +42,9 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        dataSource = getChamadosList();
+        ChamadosController chamadosController = new ChamadosController(this, null);
+
+        dataSource = chamadosController.getChamadosList();
         chamadosListAdapter = new ChamadosListAdapter(dataSource);
 
         ArrayList<JSONObject> sectorFilter = RawJsonReader.makeDataSource(this, R.raw.filter_sector_example);
@@ -71,10 +74,6 @@ public class ChamadosActivity extends AppCompatActivity {
 
             toggleFilterLayout();
         });
-
-        for (JSONObject chamado : dataSource) {
-            Log.println(Log.ASSERT, "msg", chamado.toString() + "\n");
-        }
     }
 
     private void populateRecyclerView(RecyclerView recyclerView, ChamadosListAdapter adapter) {
@@ -89,19 +88,6 @@ public class ChamadosActivity extends AppCompatActivity {
         } else {
             filterLayout.setVisibility(View.GONE);
         }
-    }
-
-    private ArrayList<JSONObject> filter(String key, String value, ArrayList<JSONObject> dataSet) {
-        ArrayList<JSONObject> filteredList = new ArrayList<>();
-        if (!value.equals(getString(R.string.filter_default))) {
-            for (int i = 0; i < dataSet.size(); i++) {
-                if (JsonUtil.getJsonVal(dataSet.get(i), key).equals(value)) {
-                    filteredList.add(dataSet.get(i));
-                }
-            }
-            return filteredList;
-        }
-        return dataSet;
     }
 
     private void makeSpinnerItems(Spinner spinner, ArrayList<JSONObject> optionsList) {
@@ -120,22 +106,16 @@ public class ChamadosActivity extends AppCompatActivity {
         spinner.setAdapter(arrayAdapter);
     }
 
-    private ArrayList<JSONObject> getChamadosList() {
-        Context context   = getApplicationContext();
-        String urlRequest = String.format(getResources().getString(R.string.api_test));
-        ArrayList<JSONObject> chamadosList = new ArrayList<>();
-
-        try {
-            JSONObject dataObject = JsonUtil.requestJson(context, urlRequest);
-
-            chamadosList = JsonUtil.jsonList(
-                    new JSONArray(JsonUtil.getJsonVal(dataObject, getString(R.string.chamados_list_key))));
-
-        } catch (IOException | JSONException e) {
-            Toast.makeText(this, R.string.app_fail, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+    private ArrayList<JSONObject> filter(String key, String value, ArrayList<JSONObject> dataSet) {
+        ArrayList<JSONObject> filteredList = new ArrayList<>();
+        if (!value.equals(getString(R.string.filter_default))) {
+            for (int i = 0; i < dataSet.size(); i++) {
+                if (JsonUtil.getJsonVal(dataSet.get(i), key).equals(value)) {
+                    filteredList.add(dataSet.get(i));
+                }
+            }
+            return filteredList;
         }
-
-        return chamadosList;
+        return dataSet;
     }
 }

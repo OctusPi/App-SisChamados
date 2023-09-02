@@ -5,7 +5,7 @@
     <string name="api_login">https://dtiararipe.ce.gov.br/chamados/api/?app=login&amp;hash=%s</string>
 
     <!-- route list chamados by searchs params  -->
-    <string name="api_called">https://dtiararipe.ce.gov.br/chamados/api/?app=chamados&amp;hash=%s&amp;search=%s</string>
+    <string name="api_called">https://dtiararipe.ce.gov.br/chamados/api/?app=chamados&amp;hash=%s</string>
 
     <!-- route view log chamado by id  -->
     <string name="api_calls">https://dtiararipe.ce.gov.br/chamados/api/callsview/{{hash}}/{{id}}</string>
@@ -15,4 +15,8 @@
     <!-- route update log atendimento by id with data param content -->
     <string name="api_up_calls">https://dtiararipe.ce.gov.br/chamados/api/callsupdate/{{hash}}/{{id}}/{{data}}</string>
 
+    <!--Api Keys-->
+    <string name="api_chamados_key">chamados</string>
+    <string name="api_setores_key">setores</string>
+    <string name="api_tec_key">tecnico</string>
 </resources>
