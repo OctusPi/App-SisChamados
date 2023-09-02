@@ -1,124 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="230dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/app_bg_alt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingVertical="18dp"
-        tools:context=".LoginActivity">
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:contentDescription="@string/app_bg_alt"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/logo" />
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/app_sub"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-        <TextView
-            android:id="@+id/app_title"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="32dp"
-            android:elegantTextHeight="true"
-            android:paddingBottom="0dp"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:ignore="TextSizeCheck" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/form_email"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alert_text"
+        app:startIconDrawable="@drawable/baseline_email_24">
 
-        <TextView
-            android:id="@+id/app_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elegantTextHeight="true"
-            android:text="@string/app_sub" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/form_email"
-            android:layout_width="300dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="18dp"
-            android:textSize="12sp"
-            app:startIconDrawable="@drawable/baseline_email_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:elegantTextHeight="true"
-                android:hint="@string/login_form_email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:padding="0dp"
-                android:textSize="15sp"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/form_password"
-            android:layout_width="300dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="12dp"
-            app:passwordToggleEnabled="true"
-            app:startIconDrawable="@drawable/baseline_key_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:elegantTextHeight="true"
-                android:hint="@string/login_form_senha"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:padding="0dp"
-                android:textSize="15sp"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progressTint="@color/bs_blue"
-            android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/form_submit"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="58dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/bs_blue"
+            android:layout_height="match_parent"
             android:elegantTextHeight="true"
-            android:text="@string/login_form_submit"
-            android:textColor="@color/bs_white"
-            app:cornerRadius="8dp"
-            app:icon="@drawable/baseline_check_circle_24"
-            app:iconGravity="textEnd"
-            app:iconPadding="6dp"
-            app:iconTint="@color/bs_white"
+            android:hint="@string/login_form_email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:padding="0dp"
+            android:textSize="15sp"
             tools:ignore="TextContrastCheck" />
 
-        <TextView
-            android:id="@+id/app_footer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
-            android:elegantTextHeight="true"
-            android:text="@string/app_footer"
-            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-</ScrollView>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/form_password"
+        android:layout_width="300dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/form_email"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/baseline_key_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elegantTextHeight="true"
+            android:hint="@string/login_form_senha"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:padding="0dp"
+            android:textSize="15sp"
+            tools:ignore="TextContrastCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/form_submit"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="58dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/bs_blue"
+        android:elegantTextHeight="true"
+        android:text="@string/login_form_submit"
+        android:textColor="@color/bs_white"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/baseline_check_circle_24"
+        app:iconGravity="textEnd"
+        app:iconPadding="6dp"
+        app:iconTint="@color/bs_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/form_password"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/alert_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/bs_danger"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/bs_blue"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_footer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

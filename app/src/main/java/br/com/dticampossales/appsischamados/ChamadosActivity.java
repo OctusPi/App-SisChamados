@@ -1,5 +1,6 @@
 package br.com.dticampossales.appsischamados;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +27,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
+import Utils.HttpClientUtil;
 import Utils.JsonUtil;
 import Utils.RawJsonReader;
 import Utils.Security;
@@ -41,101 +44,134 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        dataSource = getChamadosList();
-        chamadosListAdapter = new ChamadosListAdapter(dataSource);
+        /*
+         * EM VIRTUDE DA NECESSIDADE DE REQUISICOES ASYNCRONAS INFELIZMENTE TIVE QUE MODIFICAR A FORMA
+         * COMO A CLASS RESPONSÁVEL POR REQUERER O JSON NA API, IMPLEMENTE O CÓDIGO DENTRO DSA CLASS HTTPCLIENTUTIL
+         * DESSA FORMA É NECESSÁRIO TRABALHAR COM PROMISSES ASSIM COMO FAZ O JAVA SCRIPT SEGUE UM EXEMPLO REFATORA O CODIGO DA ACTIVITY
+         * LISTAR CHAMADOS PARA SE ADEQUAR
+         */
 
-        ArrayList<JSONObject> sectorFilter = RawJsonReader.makeDataSource(this, R.raw.filter_sector_example);
-        ArrayList<JSONObject> equipmentFilter = RawJsonReader.makeDataSource(this, R.raw.filter_equipment_example);
-        ArrayList<JSONObject> statusFilter = RawJsonReader.makeDataSource(this, R.raw.filter_status_example);
+        /*
+        EXEMPLO DE IMPLEMENTACAO
+        */
+        Context context = getApplicationContext();
+        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+        String hashLogin = sharedPref.getString(getString(R.string.is_hash_login), "");
 
-        populateRecyclerView(findViewById(R.id.chamados_list), chamadosListAdapter);
+        String search  = ""; //DADOS VINDOS DOS CAMPOS DE FILTRO
+        String urlJSON = String.format(getResources().getString(R.string.api_chamados), hashLogin, search); //BUILD URL REQUEST
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
-        floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
+        //NOVA FORMA DE USAR O JSON DA API
+        CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(urlJSON);
+        future.thenAccept(json -> {
 
-        Spinner sectorSpinner = findViewById(R.id.filter_sector);
-        Spinner equipmentSpinner = findViewById(R.id.filter_equipment);
-        Spinner statusSpinner = findViewById(R.id.filter_status);
+            // O JSON DEVE SER UTILIZADO DENTRO DA CLAUSULA THEN
 
-        makeSpinnerItems(sectorSpinner, sectorFilter);
-        makeSpinnerItems(equipmentSpinner, equipmentFilter);
-        makeSpinnerItems(statusSpinner, statusFilter);
-
-        Button filterBtn = findViewById(R.id.filter_button);
-
-        filterBtn.setOnClickListener(view -> {
-
-            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_sector), sectorSpinner.getSelectedItem().toString(), dataSource));
-            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_equipment), equipmentSpinner.getSelectedItem().toString(), chamadosListAdapter.getDataSet()));
-            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_status), statusSpinner.getSelectedItem().toString(),chamadosListAdapter.getDataSet()));
-
-            toggleFilterLayout();
+        }).exceptionally(ex -> {
+            // AQUI DEVE SER FEITO O TRATAMENTO DE ERROS CASO A REQUISICAO FALHE
+            ex.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.app_fail, Toast.LENGTH_SHORT).show();
+            return null;
         });
 
-        for (JSONObject chamado : dataSource) {
-            Log.println(Log.ASSERT, "msg", chamado.toString() + "\n");
-        }
+
+//        dataSource = getChamadosList();
+//        chamadosListAdapter = new ChamadosListAdapter(dataSource);
+//
+//        ArrayList<JSONObject> sectorFilter = RawJsonReader.makeDataSource(this, R.raw.filter_sector_example);
+//        ArrayList<JSONObject> equipmentFilter = RawJsonReader.makeDataSource(this, R.raw.filter_equipment_example);
+//        ArrayList<JSONObject> statusFilter = RawJsonReader.makeDataSource(this, R.raw.filter_status_example);
+//
+//        populateRecyclerView(findViewById(R.id.chamados_list), chamadosListAdapter);
+//
+//        FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
+//        floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
+//
+//        Spinner sectorSpinner = findViewById(R.id.filter_sector);
+//        Spinner equipmentSpinner = findViewById(R.id.filter_equipment);
+//        Spinner statusSpinner = findViewById(R.id.filter_status);
+//
+//        makeSpinnerItems(sectorSpinner, sectorFilter);
+//        makeSpinnerItems(equipmentSpinner, equipmentFilter);
+//        makeSpinnerItems(statusSpinner, statusFilter);
+//
+//        Button filterBtn = findViewById(R.id.filter_button);
+//
+//        filterBtn.setOnClickListener(view -> {
+//
+//            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_sector), sectorSpinner.getSelectedItem().toString(), dataSource));
+//            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_equipment), equipmentSpinner.getSelectedItem().toString(), chamadosListAdapter.getDataSet()));
+//            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_status), statusSpinner.getSelectedItem().toString(),chamadosListAdapter.getDataSet()));
+//
+//            toggleFilterLayout();
+//        });
+//
+//        for (JSONObject chamado : dataSource) {
+//            Log.println(Log.ASSERT, "msg", chamado.toString() + "\n");
+//        }
     }
 
-    private void populateRecyclerView(RecyclerView recyclerView, ChamadosListAdapter adapter) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void toggleFilterLayout() {
-        ConstraintLayout filterLayout = findViewById(R.id.filter_layout);
-        if (filterLayout.getVisibility() != View.VISIBLE) {
-            filterLayout.setVisibility(View.VISIBLE);
-        } else {
-            filterLayout.setVisibility(View.GONE);
-        }
-    }
-
-    private ArrayList<JSONObject> filter(String key, String value, ArrayList<JSONObject> dataSet) {
-        ArrayList<JSONObject> filteredList = new ArrayList<>();
-        if (!value.equals(getString(R.string.filter_default))) {
-            for (int i = 0; i < dataSet.size(); i++) {
-                if (JsonUtil.getJsonVal(dataSet.get(i), key).equals(value)) {
-                    filteredList.add(dataSet.get(i));
-                }
-            }
-            return filteredList;
-        }
-        return dataSet;
-    }
-
-    private void makeSpinnerItems(Spinner spinner, ArrayList<JSONObject> optionsList) {
-        ArrayList<CharSequence> optionsString = new ArrayList<>();
-
-        optionsString.add(getString(R.string.filter_default));
-
-        for (int i = 0; i < optionsList.size(); i++) {
-            optionsString.add(JsonUtil.getJsonVal(optionsList.get(i), getString(R.string.filter_name)));
-        }
-
-        ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(
-                getApplicationContext(), R.layout.spinner_item, optionsString);
-
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        spinner.setAdapter(arrayAdapter);
-    }
-
-    private ArrayList<JSONObject> getChamadosList() {
-        Context context   = getApplicationContext();
-        String urlRequest = String.format(getResources().getString(R.string.api_test));
-        ArrayList<JSONObject> chamadosList = new ArrayList<>();
-
-        try {
-            JSONObject dataObject = JsonUtil.requestJson(context, urlRequest);
-
-            chamadosList = JsonUtil.jsonList(
-                    new JSONArray(JsonUtil.getJsonVal(dataObject, getString(R.string.chamados_list_key))));
-
-        } catch (IOException | JSONException e) {
-            Toast.makeText(this, R.string.app_fail, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-        return chamadosList;
-    }
+//    private void populateRecyclerView(RecyclerView recyclerView, ChamadosListAdapter adapter) {
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(adapter);
+//    }
+//
+//    private void toggleFilterLayout() {
+//        ConstraintLayout filterLayout = findViewById(R.id.filter_layout);
+//        if (filterLayout.getVisibility() != View.VISIBLE) {
+//            filterLayout.setVisibility(View.VISIBLE);
+//        } else {
+//            filterLayout.setVisibility(View.GONE);
+//        }
+//    }
+//
+//    private ArrayList<JSONObject> filter(String key, String value, ArrayList<JSONObject> dataSet) {
+//        ArrayList<JSONObject> filteredList = new ArrayList<>();
+//        if (!value.equals(getString(R.string.filter_default))) {
+//            for (int i = 0; i < dataSet.size(); i++) {
+//                if (JsonUtil.getJsonVal(dataSet.get(i), key).equals(value)) {
+//                    filteredList.add(dataSet.get(i));
+//                }
+//            }
+//            return filteredList;
+//        }
+//        return dataSet;
+//    }
+//
+//    private void makeSpinnerItems(Spinner spinner, ArrayList<JSONObject> optionsList) {
+//        ArrayList<CharSequence> optionsString = new ArrayList<>();
+//
+//        optionsString.add(getString(R.string.filter_default));
+//
+//        for (int i = 0; i < optionsList.size(); i++) {
+//            optionsString.add(JsonUtil.getJsonVal(optionsList.get(i), getString(R.string.filter_name)));
+//        }
+//
+//        ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(
+//                getApplicationContext(), R.layout.spinner_item, optionsString);
+//
+//        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+//        spinner.setAdapter(arrayAdapter);
+//    }
+//
+//    private ArrayList<JSONObject> getChamadosList() {
+//        Context context   = getApplicationContext();
+//        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+//        String hashLogin = sharedPref.getString(getString(R.string.is_hash_login), "");
+//
+//
+//        @SuppressLint("StringFormatMatches")
+//        String urlRequest = String.format(getResources().getString(R.string.api_chamados), hashLogin, "");
+//        ArrayList<JSONObject> chamadosList = new ArrayList<>();
+//
+//        try {
+//            JSONObject jsonObject = HttpClientUtil.requestJson(urlRequest);
+//            chamadosList = JsonUtil.jsonList(new JSONArray(JsonUtil.getJsonVal(jsonObject, getString(R.string.chamados_list_key))));
+//        } catch (JSONException e) {
+//            Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
+//        }
+//
+//
+//        return chamadosList;
+//    }
 }

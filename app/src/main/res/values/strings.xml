@@ -2,7 +2,7 @@
     <!-- Shared Preferences   -->
     <string name="preference_key">br.com.dticampossales.appsischamados.preference_key</string>
     <string name="is_authenticated">isAuthenticated</string>
-    <string name="is_hash_login">isHashed</string>
+    <string name="is_hash_login">nologin</string>
 
     <!-- Default Values -->
     <string name="app_name">Sis Chamados</string>

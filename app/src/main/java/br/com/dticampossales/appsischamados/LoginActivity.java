@@ -7,7 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -16,16 +20,28 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
+import Utils.HttpClientUtil;
 import Utils.JsonUtil;
+import Utils.RWFiles;
 import Utils.Security;
 import br.com.dticampossales.appsischamados.validation.Login.LoginEmailValidator;
 import br.com.dticampossales.appsischamados.validation.Login.LoginPasswordValidator;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private TextInputEditText emailText;
+    private TextInputEditText passwordText;
+    private TextView alertText;
+    private ProgressBar progressBar;
+    private  Button btnLogin;
+    private LoginPasswordValidator passwordValidator;
+    private LoginEmailValidator emailValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,76 +49,70 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         TextInputLayout emailLayout = findViewById(R.id.form_email);
-        TextInputEditText emailText = findViewById(R.id.email);
-        LoginEmailValidator emailValidator = new LoginEmailValidator(emailLayout, emailText);
-
         TextInputLayout passwordLayout = findViewById(R.id.form_password);
-        TextInputEditText passwordText = findViewById(R.id.password);
-        LoginPasswordValidator passwordValidator = new LoginPasswordValidator(passwordLayout, passwordText);
 
-        Button btn = findViewById(R.id.form_submit);
+        emailText      = findViewById(R.id.email);
+        passwordText   = findViewById(R.id.password);
+        btnLogin       = findViewById(R.id.form_submit);
+        alertText      = findViewById(R.id.alert_text);
+        progressBar    = findViewById(R.id.progress_bar);
 
-        btn.setOnClickListener(view -> {
-            boolean isEmailValid    = emailValidator.validate();
-            boolean isPasswordValid = passwordValidator.validate();
+        passwordValidator = new LoginPasswordValidator(passwordLayout, passwordText);
+        emailValidator    = new LoginEmailValidator(emailLayout, emailText);
 
-            tempLoginTest();
+        emailText.setText("octuspi@gmail.com");
+        passwordText.setText("Kira@7616");
 
-            /*########################
-             * Call a true method login, wait for finalize api backend in server
-             *
-                if(isEmailValid && isPasswordValid) {
-                    try {
-                        loginApi(Objects.requireNonNull(emailText.getText()).toString(), Objects.requireNonNull(passwordText.getText()).toString());
-                    } catch (NoSuchAlgorithmException e) {
-                        Toast.makeText(this, R.string.app_fail, Toast.LENGTH_SHORT).show();
-                    }
+        loginAPI();
+    }
+
+    private void loginAPI(){
+        btnLogin.setOnClickListener(view -> {
+
+            if(emailValidator.validate() && passwordValidator.validate()){
+                progressBar.setVisibility(View.VISIBLE);
+                alertText.setText("");
+
+                Context context  = getApplicationContext();
+                String email     = Objects.requireNonNull(emailText.getText()).toString();
+                String passwd    = Objects.requireNonNull(passwordText.getText()).toString();
+
+                try {
+                    String hashLogin = Security.hashLogin(email, passwd);
+                    String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
+                    CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(urlJSON);
+                    future.thenAccept(json -> {
+                        try {
+                            if(json.getInt("id") != 0){
+                                //save hash in shared preferences to auto login in next time
+                                SharedPreferences sharedPref    = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.is_hash_login), hashLogin).apply();
+
+                                // call acitivity list chamados
+                                Intent chamadosActivity = new Intent(context, ChamadosActivity.class);
+                                startActivity(chamadosActivity);
+                                finish();
+                            }else{
+                                progressBar.setVisibility(View.GONE);
+                                alertText.setText(getResources().getString(R.string.app_fail_login));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }).exceptionally(ex -> {
+                        progressBar.setVisibility(View.GONE);
+                        alertText.setText(getResources().getString(R.string.app_fail));
+                        ex.printStackTrace();
+                        return null;
+                    });
+
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                    progressBar.setVisibility(View.GONE);
+                    alertText.setText(getResources().getString(R.string.app_fail));
                 }
-             *########################*/
-
-        });
-    }
-
-    private void tempLoginTest(){
-        Context context   = getApplicationContext();
-        SharedPreferences sharedPref    = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean(getString(R.string.is_authenticated), true).apply();
-
-
-        Intent chamadosActivity = new Intent(context, ChamadosActivity.class);
-        startActivity(chamadosActivity);
-        finish();
-    }
-
-    @SuppressLint("StringFormatInvalid")
-    private void loginApi(String email, String password) throws NoSuchAlgorithmException {
-        Context context   = getApplicationContext();
-        String hashLogin  = Security.hashLogin(email, password);
-        String urlRequest = String.format(getResources().getString(R.string.api_login), hashLogin);
-
-        try {
-            JSONObject jsonObject = JsonUtil.requestJson(context, urlRequest);
-            if(jsonObject.getInt("id") != 0){
-
-                Toast.makeText(context, R.string.app_success, Toast.LENGTH_LONG).show();
-
-                //save hash in shared preferences to auto login in next time
-                SharedPreferences sharedPref    = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(getString(R.string.is_hash_login), hashLogin).apply();
-
-                // call acitivity list chamados
-                Intent chamadosActivity = new Intent(context, ChamadosActivity.class);
-                startActivity(chamadosActivity);
-                finish();
-
-            }else{
-                Toast.makeText(this, R.string.app_fail_login, Toast.LENGTH_SHORT).show();
             }
-        } catch (IOException | JSONException e) {
-            Toast.makeText(this, R.string.app_fail, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
+        });
     }
 }
