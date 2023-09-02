@@ -2,15 +2,15 @@
 <resources>
 
     <!-- route send hash to find user and save profile with file json on internal memory of app -->
-    <string name="api_login">https://dtiararipe.ce.gov.br/chamados/?app=login&amp;action=api&amp;hash=%s</string>
+    <string name="api_login">https://dtiararipe.ce.gov.br/chamados/api.php?hash=%s</string>
 
     <!-- route list chamados by searchs params  -->
-    <string name="api_chamados">https://dtiararipe.ce.gov.br/chamados/?app=ChamadosApi&amp;action=api&amp;hash=%s&amp;search=%s</string>
+    <string name="api_chamados">https://dtiararipe.ce.gov.br/chamados/api.php?app=chamados&amp;action=list&amp;hash=%s&amp;search=%s</string>
 
-    <!-- route view log chamado by id  -->
-    <string name="api_atendimento">https://dtiararipe.ce.gov.br/chamados/?app=historyapi&amp;action=api&amp;hash=%s&amp;id=%d</string>
+    <!-- route view log chamado by id ROTA AINDA NAO IMPLENTADA NO SERVIDOR  -->
+    <string name="api_atendimento">https://dtiararipe.ce.gov.br/chamados/?app=historyapi&amp;action=view&amp;hash=%s&amp;id=%d</string>
 
-    <!-- route update log atendimento by id with data param content -->
+    <!-- route update log atendimento by id with data param content ROTA AINDA NAO IMPLEMENTADA NO SERVIDOR -->
     <string name="api_atendimento_up">https://dtiararipe.ce.gov.br/chamados/?app=historyapi&amp;action=apiPost&amp;hash=%s&amp;id=%d</string>
 
 </resources>
