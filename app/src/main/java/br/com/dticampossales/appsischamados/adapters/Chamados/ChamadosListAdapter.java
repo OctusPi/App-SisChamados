@@ -9,6 +9,7 @@ import android.widget.TextView;
 import Utils.Dates;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.R;
+import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +19,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
-    private ArrayList<JSONObject> dataSet;
+    private ArrayList<JSONObject> dataSource;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // Apenas para teste
-
         private final TextView chamadoCode;
         private final TextView chamadoType;
         private final TextView chamadoSector;
@@ -42,17 +41,17 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         }
     }
 
-    public ChamadosListAdapter(ArrayList<JSONObject> dataSet) {
-        this.dataSet = dataSet;
+    public ChamadosListAdapter(ArrayList<JSONObject> dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void applyFilter(ArrayList<JSONObject> filteredDataSet) {
-        this.dataSet = filteredDataSet;
+        this.dataSource = filteredDataSet;
         notifyDataSetChanged();
     }
 
     public ArrayList<JSONObject> getDataSet() {
-        return this.dataSet;
+        return this.dataSource;
     }
 
     @NonNull
@@ -66,28 +65,27 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-
-        viewHolder.chamadoCode.setText(JsonUtil.getJsonVal(dataSet.get(position),
+        viewHolder.chamadoCode.setText(JsonUtil.getJsonVal(dataSource.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_code)));
 
-        viewHolder.chamadoType.setText(JsonUtil.getJsonVal(dataSet.get(position),
+        viewHolder.chamadoType.setText(JsonUtil.getJsonVal(dataSource.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_type)));
 
-        viewHolder.chamadoSector.setText(JsonUtil.getJsonVal(dataSet.get(position),
+        viewHolder.chamadoSector.setText(JsonUtil.getJsonVal(dataSource.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_sector)));
 
-        viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSet.get(position),
+        viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSource.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_date))));
 
-        viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSet.get(position),
+        viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSource.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_date))));
 
-        viewHolder.chamadoTechnician.setText(JsonUtil.getJsonVal(dataSet.get(position),
+        viewHolder.chamadoTechnician.setText(JsonUtil.getJsonVal(dataSource.get(position),
                 viewHolder.itemView.getContext().getString(R.string.chamado_tec)));
     }
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return dataSource.size();
     }
 }

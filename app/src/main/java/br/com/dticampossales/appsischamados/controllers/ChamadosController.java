@@ -1,51 +1,47 @@
 package br.com.dticampossales.appsischamados.controllers;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-import Utils.HttpClientUtil;
 import Utils.JsonUtil;
+import Utils.Security;
 import br.com.dticampossales.appsischamados.R;
 
 public class ChamadosController {
-    public enum ListType {
+    public enum TypeList {
         SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4);
         private final int type;
-        ListType(int id) { type = id; }
-        public int getListType() { return type; }
+        TypeList(int id) { type = id; }
+        public int getTypeList() { return type; }
     }
 
-    public static ArrayList<JSONObject> getChamadosList(Context context) {
+    public static ArrayList<JSONObject> getChamadosList(Context context, String search) {
         ArrayList<JSONObject> chamadosList = new ArrayList<>();
 
-        String hashLogin = context.getSharedPreferences(context.getString(R.string.preference_key), Context.MODE_PRIVATE)
-                .getString(context.getString(R.string.is_hash_login), "");
+        String hashLogin = Security.getHashLogin(context);
 
         if (!hashLogin.equals("")) {
-            String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, "0,0");
+            try {
+                String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
+                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
+                chamadosList.addAll(JsonUtil.jsonList(jsonObject.getJSONArray(context.getString(R.string.api_chamados_key))));
 
-            CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(chamadosUrl);
-            future.thenAccept(response -> {
-                try {
-                    chamadosList.addAll(JsonUtil.jsonList(response.getJSONArray(context.getString(R.string.api_chamados_key))));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }).exceptionally(ex -> {
-                ex.printStackTrace();
-                return null;
-            });
+            } catch (ExecutionException | InterruptedException | JSONException e) {
+                Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
 
         return chamadosList;
     }
 
-    public static ArrayList<JSONObject> getPropList(Context context, ListType type) {
+    public static ArrayList<JSONObject> getPropList(Context context, TypeList type) {
         ArrayList<JSONObject> propList = new ArrayList<>();
         String propKey = "";
 
@@ -64,27 +60,29 @@ public class ChamadosController {
                 break;
         }
 
-        String hashLogin = context.getSharedPreferences(context.getString(R.string.preference_key), Context.MODE_PRIVATE)
-                .getString(context.getString(R.string.is_hash_login), "");
+        String hashLogin = Security.getHashLogin(context);
 
         if (!hashLogin.equals("")) {
-            String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, "0,0");
+            String chamadosUrl = String.format(
+                    context.getString(R.string.api_chamados),
+                    hashLogin,
+                    context.getString(R.string.api_search_default));
+            try {
+                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
 
-            String finalPropKey = propKey;
+                propList.addAll(JsonUtil.jsonList(
+                        JsonUtil.getJsonIdAndNameToArray(jsonObject.getJSONObject(propKey))));
 
-            CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(chamadosUrl);
-            future.thenAccept(response -> {
-                try {
-                    propList.addAll(JsonUtil.jsonList(response.getJSONArray(finalPropKey)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }).exceptionally(e -> {
+            } catch (ExecutionException | InterruptedException | JSONException e) {
+                Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
-                return null;
-            });
+            }
         }
 
         return propList;
+    }
+
+    public static String makeFilter(String sector, String status) {
+        return sector + "," + status;
     }
 }
