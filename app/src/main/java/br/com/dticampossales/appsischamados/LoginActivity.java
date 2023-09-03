@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -24,7 +23,6 @@ import java.util.concurrent.CompletableFuture;
 
 import Utils.HttpClientUtil;
 import Utils.Security;
-import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 import br.com.dticampossales.appsischamados.validation.Login.LoginEmailValidator;
 import br.com.dticampossales.appsischamados.validation.Login.LoginPasswordValidator;
 
@@ -65,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(view -> {
 
             if(emailValidator.validate() && passwordValidator.validate()){
+
                 progressBar.setVisibility(View.VISIBLE);
                 alertText.setText("");
 
@@ -77,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                     String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
                     CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(urlJSON);
                     future.thenAccept(json -> {
+
                         try {
                             if(json.getInt("id") != 0){
                                 //save hash in shared preferences to auto login in next time
@@ -88,13 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent chamadosActivity = new Intent(context, ChamadosActivity.class);
                                 startActivity(chamadosActivity);
                                 finish();
-                            }else{
-                                progressBar.setVisibility(View.GONE);
-                                alertText.setText(getResources().getString(R.string.app_fail_login));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }).exceptionally(ex -> {
                         progressBar.setVisibility(View.GONE);
                         alertText.setText(getResources().getString(R.string.app_fail));
@@ -102,10 +100,13 @@ public class LoginActivity extends AppCompatActivity {
                         return null;
                     });
 
+                    progressBar.setVisibility(View.GONE);
+                    alertText.setText(getResources().getString(R.string.app_fail_login));
+
                 } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
                     progressBar.setVisibility(View.GONE);
                     alertText.setText(getResources().getString(R.string.app_fail));
+                    e.printStackTrace();
                 }
             }
         });

@@ -21,14 +21,11 @@ import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean isAuth = false;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         veirifyIsAuth();
-
     }
 
     private void veirifyIsAuth() {
