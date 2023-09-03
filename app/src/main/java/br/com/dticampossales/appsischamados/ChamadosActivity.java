@@ -1,5 +1,6 @@
 package br.com.dticampossales.appsischamados;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +27,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
+import Utils.HttpClientUtil;
 import Utils.JsonUtil;
 import Utils.RawJsonReader;
 import Utils.Security;
@@ -42,14 +45,29 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        ChamadosController chamadosController = new ChamadosController(this, null);
+        ChamadosController chamadosController = new ChamadosController(this);
 
         dataSource = chamadosController.getChamadosList();
         chamadosListAdapter = new ChamadosListAdapter(dataSource);
 
-        ArrayList<JSONObject> sectorFilter = RawJsonReader.makeDataSource(this, R.raw.filter_sector_example);
-        ArrayList<JSONObject> equipmentFilter = RawJsonReader.makeDataSource(this, R.raw.filter_equipment_example);
-        ArrayList<JSONObject> statusFilter = RawJsonReader.makeDataSource(this, R.raw.filter_status_example);
+        Context context = getApplicationContext();
+
+
+        String search  = "";
+        String urlJSON = String.format(getResources().getString(R.string.api_chamados), hashLogin, search); //BUILD URL REQUEST
+
+        //NOVA FORMA DE USAR O JSON DA API
+        CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(urlJSON);
+        future.thenAccept(json -> {
+
+            // O JSON DEVE SER UTILIZADO DENTRO DA CLAUSULA THEN
+
+        }).exceptionally(ex -> {
+            // AQUI DEVE SER FEITO O TRATAMENTO DE ERROS CASO A REQUISICAO FALHE
+            ex.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.app_fail, Toast.LENGTH_SHORT).show();
+            return null;
+        });
 
         populateRecyclerView(findViewById(R.id.chamados_list), chamadosListAdapter);
 
@@ -59,21 +77,6 @@ public class ChamadosActivity extends AppCompatActivity {
         Spinner sectorSpinner = findViewById(R.id.filter_sector);
         Spinner equipmentSpinner = findViewById(R.id.filter_equipment);
         Spinner statusSpinner = findViewById(R.id.filter_status);
-
-        makeSpinnerItems(sectorSpinner, sectorFilter);
-        makeSpinnerItems(equipmentSpinner, equipmentFilter);
-        makeSpinnerItems(statusSpinner, statusFilter);
-
-        Button filterBtn = findViewById(R.id.filter_button);
-
-        filterBtn.setOnClickListener(view -> {
-
-            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_sector), sectorSpinner.getSelectedItem().toString(), dataSource));
-            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_equipment), equipmentSpinner.getSelectedItem().toString(), chamadosListAdapter.getDataSet()));
-            chamadosListAdapter.applyFilter(filter(getString(R.string.chamado_status), statusSpinner.getSelectedItem().toString(),chamadosListAdapter.getDataSet()));
-
-            toggleFilterLayout();
-        });
     }
 
     private void populateRecyclerView(RecyclerView recyclerView, ChamadosListAdapter adapter) {
@@ -95,8 +98,8 @@ public class ChamadosActivity extends AppCompatActivity {
 
         optionsString.add(getString(R.string.filter_default));
 
-        for (int i = 0; i < optionsList.size(); i++) {
-            optionsString.add(JsonUtil.getJsonVal(optionsList.get(i), getString(R.string.filter_name)));
+        for (JSONObject jsonObject : optionsList) {
+            optionsString.add(JsonUtil.getJsonVal(jsonObject, getString(R.string.filter_name)));
         }
 
         ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(
@@ -104,18 +107,5 @@ public class ChamadosActivity extends AppCompatActivity {
 
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(arrayAdapter);
-    }
-
-    private ArrayList<JSONObject> filter(String key, String value, ArrayList<JSONObject> dataSet) {
-        ArrayList<JSONObject> filteredList = new ArrayList<>();
-        if (!value.equals(getString(R.string.filter_default))) {
-            for (int i = 0; i < dataSet.size(); i++) {
-                if (JsonUtil.getJsonVal(dataSet.get(i), key).equals(value)) {
-                    filteredList.add(dataSet.get(i));
-                }
-            }
-            return filteredList;
-        }
-        return dataSet;
     }
 }
