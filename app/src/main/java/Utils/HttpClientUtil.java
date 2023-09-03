@@ -44,6 +44,7 @@ public class HttpClientUtil {
                     } catch (JSONException e) {
                         future.completeExceptionally(e);
                     }
+                    response.close();
                 } else {
                     future.completeExceptionally(new Exception("Wrong Response: " + response.code()));
                 }

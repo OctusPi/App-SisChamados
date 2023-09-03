@@ -1,8 +1,5 @@
 package br.com.dticampossales.appsischamados;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,17 +18,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import Utils.HttpClientUtil;
-import Utils.JsonUtil;
-import Utils.RWFiles;
 import Utils.Security;
-import br.com.dticampossales.appsischamados.controllers.LoginController;
+import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 import br.com.dticampossales.appsischamados.validation.Login.LoginEmailValidator;
 import br.com.dticampossales.appsischamados.validation.Login.LoginPasswordValidator;
 
@@ -86,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             if(json.getInt("id") != 0){
                                 //save hash in shared preferences to auto login in next time
-                                LoginController.setLoginHash(this, getString(R.string.is_hash_login), hashLogin);
+                                SharedPreferences sharedPref    = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.is_hash_login), hashLogin).apply();
 
                                 // call acitivity list chamados
                                 Intent chamadosActivity = new Intent(context, ChamadosActivity.class);
