@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class JsonUtil {
 
     public static ArrayList<JSONObject> jsonList(JSONArray jsonArray) throws JSONException {
-
         ArrayList<JSONObject> jsonObjects = new ArrayList<>();
         for (int i=0; i<jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);

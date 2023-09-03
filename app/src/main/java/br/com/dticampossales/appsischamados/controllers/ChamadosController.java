@@ -16,13 +16,8 @@ public class ChamadosController {
     public enum ListType {
         SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4);
         private final int type;
-        ListType(int id) {
-            type = id;
-        }
-
-        public int getListType() {
-            return type;
-        }
+        ListType(int id) { type = id; }
+        public int getListType() { return type; }
     }
 
     public static ArrayList<JSONObject> getChamadosList(Context context) {
@@ -41,8 +36,8 @@ public class ChamadosController {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }).exceptionally(e -> {
-                e.printStackTrace();
+            }).exceptionally(ex -> {
+                ex.printStackTrace();
                 return null;
             });
         }

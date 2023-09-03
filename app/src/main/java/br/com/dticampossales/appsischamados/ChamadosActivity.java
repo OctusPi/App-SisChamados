@@ -23,7 +23,7 @@ import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapte
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
 public class ChamadosActivity extends AppCompatActivity {
-//    private ArrayList<JSONObject> dataSource;
+    private ArrayList<JSONObject> dataSource;
     private ChamadosListAdapter chamadosListAdapter;
 
     @Override
@@ -31,8 +31,9 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        chamadosListAdapter = new ChamadosListAdapter(
-                ChamadosController.getChamadosList(getApplicationContext()));
+        dataSource = ChamadosController.getChamadosList(this);
+
+        chamadosListAdapter = new ChamadosListAdapter(dataSource);
 
         populateRecyclerView();
 
