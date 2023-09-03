@@ -1,15 +1,17 @@
 package br.com.dticampossales.appsischamados.controllers;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-import Utils.HttpClientUtil;
 import Utils.JsonUtil;
+import Utils.Security;
 import br.com.dticampossales.appsischamados.R;
 
 public class ChamadosController {
@@ -25,32 +27,28 @@ public class ChamadosController {
         }
     }
 
-    public static ArrayList<JSONObject> getChamadosList(Context context) {
+    public static ArrayList<JSONObject> getChamadosList(Context context, String search) {
         ArrayList<JSONObject> chamadosList = new ArrayList<>();
 
-        String hashLogin = context.getSharedPreferences(context.getString(R.string.preference_key), Context.MODE_PRIVATE)
-                .getString(context.getString(R.string.is_hash_login), "");
+        String hashLogin = Security.getHashLogin(context);
 
         if (!hashLogin.equals("")) {
-            String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, "0,0");
 
-            CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(chamadosUrl);
-            future.thenAccept(response -> {
-                try {
-                    chamadosList.addAll(JsonUtil.jsonList(response.getJSONArray(context.getString(R.string.api_chamados_key))));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }).exceptionally(e -> {
+            try {
+                String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
+                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
+                chamadosList.addAll(JsonUtil.jsonList(jsonObject.getJSONArray(context.getString(R.string.api_chamados_key))));
+
+            } catch (ExecutionException | InterruptedException | JSONException e) {
+                Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
-                return null;
-            });
+            }
         }
 
         return chamadosList;
     }
 
-    public static ArrayList<JSONObject> getPropList(Context context, ListType type) {
+    public static ArrayList<JSONObject> getPropList(Context context, ListType type, String search) {
         ArrayList<JSONObject> propList = new ArrayList<>();
         String propKey = "";
 
@@ -69,25 +67,19 @@ public class ChamadosController {
                 break;
         }
 
-        String hashLogin = context.getSharedPreferences(context.getString(R.string.preference_key), Context.MODE_PRIVATE)
-                .getString(context.getString(R.string.is_hash_login), "");
+        String hashLogin = Security.getHashLogin(context);
 
         if (!hashLogin.equals("")) {
-            String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, "0,0");
-
+            String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
             String finalPropKey = propKey;
 
-            CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(chamadosUrl);
-            future.thenAccept(response -> {
-                try {
-                    propList.addAll(JsonUtil.jsonList(response.getJSONArray(finalPropKey)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }).exceptionally(e -> {
+            try {
+                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
+                propList.addAll(JsonUtil.jsonList(jsonObject.getJSONArray(finalPropKey)));
+            } catch (ExecutionException | InterruptedException | JSONException e) {
+                Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
-                return null;
-            });
+            }
         }
 
         return propList;

@@ -31,9 +31,7 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        chamadosListAdapter = new ChamadosListAdapter(
-                ChamadosController.getChamadosList(getApplicationContext()));
-
+        chamadosListAdapter = new ChamadosListAdapter(ChamadosController.getChamadosList(getApplicationContext(), ""));
         populateRecyclerView();
 
         FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);

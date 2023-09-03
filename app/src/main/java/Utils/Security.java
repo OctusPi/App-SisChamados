@@ -1,14 +1,20 @@
 package Utils;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
+import static android.content.Context.MODE_PRIVATE;
+import android.content.Context;
+import android.content.SharedPreferences;
 import java.security.NoSuchAlgorithmException;
+import br.com.dticampossales.appsischamados.R;
 
 public class Security {
 
     public static String hashLogin(String email, String password) throws NoSuchAlgorithmException {
         return new StringBuilder(email+"-"+password).reverse().toString();
+    }
+
+    public static String getHashLogin(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_key), MODE_PRIVATE);
+        return sharedPref.getString(context.getString(R.string.is_hash_login), "");
     }
 
 }

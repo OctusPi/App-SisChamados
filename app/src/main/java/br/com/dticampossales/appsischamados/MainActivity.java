@@ -2,10 +2,8 @@ package br.com.dticampossales.appsischamados;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,47 +11,49 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-import Utils.HttpClientUtil;
 import Utils.JsonUtil;
-import br.com.dticampossales.appsischamados.controllers.ChamadosController;
+import Utils.Security;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView alertText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        veirifyIsAuth();
+        alertText = findViewById(R.id.alert_txt_main);
+
+        isAuthenticate();
     }
 
-    private void veirifyIsAuth() {
+    private void isAuthenticate() {
 
-        Context context = getApplicationContext();
-        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
-        String hashLogin = sharedPref.getString(getString(R.string.is_hash_login), "");
+        Context context  = getApplicationContext();
+        String hashLogin = Security.getHashLogin(context);
         String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
 
-        CompletableFuture<JSONObject> future = HttpClientUtil.asyncJson(urlJSON);
-        future.thenAccept(json -> {
+        if(!hashLogin.equals("")){
             try {
-                if(json.getInt("id") != 0){
-                    Intent act = new Intent(this, ChamadosActivity.class);
-                    startActivity(act);
-                    finish();
-                }else{
-                    Intent act = new Intent(this, LoginActivity.class);
-                    startActivity(act);
-                    finish();
-                }
-            } catch (JSONException e) {
+                JSONObject jsonObject = JsonUtil.requestJson(urlJSON);
+                boolean isAuth = jsonObject.getInt("id") != 0;
+
+                Intent intent = isAuth
+                        ?  new Intent(context, ChamadosActivity.class)
+                        :  new Intent(context, LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+            } catch (ExecutionException | InterruptedException | JSONException e) {
+                alertText.setText(getString(R.string.app_fail));
                 e.printStackTrace();
             }
-        }).exceptionally(ex -> {
-            ex.printStackTrace();
-            return null;
-        });
-
+        }else{
+            Intent intent = new Intent(context, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
