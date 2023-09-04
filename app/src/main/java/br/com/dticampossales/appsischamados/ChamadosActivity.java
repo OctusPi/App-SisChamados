@@ -1,8 +1,6 @@
 package br.com.dticampossales.appsischamados;
 
 import android.os.Bundle;
-import android.util.ArraySet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,14 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
+import java.util.SortedMap;
 
-import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapter;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
@@ -35,8 +30,7 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        chamadosListAdapter = new ChamadosListAdapter(
-                ChamadosController.getChamadosList(getApplicationContext(), getString(R.string.api_search_default)));
+        chamadosListAdapter = new ChamadosListAdapter(this);
 
         populateRecyclerView();
 
@@ -58,11 +52,12 @@ public class ChamadosActivity extends AppCompatActivity {
 
         Button filterChamadosBtn = findViewById(R.id.filter_button);
 
-        filterChamadosBtn.setOnClickListener(view -> chamadosListAdapter.applyFilter(ChamadosController.getChamadosList(
-                getApplicationContext(),
-                ChamadosController.makeFilter(
-                        sectorSpinner.getSelected(),
-                        statusSpinner.getSelected()))));
+        filterChamadosBtn.setOnClickListener(view -> {
+            chamadosListAdapter.applyFilter(ChamadosController.makeFilter(
+                sectorSpinner.getSelected(),
+                statusSpinner.getSelected()
+            ));
+        });
     }
 
     private void populateRecyclerView() {
@@ -87,20 +82,19 @@ public class ChamadosActivity extends AppCompatActivity {
     private class ChamadosSpinner {
         private final Spinner spinner;
 
-        private final Map<String, ArrayList<String>> optionsMap;
+        private final SortedMap<Integer, ArrayList<String>> optionsMap;
         private final ArrayList<String> options;
 
-        public ChamadosSpinner(Spinner spinner, Map<String, ArrayList<String>> optionsMap) {
+        public ChamadosSpinner(Spinner spinner, SortedMap<Integer, ArrayList<String>> optionsMap) {
             this.spinner = spinner;
             this.optionsMap = optionsMap;
 
-            this.optionsMap.put("0", new ArrayList<>(
-                    Arrays.asList(getString(R.string.filter_id_default),
-                            getString(R.string.filter_name_default))));
+            this.optionsMap.put(Integer.parseInt(getString(R.string.filter_id_default)),
+                    new ArrayList<>(Arrays.asList(getString(R.string.filter_id_default), getString(R.string.filter_name_default))));
 
             this.options = new ArrayList<>();
 
-            for (String option : optionsMap.keySet()) {
+            for (Integer option : optionsMap.keySet()) {
                 options.add(Objects.requireNonNull(optionsMap.get(option)).get(1));
             }
         }
@@ -115,9 +109,7 @@ public class ChamadosActivity extends AppCompatActivity {
         }
 
         public String getSelected() {
-            String key = String.valueOf(spinner.getSelectedItemPosition());
-            Log.i("msg", Objects.requireNonNull(optionsMap.get(key)).get(0));
-
+            Integer key = spinner.getSelectedItemPosition();
             return Objects.requireNonNull(optionsMap.get(key)).get(0);
         }
     }

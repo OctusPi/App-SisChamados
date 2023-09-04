@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -43,9 +45,9 @@ public class JsonUtil {
         }
     }
 
-    public static Map<String, ArrayList<String>> mapJsonObject(JSONObject jsonObject) {
+    public static SortedMap<Integer, ArrayList<String>> mapJsonPropObject(JSONObject jsonObject) {
         Iterator<String> jsonObjectKey = jsonObject.keys();
-        Map<String, ArrayList<String>> jsonMap = new HashMap<>();
+        SortedMap<Integer, ArrayList<String>> jsonMap = new TreeMap<>();
 
         try {
             for (int i = 1; i <= jsonObject.length(); i++) {
@@ -55,7 +57,7 @@ public class JsonUtil {
                 arrayList.add(key);
                 arrayList.add(jsonObject.getString(key));
 
-                jsonMap.put(String.valueOf(i), arrayList);
+                jsonMap.put(i, arrayList);
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -21,7 +21,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
-    private ArrayList<JSONObject> dataSource;
+    private JSONObject dataSet;
+    private ArrayList<JSONObject> chamadosList;
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView chamadoCode;
@@ -43,17 +45,35 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         }
     }
 
-    public ChamadosListAdapter(ArrayList<JSONObject> dataSource) {
-        this.dataSource = dataSource;
+    public ChamadosListAdapter(Context context) {
+        this.context = context;
+        this.dataSet = makeDataSet(context.getString(R.string.api_search_default));
+        this.chamadosList = makeChamadosList(context.getString(R.string.api_search_default));
     }
 
-    public void applyFilter(ArrayList<JSONObject> filteredDataSet) {
-        this.dataSource = filteredDataSet;
+    public void applyFilter(String search) {
+        this.chamadosList = makeChamadosList(search);
         notifyDataSetChanged();
     }
 
-    public ArrayList<JSONObject> getDataSet() {
-        return this.dataSource;
+    public ArrayList<JSONObject> getChamadosList() {
+        return this.chamadosList;
+    }
+
+    public JSONObject getTecnicos() {
+        return ChamadosController.getPropObject(context, ChamadosController.TypeList.TECNICOS);
+    }
+
+    public JSONObject getTipos() {
+        return ChamadosController.getPropObject(context, ChamadosController.TypeList.TIPOS);
+    }
+
+    public JSONObject getSetores() {
+        return ChamadosController.getPropObject(context, ChamadosController.TypeList.SETORES);
+    }
+
+    public JSONObject getDataSet() {
+        return this.dataSet;
     }
 
     @NonNull
@@ -69,27 +89,42 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Context context = viewHolder.itemView.getContext();
 
-        viewHolder.chamadoCode.setText(JsonUtil.getJsonVal(
-                dataSource.get(position), context.getString(R.string.chamado_code)));
+        viewHolder.chamadoCode.setText(makeText(position, context.getString(R.string.chamado_code)));
 
-        viewHolder.chamadoType.setText(JsonUtil.getJsonVal(
-                dataSource.get(position), context.getString(R.string.chamado_type)));
+        viewHolder.chamadoType.setText(getTextById(getTipos(), position, context.getString(R.string.chamado_type)));
 
-        viewHolder.chamadoSector.setText(JsonUtil.getJsonVal(
-                dataSource.get(position), context.getString(R.string.chamado_sector)));
+        viewHolder.chamadoSector.setText(getTextById(getSetores(), position, context.getString(R.string.chamado_sector)));
 
         viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(
-                dataSource.get(position), context.getString(R.string.chamado_date))));
+                chamadosList.get(position), context.getString(R.string.chamado_date))));
 
         viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(
-                dataSource.get(position), context.getString(R.string.chamado_date))));
+                chamadosList.get(position), context.getString(R.string.chamado_date))));
 
-        viewHolder.chamadoTechnician.setText(JsonUtil.getJsonVal(
-                dataSource.get(position), context.getString(R.string.chamado_tec)));
+        viewHolder.chamadoTechnician.setText(getTextById(getTecnicos(), position, context.getString(R.string.chamado_tec)));
     }
 
     @Override
     public int getItemCount() {
-        return dataSource.size();
+        return chamadosList.size();
+    }
+
+    private JSONObject makeDataSet(String search) {
+        return ChamadosController.getDataSet(context, search);
+    }
+
+    private ArrayList<JSONObject> makeChamadosList(String search) {
+        return ChamadosController.getChamadosList(context, makeDataSet(search));
+    }
+
+    private String makeText(Integer position, String key) {
+        return JsonUtil.getJsonVal(chamadosList.get(position), key);
+    }
+    private String getTextById(JSONObject jsonObject, Integer position, String key) {
+        return JsonUtil.getJsonVal(jsonObject, makeText(position, key));
+    }
+
+    private String makeDate() {
+        return "Falta fazer";
     }
 }
