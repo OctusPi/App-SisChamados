@@ -1,6 +1,8 @@
 package br.com.dticampossales.appsischamados;
 
 import android.os.Bundle;
+import android.util.ArraySet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +19,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
 
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapter;
@@ -35,16 +40,18 @@ public class ChamadosActivity extends AppCompatActivity {
 
         populateRecyclerView();
 
+        ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.SETORES);
+
         FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
         floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
         ChamadosSpinner sectorSpinner = new ChamadosSpinner(
                 findViewById(R.id.filter_sector),
-                ChamadosController.getPropList(this, ChamadosController.TypeList.SETORES));
+                ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.SETORES));
 
         ChamadosSpinner statusSpinner = new ChamadosSpinner(
                 findViewById(R.id.filter_status),
-                ChamadosController.getPropList(this, ChamadosController.TypeList.STATUS));
+                ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.STATUS));
 
         sectorSpinner.build();
         statusSpinner.build();
@@ -54,8 +61,8 @@ public class ChamadosActivity extends AppCompatActivity {
         filterChamadosBtn.setOnClickListener(view -> chamadosListAdapter.applyFilter(ChamadosController.getChamadosList(
                 getApplicationContext(),
                 ChamadosController.makeFilter(
-                        sectorSpinner.getSelectedItemId(),
-                        statusSpinner.getSelectedItemId()))));
+                        sectorSpinner.getSelected(),
+                        statusSpinner.getSelected()))));
     }
 
     private void populateRecyclerView() {
@@ -79,34 +86,39 @@ public class ChamadosActivity extends AppCompatActivity {
 
     private class ChamadosSpinner {
         private final Spinner spinner;
-        private final ArrayList<String> names;
-        private final ArrayList<String> ids;
 
-        public ChamadosSpinner(Spinner spinner, ArrayList<JSONObject> optionsList) {
+        private final Map<String, ArrayList<String>> optionsMap;
+        private final ArrayList<String> options;
+
+        public ChamadosSpinner(Spinner spinner, Map<String, ArrayList<String>> optionsMap) {
             this.spinner = spinner;
-            this.names = new ArrayList<>();
-            this.ids = new ArrayList<>();
+            this.optionsMap = optionsMap;
 
-            this.ids.add(getString(R.string.filter_id_default));
-            this.names.add(getString(R.string.filter_name_default));
+            this.optionsMap.put("0", new ArrayList<>(
+                    Arrays.asList(getString(R.string.filter_id_default),
+                            getString(R.string.filter_name_default))));
 
-            for (JSONObject option : optionsList) {
-                ids.add(JsonUtil.getJsonVal(option, getString(R.string.filter_id)));
-                names.add(JsonUtil.getJsonVal(option, getString(R.string.filter_name)));
+            this.options = new ArrayList<>();
+
+            for (String option : optionsMap.keySet()) {
+                options.add(Objects.requireNonNull(optionsMap.get(option)).get(1));
             }
         }
 
         private void build() {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getApplicationContext(), R.layout.spinner_item, names);
+                    getApplicationContext(), R.layout.spinner_item, options);
 
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
             spinner.setAdapter(arrayAdapter);
         }
 
-        public String getSelectedItemId() {
-            return ids.get(spinner.getSelectedItemPosition());
+        public String getSelected() {
+            String key = String.valueOf(spinner.getSelectedItemPosition());
+            Log.i("msg", Objects.requireNonNull(optionsMap.get(key)).get(0));
+
+            return Objects.requireNonNull(optionsMap.get(key)).get(0);
         }
     }
 }

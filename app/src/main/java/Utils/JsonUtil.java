@@ -7,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -41,24 +43,24 @@ public class JsonUtil {
         }
     }
 
-    // Temporary method, while the model [{id, name}] is not implemented
-    public static JSONArray getJsonIdAndNameToArray(JSONObject jsonObject) {
+    public static Map<String, ArrayList<String>> mapJsonObject(JSONObject jsonObject) {
         Iterator<String> jsonObjectKey = jsonObject.keys();
-        JSONArray jsonArray = new JSONArray();
+        Map<String, ArrayList<String>> jsonMap = new HashMap<>();
+
         try {
-            for (int i = 0; i < jsonObject.length(); i++) {
-                JSONObject formatedJson = new JSONObject();
+            for (int i = 1; i <= jsonObject.length(); i++) {
+                ArrayList<String> arrayList = new ArrayList<>();
                 String key = jsonObjectKey.next();
 
-                formatedJson.put("id", key);
-                formatedJson.put("name", jsonObject.getString(key));
+                arrayList.add(key);
+                arrayList.add(jsonObject.getString(key));
 
-                jsonArray.put(formatedJson);
+                jsonMap.put(String.valueOf(i), arrayList);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return jsonArray;
+        return jsonMap;
     }
 }

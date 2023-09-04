@@ -1,6 +1,7 @@
 package br.com.dticampossales.appsischamados.adapters.Chamados;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -65,23 +67,25 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.chamadoCode.setText(JsonUtil.getJsonVal(dataSource.get(position),
-                viewHolder.itemView.getContext().getString(R.string.chamado_code)));
+        Context context = viewHolder.itemView.getContext();
 
-        viewHolder.chamadoType.setText(JsonUtil.getJsonVal(dataSource.get(position),
-                viewHolder.itemView.getContext().getString(R.string.chamado_type)));
+        viewHolder.chamadoCode.setText(JsonUtil.getJsonVal(
+                dataSource.get(position), context.getString(R.string.chamado_code)));
 
-        viewHolder.chamadoSector.setText(JsonUtil.getJsonVal(dataSource.get(position),
-                viewHolder.itemView.getContext().getString(R.string.chamado_sector)));
+        viewHolder.chamadoType.setText(JsonUtil.getJsonVal(
+                dataSource.get(position), context.getString(R.string.chamado_type)));
 
-        viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSource.get(position),
-                viewHolder.itemView.getContext().getString(R.string.chamado_date))));
+        viewHolder.chamadoSector.setText(JsonUtil.getJsonVal(
+                dataSource.get(position), context.getString(R.string.chamado_sector)));
 
-        viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(dataSource.get(position),
-                viewHolder.itemView.getContext().getString(R.string.chamado_date))));
+        viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(
+                dataSource.get(position), context.getString(R.string.chamado_date))));
 
-        viewHolder.chamadoTechnician.setText(JsonUtil.getJsonVal(dataSource.get(position),
-                viewHolder.itemView.getContext().getString(R.string.chamado_tec)));
+        viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(
+                dataSource.get(position), context.getString(R.string.chamado_date))));
+
+        viewHolder.chamadoTechnician.setText(JsonUtil.getJsonVal(
+                dataSource.get(position), context.getString(R.string.chamado_tec)));
     }
 
     @Override

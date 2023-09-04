@@ -1,12 +1,16 @@
 package br.com.dticampossales.appsischamados.controllers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 import Utils.JsonUtil;
@@ -41,8 +45,9 @@ public class ChamadosController {
         return chamadosList;
     }
 
-    public static ArrayList<JSONObject> getPropList(Context context, TypeList type) {
-        ArrayList<JSONObject> propList = new ArrayList<>();
+    public static Map<String, ArrayList<String>> getMappedPropObject(Context context, TypeList type) {
+        Map<String, ArrayList<String>> mappedPropObject = new TreeMap<>();
+
         String propKey = "";
 
         switch (type) {
@@ -64,22 +69,23 @@ public class ChamadosController {
 
         if (!hashLogin.equals("")) {
             String chamadosUrl = String.format(
-                    context.getString(R.string.api_chamados),
-                    hashLogin,
-                    context.getString(R.string.api_search_default));
+                    context.getString(R.string.api_chamados), hashLogin, context.getString(R.string.api_search_default));
             try {
-                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
-
-                propList.addAll(JsonUtil.jsonList(
-                        JsonUtil.getJsonIdAndNameToArray(jsonObject.getJSONObject(propKey))));
-
+                JSONObject object = JsonUtil.requestJson(chamadosUrl);
+                Log.i("msg", object.toString());
+                mappedPropObject = JsonUtil.mapJsonObject(object.getJSONObject(propKey));
+                Log.i("msg", object.getJSONObject(propKey).toString());
             } catch (ExecutionException | InterruptedException | JSONException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
 
-        return propList;
+        for (String opt : mappedPropObject.keySet()) {
+            Log.i("msg", opt);
+        }
+
+        return mappedPropObject;
     }
 
     public static String makeFilter(String sector, String status) {
