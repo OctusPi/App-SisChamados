@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.SortedMap;
 
-import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosListAdapter;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
@@ -30,32 +30,34 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        chamadosListAdapter = new ChamadosListAdapter(
-                ChamadosController.getChamadosList(getApplicationContext(), getString(R.string.api_search_default)));
+        chamadosListAdapter = new ChamadosListAdapter(this);
 
         populateRecyclerView();
+
+        ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.SETORES);
 
         FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
         floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
         ChamadosSpinner sectorSpinner = new ChamadosSpinner(
                 findViewById(R.id.filter_sector),
-                ChamadosController.getPropList(this, ChamadosController.TypeList.SETORES));
+                ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.SETORES));
 
         ChamadosSpinner statusSpinner = new ChamadosSpinner(
                 findViewById(R.id.filter_status),
-                ChamadosController.getPropList(this, ChamadosController.TypeList.STATUS));
+                ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.STATUS));
 
         sectorSpinner.build();
         statusSpinner.build();
 
         Button filterChamadosBtn = findViewById(R.id.filter_button);
 
-        filterChamadosBtn.setOnClickListener(view -> chamadosListAdapter.applyFilter(ChamadosController.getChamadosList(
-                getApplicationContext(),
-                ChamadosController.makeFilter(
-                        sectorSpinner.getSelectedItemId(),
-                        statusSpinner.getSelectedItemId()))));
+        filterChamadosBtn.setOnClickListener(view -> {
+            chamadosListAdapter.applyFilter(ChamadosController.makeFilter(
+                sectorSpinner.getSelected(),
+                statusSpinner.getSelected()
+            ));
+        });
     }
 
     private void populateRecyclerView() {
@@ -79,34 +81,36 @@ public class ChamadosActivity extends AppCompatActivity {
 
     private class ChamadosSpinner {
         private final Spinner spinner;
-        private final ArrayList<String> names;
-        private final ArrayList<String> ids;
 
-        public ChamadosSpinner(Spinner spinner, ArrayList<JSONObject> optionsList) {
+        private final SortedMap<Integer, ArrayList<String>> optionsMap;
+        private final ArrayList<String> options;
+
+        public ChamadosSpinner(Spinner spinner, SortedMap<Integer, ArrayList<String>> optionsMap) {
             this.spinner = spinner;
-            this.names = new ArrayList<>();
-            this.ids = new ArrayList<>();
+            this.optionsMap = optionsMap;
 
-            this.ids.add(getString(R.string.filter_id_default));
-            this.names.add(getString(R.string.filter_name_default));
+            this.optionsMap.put(Integer.parseInt(getString(R.string.filter_id_default)),
+                    new ArrayList<>(Arrays.asList(getString(R.string.filter_id_default), getString(R.string.filter_name_default))));
 
-            for (JSONObject option : optionsList) {
-                ids.add(JsonUtil.getJsonVal(option, getString(R.string.filter_id)));
-                names.add(JsonUtil.getJsonVal(option, getString(R.string.filter_name)));
+            this.options = new ArrayList<>();
+
+            for (Integer option : optionsMap.keySet()) {
+                options.add(Objects.requireNonNull(optionsMap.get(option)).get(1));
             }
         }
 
         private void build() {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getApplicationContext(), R.layout.spinner_item, names);
+                    getApplicationContext(), R.layout.spinner_item, options);
 
             arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
             spinner.setAdapter(arrayAdapter);
         }
 
-        public String getSelectedItemId() {
-            return ids.get(spinner.getSelectedItemPosition());
+        public String getSelected() {
+            Integer key = spinner.getSelectedItemPosition();
+            return Objects.requireNonNull(optionsMap.get(key)).get(0);
         }
     }
 }

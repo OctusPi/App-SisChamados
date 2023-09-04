@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 import Utils.JsonUtil;
@@ -21,28 +23,74 @@ public class ChamadosController {
         public int getTypeList() { return type; }
     }
 
-    public static ArrayList<JSONObject> getChamadosList(Context context, String search) {
-        ArrayList<JSONObject> chamadosList = new ArrayList<>();
+    public static JSONObject getDataSet(Context context, String search) {
+        JSONObject fullDataSet = new JSONObject();
 
         String hashLogin = Security.getHashLogin(context);
 
         if (!hashLogin.equals("")) {
             try {
                 String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
-                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
-                chamadosList.addAll(JsonUtil.jsonList(jsonObject.getJSONArray(context.getString(R.string.api_chamados_key))));
+                fullDataSet = JsonUtil.requestJson(chamadosUrl);
 
-            } catch (ExecutionException | InterruptedException | JSONException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
 
+        return fullDataSet;
+    }
+
+    public static ArrayList<JSONObject> getChamadosList(Context context, JSONObject dataSet) {
+        ArrayList<JSONObject> chamadosList = new ArrayList<>();
+
+        try {
+            chamadosList.addAll(JsonUtil.jsonList(
+                    dataSet.getJSONArray(context.getString(R.string.api_chamados_key))));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return chamadosList;
     }
 
-    public static ArrayList<JSONObject> getPropList(Context context, TypeList type) {
-        ArrayList<JSONObject> propList = new ArrayList<>();
+    public static JSONObject getPropObject(Context context, TypeList type) {
+        JSONObject fullDataSet = getDataSet(context, context.getString(R.string.api_search_default));
+        JSONObject propObject = new JSONObject();
+
+        String propKey = getPropKey(context, type);
+
+        try {
+            propObject = fullDataSet.getJSONObject(propKey);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return propObject;
+    }
+
+    public static SortedMap<Integer, ArrayList<String>> getMappedPropObject(Context context, TypeList type) {
+        SortedMap<Integer, ArrayList<String>> mappedPropObject = new TreeMap<>();
+        JSONObject fullDataSet = getDataSet(context, context.getString(R.string.api_search_default));
+
+        String propKey = getPropKey(context, type);
+
+        try {
+            mappedPropObject = JsonUtil.mapJsonPropObject(fullDataSet.getJSONObject(propKey));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return mappedPropObject;
+    }
+
+    public static String makeFilter(String sector, String status) {
+        return sector + "," + status;
+    }
+
+    private static String getPropKey(Context context, TypeList type) {
+
         String propKey = "";
 
         switch (type) {
@@ -60,29 +108,6 @@ public class ChamadosController {
                 break;
         }
 
-        String hashLogin = Security.getHashLogin(context);
-
-        if (!hashLogin.equals("")) {
-            String chamadosUrl = String.format(
-                    context.getString(R.string.api_chamados),
-                    hashLogin,
-                    context.getString(R.string.api_search_default));
-            try {
-                JSONObject jsonObject = JsonUtil.requestJson(chamadosUrl);
-
-                propList.addAll(JsonUtil.jsonList(
-                        JsonUtil.getJsonIdAndNameToArray(jsonObject.getJSONObject(propKey))));
-
-            } catch (ExecutionException | InterruptedException | JSONException e) {
-                Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        }
-
-        return propList;
-    }
-
-    public static String makeFilter(String sector, String status) {
-        return sector + "," + status;
-    }
+        return propKey;
+    };
 }
