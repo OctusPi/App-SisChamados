@@ -32,17 +32,17 @@ public class HttpJson {
                         if (respBody != null) {
                             String responseBody = respBody.string();
                             JSONObject jsonObject = new JSONObject(responseBody);
-                            jsonGlobal = jsonObject; // Armazena o JSON na variável global
+                            jsonGlobal = jsonObject;
                             future.complete(jsonObject);
                         } else {
-                            future.complete(jsonGlobal); // Completa o futuro com o JSON global (pode ser vazio)
+                            future.complete(jsonGlobal);
                         }
                     } else {
-                        future.complete(jsonGlobal); // Completa o futuro com o JSON global (pode ser vazio)
+                        future.complete(jsonGlobal);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    future.complete(jsonGlobal); // Completa o futuro com o JSON global (pode ser vazio)
+                    future.complete(jsonGlobal);
                 }
             }
         });
