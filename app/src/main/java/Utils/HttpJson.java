@@ -1,5 +1,7 @@
 package Utils;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import okhttp3.*;
@@ -13,7 +15,6 @@ public class HttpJson {
     private CompletableFuture<JSONObject> future = new CompletableFuture<>();
 
     public CompletableFuture<JSONObject> asyncRequest(String urlRequest) {
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(urlRequest).build();
 

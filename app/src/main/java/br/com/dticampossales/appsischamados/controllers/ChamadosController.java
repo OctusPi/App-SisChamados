@@ -3,6 +3,8 @@ package br.com.dticampossales.appsischamados.controllers;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +25,7 @@ public class ChamadosController {
     private final JSONObject tipos;
     private final JSONObject status;
     private final Context context;
+    private final ConstraintLayout loadingLayout;
 
     public enum TypeList {
         SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4);
@@ -31,11 +34,14 @@ public class ChamadosController {
         public int getTypeList() { return type; }
     }
 
-    public ChamadosController(Context context, String search) {
-        this.dataSet = setDataSet(context, search);
+    public ChamadosController(Context context, String search, ConstraintLayout loadingLayout) {
+        this.loadingLayout = loadingLayout;
         this.context = context;
 
+        this.dataSet = setDataSet(context, search);
+
         this.chamados = setChamadosList();
+
         this.tecnicos = setPropObject(TypeList.TECNICOS);
         this.setores = setPropObject(TypeList.SETORES);
         this.tipos = setPropObject(TypeList.TIPOS);
@@ -84,7 +90,7 @@ public class ChamadosController {
         if (!hashLogin.equals("")) {
             try {
                 String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
-                fullDataSet = JsonUtil.requestJson(chamadosUrl);
+                fullDataSet = JsonUtil.requestJsonWithLoader(chamadosUrl, this.loadingLayout);
 
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();
