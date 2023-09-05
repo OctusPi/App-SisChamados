@@ -15,7 +15,7 @@ public class Dates {
             Date dateUTC = fmtUTC.parse(utcDate);
             @SuppressLint("SimpleDateFormat") DateFormat fmtPTBR = new SimpleDateFormat("dd-MM-yyyy");
             assert dateUTC != null;
-            return fmtPTBR.format(dateUTC);
+            return fmtPTBR.format(dateUTC).replace('-', '/');
 
         } catch (ParseException e) {
             e.printStackTrace();

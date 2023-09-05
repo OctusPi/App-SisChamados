@@ -49,4 +49,6 @@
     <string name="chamados_btn_desc">Aplicar filtro</string>
     <string name="filter_default">Selecionar</string>
     <string name="filter_name">name</string>
+    <string name="clear_btn_text">Limpar</string>
+    <string name="chamados_list_empty">Não há chamados para mostrar!</string>
 </resources>

@@ -16,6 +16,14 @@ import Utils.Security;
 import br.com.dticampossales.appsischamados.R;
 
 public class ChamadosController {
+    private final JSONObject dataSet;
+    private final ArrayList<JSONObject> chamados;
+    private final JSONObject tecnicos;
+    private final JSONObject setores;
+    private final JSONObject tipos;
+    private final JSONObject status;
+    private final Context context;
+
     public enum TypeList {
         SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4);
         private final int type;
@@ -23,7 +31,52 @@ public class ChamadosController {
         public int getTypeList() { return type; }
     }
 
-    public static JSONObject getDataSet(Context context, String search) {
+    public ChamadosController(Context context, String search) {
+        this.dataSet = setDataSet(context, search);
+        this.context = context;
+
+        this.chamados = setChamadosList();
+        this.tecnicos = setPropObject(TypeList.TECNICOS);
+        this.setores = setPropObject(TypeList.SETORES);
+        this.tipos = setPropObject(TypeList.TIPOS);
+        this.status = setPropObject(TypeList.STATUS);
+    }
+
+    public ArrayList<JSONObject> getChamados() {
+        return this.chamados;
+    }
+
+    public JSONObject getTecnicos() {
+        return this.tecnicos;
+    }
+
+    public JSONObject getSetores() {
+        return this.setores;
+    }
+
+    public JSONObject getStatus() {
+        return this.status;
+    }
+
+    public JSONObject getTipos() {
+        return this.tipos;
+    }
+
+    public SortedMap<Integer, ArrayList<String>> getMappedPropObject(TypeList type) {
+        SortedMap<Integer, ArrayList<String>> mappedPropObject = new TreeMap<>();
+
+        String propKey = getPropKey(context, type);
+
+        try {
+            mappedPropObject = JsonUtil.mapJsonPropObject(dataSet.getJSONObject(propKey));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return mappedPropObject;
+    }
+
+    private JSONObject setDataSet(Context context, String search) {
         JSONObject fullDataSet = new JSONObject();
 
         String hashLogin = Security.getHashLogin(context);
@@ -42,7 +95,7 @@ public class ChamadosController {
         return fullDataSet;
     }
 
-    public static ArrayList<JSONObject> getChamadosList(Context context, JSONObject dataSet) {
+    private ArrayList<JSONObject> setChamadosList() {
         ArrayList<JSONObject> chamadosList = new ArrayList<>();
 
         try {
@@ -55,14 +108,13 @@ public class ChamadosController {
         return chamadosList;
     }
 
-    public static JSONObject getPropObject(Context context, TypeList type) {
-        JSONObject fullDataSet = getDataSet(context, context.getString(R.string.api_search_default));
+    private JSONObject setPropObject(TypeList type) {
         JSONObject propObject = new JSONObject();
 
         String propKey = getPropKey(context, type);
 
         try {
-            propObject = fullDataSet.getJSONObject(propKey);
+            propObject = dataSet.getJSONObject(propKey);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -70,26 +122,7 @@ public class ChamadosController {
         return propObject;
     }
 
-    public static SortedMap<Integer, ArrayList<String>> getMappedPropObject(Context context, TypeList type) {
-        SortedMap<Integer, ArrayList<String>> mappedPropObject = new TreeMap<>();
-        JSONObject fullDataSet = getDataSet(context, context.getString(R.string.api_search_default));
-
-        String propKey = getPropKey(context, type);
-
-        try {
-            mappedPropObject = JsonUtil.mapJsonPropObject(fullDataSet.getJSONObject(propKey));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return mappedPropObject;
-    }
-
-    public static String makeFilter(String sector, String status) {
-        return sector + "," + status;
-    }
-
-    private static String getPropKey(Context context, TypeList type) {
+    private String getPropKey(Context context, TypeList type) {
 
         String propKey = "";
 

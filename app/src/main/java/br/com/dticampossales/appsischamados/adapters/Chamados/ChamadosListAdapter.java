@@ -1,29 +1,30 @@
 package br.com.dticampossales.appsischamados.adapters.Chamados;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import Utils.Dates;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.R;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
-    private JSONObject dataSet;
-    private ArrayList<JSONObject> chamadosList;
-    private Context context;
+    private ArrayList<JSONObject> chamados;
+    private JSONObject tecnicos;
+    private JSONObject setores;
+    private JSONObject status;
+    private JSONObject tipos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView chamadoCode;
@@ -32,6 +33,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         private final TextView chamadoDate;
         private final TextView chamadoDatePrev;
         private final TextView chamadoTechnician;
+        private final View chamadoStatus;
 
         public ViewHolder(View view) {
             super(view);
@@ -42,38 +44,29 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
             chamadoDate = view.findViewById(R.id.chamado_date);
             chamadoDatePrev = view.findViewById(R.id.chamado_date_prev);
             chamadoTechnician = view.findViewById(R.id.chamado_tec);
+            chamadoStatus = view.findViewById(R.id.chamado_status);
         }
     }
 
-    public ChamadosListAdapter(Context context) {
-        this.context = context;
-        this.dataSet = makeDataSet(context.getString(R.string.api_search_default));
-        this.chamadosList = makeChamadosList(context.getString(R.string.api_search_default));
+    public ChamadosListAdapter(ChamadosController chamadosController) {
+        this.chamados = chamadosController.getChamados();
+        this.tecnicos = chamadosController.getTecnicos();
+        this.setores = chamadosController.getSetores();
+        this.status = chamadosController.getStatus();
+        this.tipos = chamadosController.getTipos();
     }
 
-    public void applyFilter(String search) {
-        this.chamadosList = makeChamadosList(search);
+    public String makeFilter(String sector, String status) {
+        return sector + "," + status;
+    }
+
+    public void applyFilter(ChamadosController chamadosController) {
+        this.chamados = chamadosController.getChamados();
+        this.tecnicos = chamadosController.getTecnicos();
+        this.setores = chamadosController.getSetores();
+        this.status = chamadosController.getStatus();
+        this.tipos = chamadosController.getTipos();
         notifyDataSetChanged();
-    }
-
-    public ArrayList<JSONObject> getChamadosList() {
-        return this.chamadosList;
-    }
-
-    public JSONObject getTecnicos() {
-        return ChamadosController.getPropObject(context, ChamadosController.TypeList.TECNICOS);
-    }
-
-    public JSONObject getTipos() {
-        return ChamadosController.getPropObject(context, ChamadosController.TypeList.TIPOS);
-    }
-
-    public JSONObject getSetores() {
-        return ChamadosController.getPropObject(context, ChamadosController.TypeList.SETORES);
-    }
-
-    public JSONObject getDataSet() {
-        return this.dataSet;
     }
 
     @NonNull
@@ -91,40 +84,59 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
 
         viewHolder.chamadoCode.setText(makeText(position, context.getString(R.string.chamado_code)));
 
-        viewHolder.chamadoType.setText(getTextById(getTipos(), position, context.getString(R.string.chamado_type)));
+        viewHolder.chamadoType.setText(getTextById(tipos, position, context.getString(R.string.chamado_type)));
 
-        viewHolder.chamadoSector.setText(getTextById(getSetores(), position, context.getString(R.string.chamado_sector)));
+        viewHolder.chamadoSector.setText(getTextById(setores, position, context.getString(R.string.chamado_sector)));
 
-        viewHolder.chamadoDate.setText(Dates.fmtLocal(JsonUtil.getJsonVal(
-                chamadosList.get(position), context.getString(R.string.chamado_date))));
+        viewHolder.chamadoDate.setText(makeDate(position, context.getString(R.string.chamado_date)));
 
-        viewHolder.chamadoDatePrev.setText(Dates.fmtLocal(JsonUtil.getJsonVal(
-                chamadosList.get(position), context.getString(R.string.chamado_date))));
+        viewHolder.chamadoDatePrev.setText(makeDate(position,  context.getString(R.string.chamado_date)));
 
-        viewHolder.chamadoTechnician.setText(getTextById(getTecnicos(), position, context.getString(R.string.chamado_tec)));
+        viewHolder.chamadoTechnician.setText(getTextById(tecnicos, position, context.getString(R.string.chamado_tec)));
+
+        viewHolder.chamadoStatus.setBackgroundColor(makeStatusColorById(context, position));
     }
 
     @Override
     public int getItemCount() {
-        return chamadosList.size();
-    }
-
-    private JSONObject makeDataSet(String search) {
-        return ChamadosController.getDataSet(context, search);
-    }
-
-    private ArrayList<JSONObject> makeChamadosList(String search) {
-        return ChamadosController.getChamadosList(context, makeDataSet(search));
+        return chamados.size();
     }
 
     private String makeText(Integer position, String key) {
-        return JsonUtil.getJsonVal(chamadosList.get(position), key);
-    }
-    private String getTextById(JSONObject jsonObject, Integer position, String key) {
-        return JsonUtil.getJsonVal(jsonObject, makeText(position, key));
+        return StringEscapeUtils.unescapeHtml4(JsonUtil.getJsonVal(chamados.get(position), key));
     }
 
-    private String makeDate() {
-        return "Falta fazer";
+    private String getTextById(JSONObject jsonObject, Integer position, String key) {
+        return StringEscapeUtils.unescapeHtml4(JsonUtil.getJsonVal(jsonObject, makeText(position, key)));
+    }
+
+    private String makeDate(Integer position, String key) {
+        return Dates.fmtLocal(JsonUtil.getJsonVal(chamados.get(position), key));
+    }
+
+    private Integer makeStatusColorById(Context context, Integer position) {
+        int color = context.getColor(R.color.bs_indigo);
+
+        int statusId = Integer.parseInt(JsonUtil.getJsonVal(chamados.get(position), context.getString(R.string.api_status_key)));
+
+        switch (statusId) {
+            case 1:
+                color = context.getColor(R.color.bs_red);
+                break;
+            case 2:
+                color = context.getColor(R.color.bs_blue);
+                break;
+            case 3:
+                color = context.getColor(R.color.bs_teal);
+                break;
+            case 4:
+                color = context.getColor(R.color.bs_orange);
+                break;
+            case 5:
+                color = context.getColor(R.color.bs_gray);
+                break;
+        }
+
+        return color;
     }
 }

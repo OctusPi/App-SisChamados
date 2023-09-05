@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,42 +34,77 @@ public class ChamadosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chamados);
 
-        chamadosListAdapter = new ChamadosListAdapter(this);
+        ChamadosController chamadosController = new ChamadosController(this, getString(R.string.api_search_default));
+
+        chamadosListAdapter = new ChamadosListAdapter(chamadosController);
 
         populateRecyclerView();
 
-        ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.SETORES);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.bringToFront();
 
         FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
         floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
         ChamadosSpinner sectorSpinner = new ChamadosSpinner(
                 findViewById(R.id.filter_sector),
-                ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.SETORES));
+                chamadosController.getMappedPropObject(ChamadosController.TypeList.SETORES));
+
 
         ChamadosSpinner statusSpinner = new ChamadosSpinner(
                 findViewById(R.id.filter_status),
-                ChamadosController.getMappedPropObject(this, ChamadosController.TypeList.STATUS));
+                chamadosController.getMappedPropObject(ChamadosController.TypeList.STATUS));
 
         sectorSpinner.build();
         statusSpinner.build();
 
         Button filterChamadosBtn = findViewById(R.id.filter_button);
+        Button clearChamadoBtn = findViewById(R.id.clear_button);
 
         filterChamadosBtn.setOnClickListener(view -> {
-            chamadosListAdapter.applyFilter(ChamadosController.makeFilter(
-                sectorSpinner.getSelected(),
-                statusSpinner.getSelected()
-            ));
+            toggleFilterLayout();
+            ChamadosController filteredController = new ChamadosController(this, chamadosListAdapter.makeFilter(
+                    sectorSpinner.getSelected(), statusSpinner.getSelected()));
+            chamadosListAdapter.applyFilter(filteredController);
+        });
+
+        clearChamadoBtn.setOnClickListener(view -> {
+            toggleFilterLayout();
+            ChamadosController filteredController = new ChamadosController(this, getString(R.string.api_search_default));
+            chamadosListAdapter.applyFilter(filteredController);
+            sectorSpinner.build(); statusSpinner.build();
         });
     }
 
     private void populateRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.chamados_list);
         ChamadosListAdapter adapter = chamadosListAdapter;
+        TextView emptyMessage = findViewById(R.id.chamados_list_empty);
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+            void checkEmpty() {
+                emptyMessage.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(15);
         
         recyclerView.setAdapter(adapter);
     }
@@ -81,7 +120,6 @@ public class ChamadosActivity extends AppCompatActivity {
 
     private class ChamadosSpinner {
         private final Spinner spinner;
-
         private final SortedMap<Integer, ArrayList<String>> optionsMap;
         private final ArrayList<String> options;
 
@@ -95,7 +133,7 @@ public class ChamadosActivity extends AppCompatActivity {
             this.options = new ArrayList<>();
 
             for (Integer option : optionsMap.keySet()) {
-                options.add(Objects.requireNonNull(optionsMap.get(option)).get(1));
+                options.add(StringEscapeUtils.unescapeHtml4(Objects.requireNonNull(optionsMap.get(option)).get(1)));
             }
         }
 

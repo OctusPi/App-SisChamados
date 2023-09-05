@@ -8,6 +8,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:indeterminate="false"
+        android:scaleY="2"
+        android:visibility="visible"
+        app:indicatorColor="@color/bs_primary_light"
+        app:layout_constraintBottom_toTopOf="@+id/filter_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackColor="@color/bs_primary_dark" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/chamados_floating"
         android:layout_width="wrap_content"
@@ -22,6 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
         android:id="@+id/filter_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +48,6 @@
         android:paddingVertical="16dp"
         android:persistentDrawingCache="animation"
         android:translationZ="2dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -82,6 +97,7 @@
             android:id="@+id/filter_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height"
+            android:layout_marginStart="24dp"
             android:backgroundTint="@color/bs_teal"
             android:backgroundTintMode="src_in"
             android:contentDescription="@string/chamados_btn_desc"
@@ -92,9 +108,25 @@
             app:iconGravity="textEnd"
             app:iconTint="@color/bs_white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="@color/bs_red"
+            android:backgroundTintMode="src_in"
+            android:contentDescription="@string/chamados_btn_desc"
+            android:elegantTextHeight="true"
+            android:text="@string/clear_btn_text"
+            android:textColor="@color/bs_white"
+            app:icon="@drawable/baseline_clear_24"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/bs_white"
+            app:layout_constraintBottom_toBottomOf="@+id/filter_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/filter_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,5 +146,22 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/chamado_card"
         tools:visibility="visible" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/chamados_list_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorSecondary"
+        android:text="@string/chamados_list_empty"
+        android:textSize="20sp"
+        android:fontFamily="@font/poppins_bold"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:maxWidth="200dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:drawableTopCompat="@drawable/empty_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

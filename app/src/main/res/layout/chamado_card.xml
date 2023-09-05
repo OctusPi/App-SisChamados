@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/chamado_status"
             android:layout_width="8dp"
             android:layout_height="0dp"
             android:layout_gravity="end"
@@ -28,9 +28,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins"
+            android:maxWidth="100dp"
             android:text="Suporte técnico"
             android:textColor="?android:textColorSecondary"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,18 +39,20 @@
             android:id="@+id/chamado_tec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/poppins"
             android:gravity="end"
             android:text="Nome Técnico"
             android:textAlignment="textEnd"
-            android:textSize="15sp"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/chamado_type"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/chamado_type" />
 
         <TextView
             android:id="@+id/chamado_code"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -62,12 +65,12 @@
 
         <TextView
             android:id="@+id/chamado_date"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/poppins_bold"
-            android:gravity="center|end"
             android:text="11/11/2024"
             android:textAlignment="textStart"
             android:textSize="15sp"
@@ -77,12 +80,12 @@
 
         <TextView
             android:id="@+id/chamado_date_prev"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:fontFamily="@font/poppins_bold"
-            android:gravity="center|end"
             android:text="11/11/2024"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +93,7 @@
 
         <TextView
             android:id="@+id/chamado_sector"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -97,7 +101,6 @@
             android:layout_marginBottom="16dp"
             android:elegantTextHeight="true"
             android:fontFamily="@font/poppins_bold"
-            android:gravity="end"
             android:text="Sec. Educação"
             android:textAlignment="textStart"
             android:textSize="18sp"
@@ -108,6 +111,7 @@
 
         <TextView
             android:id="@+id/textView5"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -120,6 +124,7 @@
 
         <TextView
             android:id="@+id/textView6"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -133,18 +138,20 @@
 
         <TextView
             android:id="@+id/textView7"
+            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/label_dataprev"
+            android:textColor="?android:textColorSecondary"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@+id/chamado_date_prev"
             app:layout_constraintStart_toStartOf="@+id/chamado_date_prev"
-            app:layout_constraintTop_toBottomOf="@+id/chamado_tec"
+            app:layout_constraintTop_toBottomOf="@+id/chamado_type"
             tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/textView8"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
