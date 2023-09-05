@@ -1,10 +1,12 @@
 package br.com.dticampossales.appsischamados;
 
+import static br.com.dticampossales.appsischamados.R.*;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,54 +34,57 @@ public class ChamadosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chamados);
+        setContentView(layout.activity_chamados);
 
-        ChamadosController chamadosController = new ChamadosController(this, getString(R.string.api_search_default));
+        ConstraintLayout loadingLayout = findViewById(id.loading_view);
+
+        ChamadosController chamadosController = new ChamadosController(this, getString(string.api_search_default), loadingLayout);
 
         chamadosListAdapter = new ChamadosListAdapter(chamadosController);
 
         populateRecyclerView();
 
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        progressBar.bringToFront();
-
-        FloatingActionButton floatingActionButton = findViewById(R.id.chamados_floating);
+        FloatingActionButton floatingActionButton = findViewById(id.chamados_floating);
         floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
         ChamadosSpinner sectorSpinner = new ChamadosSpinner(
-                findViewById(R.id.filter_sector),
+                findViewById(id.filter_sector),
                 chamadosController.getMappedPropObject(ChamadosController.TypeList.SETORES));
 
 
         ChamadosSpinner statusSpinner = new ChamadosSpinner(
-                findViewById(R.id.filter_status),
+                findViewById(id.filter_status),
                 chamadosController.getMappedPropObject(ChamadosController.TypeList.STATUS));
 
         sectorSpinner.build();
         statusSpinner.build();
 
-        Button filterChamadosBtn = findViewById(R.id.filter_button);
-        Button clearChamadoBtn = findViewById(R.id.clear_button);
+        Button filterChamadosBtn = findViewById(id.filter_button);
+        Button clearChamadoBtn = findViewById(id.clear_button);
 
         filterChamadosBtn.setOnClickListener(view -> {
             toggleFilterLayout();
-            ChamadosController filteredController = new ChamadosController(this, chamadosListAdapter.makeFilter(
-                    sectorSpinner.getSelected(), statusSpinner.getSelected()));
+            ChamadosController filteredController = new ChamadosController(this,
+                    chamadosListAdapter.makeFilter(
+                        sectorSpinner.getSelected(), statusSpinner.getSelected()
+                    ), loadingLayout);
+
             chamadosListAdapter.applyFilter(filteredController);
         });
 
         clearChamadoBtn.setOnClickListener(view -> {
             toggleFilterLayout();
-            ChamadosController filteredController = new ChamadosController(this, getString(R.string.api_search_default));
+            ChamadosController filteredController = new ChamadosController(this, getString(string.api_search_default), loadingLayout);
             chamadosListAdapter.applyFilter(filteredController);
             sectorSpinner.build(); statusSpinner.build();
         });
     }
 
     private void populateRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.chamados_list);
+        RecyclerView recyclerView = findViewById(id.chamados_list);
         ChamadosListAdapter adapter = chamadosListAdapter;
-        TextView emptyMessage = findViewById(R.id.chamados_list_empty);
+
+        TextView emptyMessage = findViewById(id.chamados_list_empty);
 
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -110,7 +115,7 @@ public class ChamadosActivity extends AppCompatActivity {
     }
 
     private void toggleFilterLayout() {
-        ConstraintLayout filterLayout = findViewById(R.id.filter_layout);
+        ConstraintLayout filterLayout = findViewById(id.filter_layout);
         if (filterLayout.getVisibility() != View.VISIBLE) {
             filterLayout.setVisibility(View.VISIBLE);
         } else {
@@ -127,8 +132,8 @@ public class ChamadosActivity extends AppCompatActivity {
             this.spinner = spinner;
             this.optionsMap = optionsMap;
 
-            this.optionsMap.put(Integer.parseInt(getString(R.string.filter_id_default)),
-                    new ArrayList<>(Arrays.asList(getString(R.string.filter_id_default), getString(R.string.filter_name_default))));
+            this.optionsMap.put(Integer.parseInt(getString(string.filter_id_default)),
+                    new ArrayList<>(Arrays.asList(getString(string.filter_id_default), getString(string.filter_name_default))));
 
             this.options = new ArrayList<>();
 
@@ -139,9 +144,9 @@ public class ChamadosActivity extends AppCompatActivity {
 
         private void build() {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getApplicationContext(), R.layout.spinner_item, options);
+                    getApplicationContext(), layout.spinner_item, options);
 
-            arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+            arrayAdapter.setDropDownViewResource(layout.spinner_dropdown);
 
             spinner.setAdapter(arrayAdapter);
         }
