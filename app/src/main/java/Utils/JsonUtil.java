@@ -1,26 +1,17 @@
 package Utils;
 
-import android.text.Layout;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class JsonUtil {
 
@@ -30,22 +21,6 @@ public class JsonUtil {
         CompletableFuture<JSONObject> future = httpJson.asyncRequest(urlApi);
 
         jsonObject = future.get();
-        return jsonObject;
-    }
-
-    public static JSONObject requestJsonWithLoader(
-            String urlApi, ConstraintLayout loadingLayout) throws ExecutionException, InterruptedException {
-
-        loadingLayout.setVisibility(View.VISIBLE);
-
-        JSONObject jsonObject;
-        HttpJson httpJson = new HttpJson();
-        CompletableFuture<JSONObject> future = httpJson.asyncRequest(urlApi);
-
-        jsonObject = future.get();
-
-        future.thenRunAsync(() -> loadingLayout.setVisibility(View.GONE));
-
         return jsonObject;
     }
 

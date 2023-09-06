@@ -25,7 +25,6 @@ public class ChamadosController {
     private final JSONObject tipos;
     private final JSONObject status;
     private final Context context;
-    private final ConstraintLayout loadingLayout;
 
     public enum TypeList {
         SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4);
@@ -34,8 +33,7 @@ public class ChamadosController {
         public int getTypeList() { return type; }
     }
 
-    public ChamadosController(Context context, String search, ConstraintLayout loadingLayout) {
-        this.loadingLayout = loadingLayout;
+    public ChamadosController(Context context, String search) {
         this.context = context;
 
         this.dataSet = setDataSet(context, search);
@@ -90,7 +88,7 @@ public class ChamadosController {
         if (!hashLogin.equals("")) {
             try {
                 String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
-                fullDataSet = JsonUtil.requestJsonWithLoader(chamadosUrl, this.loadingLayout);
+                fullDataSet = JsonUtil.requestJson(chamadosUrl);
 
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();

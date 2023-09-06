@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -56,16 +57,13 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         this.tipos = chamadosController.getTipos();
     }
 
-    public String makeFilter(String sector, String status) {
-        return sector + "," + status;
-    }
-
     public void applyFilter(ChamadosController chamadosController) {
         this.chamados = chamadosController.getChamados();
         this.tecnicos = chamadosController.getTecnicos();
         this.setores = chamadosController.getSetores();
         this.status = chamadosController.getStatus();
         this.tipos = chamadosController.getTipos();
+
         notifyDataSetChanged();
     }
 
@@ -83,17 +81,11 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         Context context = viewHolder.itemView.getContext();
 
         viewHolder.chamadoCode.setText(makeText(position, context.getString(R.string.chamado_code)));
-
         viewHolder.chamadoType.setText(getTextById(tipos, position, context.getString(R.string.chamado_type)));
-
         viewHolder.chamadoSector.setText(getTextById(setores, position, context.getString(R.string.chamado_sector)));
-
         viewHolder.chamadoDate.setText(makeDate(position, context.getString(R.string.chamado_date)));
-
         viewHolder.chamadoDatePrev.setText(makeDate(position,  context.getString(R.string.chamado_date)));
-
         viewHolder.chamadoTechnician.setText(getTextById(tecnicos, position, context.getString(R.string.chamado_tec)));
-
         viewHolder.chamadoStatus.setBackgroundColor(makeStatusColorById(context, position));
     }
 

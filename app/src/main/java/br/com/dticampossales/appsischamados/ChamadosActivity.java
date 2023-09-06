@@ -1,8 +1,9 @@
 package br.com.dticampossales.appsischamados;
 
-import static br.com.dticampossales.appsischamados.R.*;
+import static br.com.dticampossales.appsischamados.R.id;
+import static br.com.dticampossales.appsischamados.R.layout;
+import static br.com.dticampossales.appsischamados.R.string;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,54 +31,42 @@ import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
 public class ChamadosActivity extends AppCompatActivity {
     private ChamadosListAdapter chamadosListAdapter;
+    private ConstraintLayout loadingLayout;
+    private FloatingActionButton floatingActionButton;
+    private Button filterChamadosBtn;
+    private Button clearChamadosBtn;
+    private ChamadosSpinner sectorSpinner;
+    private ChamadosSpinner statusSpinner;
+    private ChamadosController chamadosController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_chamados);
 
-        ConstraintLayout loadingLayout = findViewById(id.loading_view);
+        floatingActionButton = findViewById(id.chamados_floating);
+        floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
-        ChamadosController chamadosController = new ChamadosController(this, getString(string.api_search_default), loadingLayout);
-
+        loadingLayout = findViewById(id.loading_view);
+        chamadosController = new ChamadosController(this, getString(string.api_search_default));
         chamadosListAdapter = new ChamadosListAdapter(chamadosController);
 
         populateRecyclerView();
 
-        FloatingActionButton floatingActionButton = findViewById(id.chamados_floating);
-        floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
-
-        ChamadosSpinner sectorSpinner = new ChamadosSpinner(
-                findViewById(id.filter_sector),
+        sectorSpinner = new ChamadosSpinner(findViewById(id.filter_sector),
                 chamadosController.getMappedPropObject(ChamadosController.TypeList.SETORES));
 
-
-        ChamadosSpinner statusSpinner = new ChamadosSpinner(
-                findViewById(id.filter_status),
+        statusSpinner = new ChamadosSpinner(findViewById(id.filter_status),
                 chamadosController.getMappedPropObject(ChamadosController.TypeList.STATUS));
 
         sectorSpinner.build();
         statusSpinner.build();
 
-        Button filterChamadosBtn = findViewById(id.filter_button);
-        Button clearChamadoBtn = findViewById(id.clear_button);
+        filterChamadosBtn = findViewById(id.filter_button);
+        clearChamadosBtn = findViewById(id.clear_button);
 
-        filterChamadosBtn.setOnClickListener(view -> {
-            toggleFilterLayout();
-            ChamadosController filteredController = new ChamadosController(this,
-                    chamadosListAdapter.makeFilter(
-                        sectorSpinner.getSelected(), statusSpinner.getSelected()
-                    ), loadingLayout);
-
-            chamadosListAdapter.applyFilter(filteredController);
-        });
-
-        clearChamadoBtn.setOnClickListener(view -> {
-            toggleFilterLayout();
-            ChamadosController filteredController = new ChamadosController(this, getString(string.api_search_default), loadingLayout);
-            chamadosListAdapter.applyFilter(filteredController);
-            sectorSpinner.build(); statusSpinner.build();
-        });
+        filterChamadosBtn.setOnClickListener(view -> filter());
+        clearChamadosBtn.setOnClickListener(view -> clear());
     }
 
     private void populateRecyclerView() {
@@ -109,7 +98,7 @@ public class ChamadosActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setItemViewCacheSize(15);
+        recyclerView.setItemViewCacheSize(30);
         
         recyclerView.setAdapter(adapter);
     }
@@ -121,6 +110,46 @@ public class ChamadosActivity extends AppCompatActivity {
         } else {
             filterLayout.setVisibility(View.GONE);
         }
+    }
+
+    public String makeFilter(String sector, String status) {
+        return sector + "," + status;
+    }
+
+    private void filter() {
+        setLoadingVisibility(true);
+        toggleButtonsClick();
+
+        ChamadosController chamadosController = new ChamadosController(this,
+                makeFilter(sectorSpinner.getSelected(), statusSpinner.getSelected()));
+
+        chamadosListAdapter.applyFilter(chamadosController);
+
+        setLoadingVisibility(false);
+        toggleButtonsClick();
+
+        toggleFilterLayout();
+    }
+
+    private void clear() {
+        sectorSpinner.selectInitial();
+        statusSpinner.selectInitial();
+
+        filter();
+    }
+
+    private void toggleButtonsClick() {
+        if (clearChamadosBtn.isClickable()) {
+            clearChamadosBtn.setClickable(false);
+            filterChamadosBtn.setClickable(false);
+        } else {
+            clearChamadosBtn.setClickable(true);
+            filterChamadosBtn.setClickable(true);
+        }
+    }
+
+    private void setLoadingVisibility(Boolean isVisible) {
+        loadingLayout.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
     private class ChamadosSpinner {
@@ -154,6 +183,10 @@ public class ChamadosActivity extends AppCompatActivity {
         public String getSelected() {
             Integer key = spinner.getSelectedItemPosition();
             return Objects.requireNonNull(optionsMap.get(key)).get(0);
+        }
+
+        public void selectInitial() {
+            spinner.setSelection(0);
         }
     }
 }
