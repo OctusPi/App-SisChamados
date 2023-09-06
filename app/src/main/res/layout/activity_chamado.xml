@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChamadoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/details"
+        android:translationZ="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bs_blue"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/details_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            app:drawableStartCompat="@drawable/baseline_code_24"
+            android:text="Cod. 1020302340"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/details_sector"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Secretaria de Recursos Humanos"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:drawableStartCompat="@drawable/baseline_home_work_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_code" />
+
+        <TextView
+            android:id="@+id/details_equipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:drawableStartCompat="@drawable/baseline_computer_24"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="EPSON L4-2534 Plus"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_sector" />
+
+        <TextView
+            android:id="@+id/details_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Reparo Equipamento"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:drawableStartCompat="@drawable/baseline_build_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_equipment" />
+
+        <TextView
+            android:id="@+id/details_dataabr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableLeft="@drawable/baseline_calendar_today_24"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Abertura 01/01/2024"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_type" />
+
+        <TextView
+            android:id="@+id/details_dataprev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableLeft="@drawable/baseline_calendar_month_24"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Previsão 01/01/2024"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_dataabr" />
+
+        <TextView
+            android:id="@+id/details_dataatend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableLeft="@drawable/baseline_library_add_check_24"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Atendido 02/02/2024"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_dataprev" />
+
+        <TextView
+            android:id="@+id/details_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableLeft="@drawable/baseline_info_24"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Tudo esta no prego e nao funciona mais"
+            android:textColor="@color/bs_white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_dataatend" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reports_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="?attr/dialogPreferredPadding"
+        android:translationZ="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/report_card"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
