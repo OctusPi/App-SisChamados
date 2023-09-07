@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loading_view"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:translationZ="8dp"
         android:background="@color/bs_dark_shadow"
         android:layout_width="match_parent"

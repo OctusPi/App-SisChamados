@@ -6,8 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ChamadoActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/details_floating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/chamados_floating_desc"
+        android:backgroundTint="@color/bs_primary"
+        android:src="@drawable/outline_info_24"
+        app:tint="@color/bs_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/details"
+        android:visibility="gone"
         android:translationZ="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,56 +92,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:drawableLeft="@drawable/baseline_calendar_today_24"
             android:drawablePadding="8dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Abertura 01/01/2024"
             android:textColor="@color/bs_white"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_type" />
+            app:layout_constraintTop_toBottomOf="@+id/details_type"
+            app:drawableLeftCompat="@drawable/baseline_calendar_today_24" />
 
         <TextView
             android:id="@+id/details_dataprev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:drawableLeft="@drawable/baseline_calendar_month_24"
             android:drawablePadding="8dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Previsão 01/01/2024"
             android:textColor="@color/bs_white"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_dataabr" />
+            app:layout_constraintTop_toBottomOf="@+id/details_dataabr"
+            app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
 
         <TextView
             android:id="@+id/details_dataatend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:drawableLeft="@drawable/baseline_library_add_check_24"
             android:drawablePadding="8dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Atendido 02/02/2024"
             android:textColor="@color/bs_white"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_dataprev" />
+            app:layout_constraintTop_toBottomOf="@+id/details_dataprev"
+            app:drawableLeftCompat="@drawable/baseline_library_add_check_24" />
 
         <TextView
             android:id="@+id/details_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:drawableLeft="@drawable/baseline_info_24"
             android:drawablePadding="8dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Tudo esta no prego e nao funciona mais"
             android:textColor="@color/bs_white"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_dataatend" />
+            app:layout_constraintTop_toBottomOf="@+id/details_dataatend"
+            app:drawableLeftCompat="@drawable/baseline_info_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -147,6 +161,73 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/report_card"
         tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/report_form"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/report_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textarea_height"
+            android:hint="@string/report_text_placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/report_message_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:maxLines="6"
+                android:scrollbars="vertical"
+                android:textColor="@color/bs_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/report_status"
+            style="@android:style/Widget.Holo.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/select_height"
+            android:layout_marginTop="6dp"
+            android:spinnerMode="dropdown"
+            android:translationZ="8dp"
+            app:circularflow_defaultRadius="@dimen/nav_header_vertical_spacing"
+            app:layout_constraintTop_toBottomOf="@+id/report_message_layout"
+            tools:layout_editor_absoluteX="12dp" />
+
+        <Button
+            android:id="@+id/report_submit"
+            android:layout_marginTop="6dp"
+            android:layout_width="match_parent"
+            android:maxWidth="400dp"
+            android:layout_height="58dp"
+            android:backgroundTint="@color/bs_blue"
+            android:elegantTextHeight="true"
+            android:text="@string/report_button_text"
+            android:textColor="@color/bs_white"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/baseline_arrow_forward_24"
+            app:iconGravity="textEnd"
+            app:iconPadding="6dp"
+            app:iconTint="@color/bs_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/report_status"
+            tools:ignore="TextContrastCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

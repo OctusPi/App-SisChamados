@@ -4,4 +4,5 @@
     <dimen name="input_width">300dp</dimen>
     <dimen name="button_height">52dp</dimen>
     <dimen name="button_width">@dimen/input_width</dimen>
+    <dimen name="textarea_height">110dp</dimen>
 </resources>
