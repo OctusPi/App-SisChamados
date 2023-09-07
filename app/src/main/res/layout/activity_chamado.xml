@@ -7,17 +7,32 @@
     tools:context=".ChamadoActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/details_floating"
+        android:id="@+id/chamado_floating_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/chamados_floating_desc"
+        android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="@color/bs_primary"
-        android:src="@drawable/outline_info_24"
-        app:tint="@color/bs_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:contentDescription="@string/chamados_floating_desc"
+        android:src="@drawable/baseline_info_24"
+        app:layout_constraintBottom_toTopOf="@+id/chamado_floating_report_form"
+        app:layout_constraintEnd_toEndOf="@+id/chamado_floating_report_form"
+        app:layout_constraintStart_toStartOf="@+id/chamado_floating_report_form"
+        app:tint="@color/bs_white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/chamado_floating_report_form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/bs_primary"
+        android:contentDescription="@string/chamados_floating_desc"
+        android:src="@drawable/baseline_speaker_notes_24"
+        app:layout_constraintBottom_toTopOf="@+id/report_form"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/bs_white" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/details"
@@ -165,11 +180,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/report_form"
         android:visibility="gone"
+        android:translationZ="15dp"
+        android:elevation="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp"
+        android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -191,21 +208,18 @@
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLines="6"
-                android:scrollbars="vertical"
-                android:textColor="@color/bs_white" />
+                android:scrollbars="vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
             android:id="@+id/report_status"
-            style="@android:style/Widget.Holo.Spinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_height"
             android:layout_marginTop="6dp"
             android:spinnerMode="dropdown"
             android:translationZ="8dp"
             app:circularflow_defaultRadius="@dimen/nav_header_vertical_spacing"
-            app:layout_constraintTop_toBottomOf="@+id/report_message_layout"
-            tools:layout_editor_absoluteX="12dp" />
+            app:layout_constraintTop_toBottomOf="@+id/report_message_layout" />
 
         <Button
             android:id="@+id/report_submit"

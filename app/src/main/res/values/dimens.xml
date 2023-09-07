@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="select_width">100dp</dimen>
     <dimen name="select_height">52dp</dimen>
+    <dimen name="fab_mini">46dp</dimen>
 </resources>

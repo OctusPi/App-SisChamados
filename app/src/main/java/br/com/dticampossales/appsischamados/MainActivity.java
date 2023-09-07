@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean isAuth = jsonObject.getInt("id") != 0;
 
                 Intent intent = isAuth
-                        ?  new Intent(context, ChamadoActivity.class)
+                        ?  new Intent(context, ChamadosActivity.class)
                         :  new Intent(context, LoginActivity.class);
                 startActivity(intent);
                 finish();

@@ -1,6 +1,8 @@
 package br.com.dticampossales.appsischamados.adapters.Chamados;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 
 import Utils.Dates;
 import Utils.JsonUtil;
+import br.com.dticampossales.appsischamados.ChamadoActivity;
+import br.com.dticampossales.appsischamados.ChamadosActivity;
 import br.com.dticampossales.appsischamados.R;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
@@ -46,6 +50,12 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
             chamadoDatePrev = view.findViewById(R.id.chamado_date_prev);
             chamadoTechnician = view.findViewById(R.id.chamado_tec);
             chamadoStatus = view.findViewById(R.id.chamado_status);
+
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(view.getContext(), ChamadoActivity.class);
+                intent.putExtra("chamado_id", chamadoCode.getText());
+                view.getContext().startActivity(intent);
+            });
         }
     }
 
@@ -79,6 +89,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Context context = viewHolder.itemView.getContext();
+
 
         viewHolder.chamadoCode.setText(makeText(position, context.getString(R.string.chamado_code)));
         viewHolder.chamadoType.setText(getTextById(tipos, position, context.getString(R.string.chamado_type)));

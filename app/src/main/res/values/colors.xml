@@ -16,8 +16,8 @@
     <color name="bs_gray_dark">#343a40</color>
     <color name="bs_primary">#0d6efd</color>
     <color name="bs_primary_dark">#0042A0</color>
-    <color name="bs_primary_darkest">#0d2a54</color>
-    <color name="bs_primary_light">#559BFF</color>
+    <color name="bs_primary_darkest">#111B28</color>
+    <color name="bs_primary_light">#D8D8D8</color>
     <color name="bs_primary_shadow">#9F5197FF</color>
     <color name="bs_secondary">#6c757d</color>
     <color name="bs_success">#198754</color>
