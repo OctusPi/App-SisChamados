@@ -15,15 +15,6 @@ import java.util.concurrent.ExecutionException;
 
 public class JsonUtil {
 
-    public static JSONObject requestJson(String urlApi) throws ExecutionException, InterruptedException {
-        JSONObject jsonObject;
-        HttpJson httpJson = new HttpJson();
-        CompletableFuture<JSONObject> future = httpJson.asyncRequest(urlApi);
-
-        jsonObject = future.get();
-        return jsonObject;
-    }
-
     public static ArrayList<JSONObject> jsonList(JSONArray jsonArray) throws JSONException {
         ArrayList<JSONObject> jsonObjects = new ArrayList<>();
         for (int i=0; i<jsonArray.length(); i++){
