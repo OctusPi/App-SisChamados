@@ -2,14 +2,12 @@ package br.com.dticampossales.appsischamados.adapters.Chamados;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -19,12 +17,11 @@ import java.util.ArrayList;
 
 import Utils.Dates;
 import Utils.JsonUtil;
-import br.com.dticampossales.appsischamados.ChamadoActivity;
-import br.com.dticampossales.appsischamados.ChamadosActivity;
+import br.com.dticampossales.appsischamados.AtendimentoActivity;
 import br.com.dticampossales.appsischamados.R;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 
-public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapter.ViewHolder> {
+public class ChamadosRecyclerViewAdapter extends RecyclerView.Adapter<ChamadosRecyclerViewAdapter.ViewHolder> {
     private ArrayList<JSONObject> chamados;
     private JSONObject tecnicos;
     private JSONObject setores;
@@ -32,6 +29,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
     private JSONObject tipos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView chamadoId;
         private final TextView chamadoCode;
         private final TextView chamadoType;
         private final TextView chamadoSector;
@@ -43,6 +41,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
         public ViewHolder(View view) {
             super(view);
 
+            chamadoId = view.findViewById(R.id.chamado_id);
             chamadoCode = view.findViewById(R.id.chamado_code);
             chamadoType = view.findViewById(R.id.chamado_type);
             chamadoSector = view.findViewById(R.id.chamado_sector);
@@ -52,14 +51,15 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
             chamadoStatus = view.findViewById(R.id.chamado_status);
 
             itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(view.getContext(), ChamadoActivity.class);
-                intent.putExtra("chamado_id", chamadoCode.getText());
+                Intent intent = new Intent(view.getContext(), AtendimentoActivity.class);
+                intent.putExtra(view.getContext().getString(R.string.atendimento_id), chamadoId.getText());
+                intent.putExtra(view.getContext().getString(R.string.atendimento_color), chamadoStatus.getSolidColor());
                 view.getContext().startActivity(intent);
             });
         }
     }
 
-    public ChamadosListAdapter(ChamadosController chamadosController) {
+    public ChamadosRecyclerViewAdapter(ChamadosController chamadosController) {
         this.chamados = chamadosController.getChamados();
         this.tecnicos = chamadosController.getTecnicos();
         this.setores = chamadosController.getSetores();
@@ -90,7 +90,7 @@ public class ChamadosListAdapter extends RecyclerView.Adapter<ChamadosListAdapte
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Context context = viewHolder.itemView.getContext();
 
-
+        viewHolder.chamadoId.setText(makeText(position, context.getString(R.string.chamado_id)));
         viewHolder.chamadoCode.setText(makeText(position, context.getString(R.string.chamado_code)));
         viewHolder.chamadoType.setText(getTextById(tipos, position, context.getString(R.string.chamado_type)));
         viewHolder.chamadoSector.setText(getTextById(setores, position, context.getString(R.string.chamado_sector)));

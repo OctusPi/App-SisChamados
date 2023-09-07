@@ -49,7 +49,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:elegantTextHeight="true"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins"
             android:text="Description"
             android:textAlignment="textStart"
             android:textColor="?android:textColorSecondary"

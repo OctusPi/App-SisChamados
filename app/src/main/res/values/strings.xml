@@ -53,4 +53,6 @@
     <string name="chamados_list_empty">Não há chamados para mostrar!</string>
     <string name="report_text_placeholder">Digite seu relatório</string>
     <string name="report_button_text">Atualizar Chamado</string>
+    <string name="atendimento_id">chamado_id</string>
+    <string name="atendimento_color">chamado_color</string>
 </resources>

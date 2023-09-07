@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ChamadoActivity extends AppCompatActivity {
+public class AtendimentoActivity extends AppCompatActivity {
     FloatingActionButton detailsFab;
     FloatingActionButton reportFormFab;
     ConstraintLayout detailsLayout;
@@ -29,7 +29,6 @@ public class ChamadoActivity extends AppCompatActivity {
 
         detailsFab.setOnClickListener(view -> toggleDetailsVisibility());
         reportFormFab.setOnClickListener(view -> toggleReportFormVisibility());
-
     }
 
     private void toggleDetailsVisibility() {

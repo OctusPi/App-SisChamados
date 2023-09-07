@@ -18,6 +18,8 @@
     <string name="api_tecnicos_key">tecnicos</string>
     <string name="api_tipos_key">tipos</string>
     <string name="api_status_key">status</string>
+    <string name="api_historico_key">historico</string>
+
 
     <string name="api_search_default">0,0</string>
     <string name="filter_id">id</string>

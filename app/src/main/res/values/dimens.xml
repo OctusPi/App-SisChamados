@@ -8,4 +8,5 @@
     <dimen name="select_width">100dp</dimen>
     <dimen name="select_height">52dp</dimen>
     <dimen name="fab_mini">46dp</dimen>
+    <dimen name="details_topbar_height">42dp</dimen>
 </resources>
