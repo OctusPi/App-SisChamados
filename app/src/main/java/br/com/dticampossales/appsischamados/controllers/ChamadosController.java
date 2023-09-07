@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
+import Utils.JsonRequest;
 import Utils.JsonUtil;
 import Utils.Security;
 import br.com.dticampossales.appsischamados.R;
@@ -88,7 +89,7 @@ public class ChamadosController {
         if (!hashLogin.equals("")) {
             try {
                 String chamadosUrl = String.format(context.getString(R.string.api_chamados), hashLogin, search);
-                fullDataSet = JsonUtil.requestJson(chamadosUrl);
+                fullDataSet = JsonRequest.request(chamadosUrl);
 
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();

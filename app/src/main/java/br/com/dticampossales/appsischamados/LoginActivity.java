@@ -20,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+import Utils.JsonRequest;
 import Utils.JsonUtil;
 import Utils.Security;
 import br.com.dticampossales.appsischamados.validation.Login.LoginEmailValidator;
@@ -63,8 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if(emailValidator.validate() && passwordValidator.validate()){
 
-                progressBar.setVisibility(View.VISIBLE);
-                alertText.setText("");
+                feedback("");
 
                 String email     = Objects.requireNonNull(emailText.getText()).toString();
                 String passwd    = Objects.requireNonNull(passwordText.getText()).toString();
@@ -73,13 +73,12 @@ public class LoginActivity extends AppCompatActivity {
                     String hashLogin = Security.hashLogin(email, passwd);
                     String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
 
-                    JSONObject jsonObject = JsonUtil.requestJson(urlJSON);
+                    JSONObject jsonObject = JsonRequest.request(urlJSON);
                     boolean isAuth = jsonObject.getInt("id") != 0;
                     execLogin(isAuth, hashLogin);
 
                 } catch (NoSuchAlgorithmException | JSONException | ExecutionException | InterruptedException e) {
-                    progressBar.setVisibility(View.GONE);
-                    alertText.setText(getString(R.string.app_fail));
+                    feedback(getString(R.string.app_fail));
                     e.printStackTrace();
                 }
             }
@@ -96,8 +95,16 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(chamadosActivity);
             finish();
         }else{
-            progressBar.setVisibility(View.GONE);
-            alertText.setText(getString(R.string.app_fail_login));
+            feedback(getString(R.string.app_fail_login));
         }
+    }
+
+    private void feedback(String msg){
+        if(msg.equals("")){
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+        }
+        alertText.setText(msg);
     }
 }

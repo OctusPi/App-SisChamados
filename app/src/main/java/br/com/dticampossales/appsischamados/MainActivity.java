@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
+import Utils.JsonRequest;
 import Utils.JsonUtil;
 import Utils.Security;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!hashLogin.equals("")){
             try {
-                JSONObject jsonObject = JsonUtil.requestJson(urlJSON);
+                JSONObject jsonObject = JsonRequest.request(urlJSON);
                 boolean isAuth = jsonObject.getInt("id") != 0;
 
                 Intent intent = isAuth
