@@ -86,6 +86,6 @@ public class AtendimentoRecyclerViewAdapter extends RecyclerView.Adapter<Atendim
     }
 
     private String makeDate(Integer position, String key) {
-        return Dates.fmtLocal(JsonUtil.getJsonVal(historico.get(position), key));
+        return Dates.fmtLocalTime(JsonUtil.getJsonVal(historico.get(position), key));
     }
 }
