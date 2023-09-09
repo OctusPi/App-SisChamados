@@ -20,6 +20,23 @@
     <string name="api_status_key">status</string>
     <string name="api_historico_key">historico</string>
 
+    <!--Adapter Chamado keys-->
+    <string name="chamado_id">id</string>
+    <string name="chamado_code">cod</string>
+    <string name="chamado_type">tipo</string>
+    <string name="chamado_date">dataabr</string>
+    <string name="chamado_status">status</string>
+    <string name="chamado_equipment">equipamento</string>
+    <string name="chamado_sector">setor</string>
+    <string name="chamado_tec">tecnico</string>
+
+    <!--Adapter Reports keys-->
+    <string name="report_id">id</string>
+    <string name="report_tec">user</string>
+    <string name="report_date">data</string>
+    <string name="report_msg">msg</string>
+
+
 
     <string name="api_search_default">0,0</string>
     <string name="filter_id">id</string>

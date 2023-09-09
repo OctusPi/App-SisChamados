@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="@+id/report_tec" />
 
         <TextView
-            android:id="@+id/report_description"
+            android:id="@+id/report_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

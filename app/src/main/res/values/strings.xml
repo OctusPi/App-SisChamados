@@ -27,15 +27,6 @@
     <string name="label_dataprev">Previsão</string>
     <string name="label_setor">Setor</string>
 
-
-    <string name="chamado_id">id</string>
-    <string name="chamado_code">cod</string>
-    <string name="chamado_type">tipo</string>
-    <string name="chamado_date">dataabr</string>
-    <string name="chamado_status">status</string>
-    <string name="chamado_equipment">equipamento</string>
-    <string name="chamado_sector">setor</string>
-    <string name="chamado_tec">tecnico</string>
     <string name="fragment_text">Fragment</string>
 
     <!-- Chamados -->
@@ -55,4 +46,5 @@
     <string name="report_button_text">Atualizar Chamado</string>
     <string name="atendimento_id">chamado_id</string>
     <string name="atendimento_color">chamado_color</string>
+    <string name="atendimento_list_empty">Não há relatórios para mostrar</string>
 </resources>
