@@ -1,6 +1,8 @@
 package br.com.dticampossales.appsischamados;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,14 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.apache.commons.text.StringEscapeUtils;
+import org.json.JSONObject;
+
 import java.util.Objects;
 
+import Utils.Dates;
+import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
+import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;
 import br.com.dticampossales.appsischamados.widgets.Atendimento.AtendimentoRecyclerView;
 import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosRecyclerView;
 
 public class AtendimentoActivity extends AppCompatActivity {
+
+    ActivityAtendimentoBinding binding;
     FloatingActionButton detailsFab;
     FloatingActionButton reportFormFab;
     ConstraintLayout detailsLayout;
@@ -35,6 +45,8 @@ public class AtendimentoActivity extends AppCompatActivity {
 
         Integer chamadoId = Objects.requireNonNull(getIntent().getExtras()).getInt(getString(R.string.atendimento_id));
         atendimentoController = new AtendimentoController(this, chamadoId);
+
+        bindInformations();
 
         reportsList = new AtendimentoRecyclerView(
                 this,
@@ -67,6 +79,41 @@ public class AtendimentoActivity extends AppCompatActivity {
     }
 
     private void bindInformations() {
+        binding = ActivityAtendimentoBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
+        JSONObject detalhes = atendimentoController.getDetalhes();
+
+        binding.detailsStatus.setText(makeText(atendimentoController.getStatus(),
+                JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_status))));
+        binding.detailsType.setText(makeText(atendimentoController.getTipos(),
+                JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_type))));
+        binding.detailsSector.setText(makeText(atendimentoController.getSetores(),
+                JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_setor))));
+
+        Log.i("msg", (String) binding.detailsDataabr.getText());
+
+
+        binding.detailsDataabr.setText(((String) binding.detailsDataabr.getText())
+                .concat(" " + makeDate(detalhes, getString(R.string.chamado_dataabr))));
+        binding.detailsDataprev.setText(((String) binding.detailsDataprev.getText())
+                .concat(" " + makeDate(detalhes, getString(R.string.chamado_dataprev))));
+        binding.detailsDataatend.setText(((String) binding.detailsDataatend.getText())
+                .concat(" " + makeDate(detalhes, getString(R.string.chamado_dataatm))));
+
+        binding.detailsCode.setText(makeText(detalhes, getString(R.string.chamado_code)));
+        binding.detailsEquipment.setText(makeText(detalhes, getString(R.string.chamado_equipamento)));
+        binding.detailsDescription.setText(makeText(detalhes, getString(R.string.chamado_descricao)));
+    }
+
+    private String makeText(JSONObject object, String key) {
+        String value = JsonUtil.getJsonVal(object, key);
+        return StringEscapeUtils.unescapeHtml4(value);
+    }
+
+    private String makeDate(JSONObject object, String key) {
+        String value = JsonUtil.getJsonVal(object, key);
+        return Dates.fmtLocal(value);
     }
 }

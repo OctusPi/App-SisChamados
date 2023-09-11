@@ -32,6 +32,10 @@ public class AtendimentoController extends BaseController {
         return this.historico;
     }
 
+    public JSONObject getDetalhes() {
+        return buildPropObject(TypeList.DETALHES);
+    }
+
     private static JSONObject setDataSet(Context context, Integer chamadoId) {
         JSONObject fullDataSet = new JSONObject();
 
@@ -41,7 +45,7 @@ public class AtendimentoController extends BaseController {
             try {
                 String chamadosUrl = String.format(context.getString(R.string.api_atendimento), hashLogin, chamadoId);
                 fullDataSet = JsonRequest.request(chamadosUrl);
-                Log.i("msg", fullDataSet.toString());
+                Log.i("msg", chamadosUrl);
 
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();

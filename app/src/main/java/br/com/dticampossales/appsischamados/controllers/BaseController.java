@@ -79,7 +79,7 @@ abstract class BaseController {
         return objects;
     }
 
-    private JSONObject buildPropObject(TypeList type) {
+    public JSONObject buildPropObject(TypeList type) {
         JSONObject propObject = new JSONObject();
 
         String propKey = getPropKey(context, type);
@@ -110,13 +110,16 @@ abstract class BaseController {
             case STATUS:
                 propKey = context.getString(R.string.api_status_key);
                 break;
+            case DETALHES:
+                propKey = context.getString(R.string.api_detalhes_key);
+                break;
         }
 
         return propKey;
     };
 
     public enum TypeList {
-        SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4);
+        SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4), DETALHES(5);
         private final int type;
         TypeList(int id) { type = id; }
         public int getTypeList() { return type; }

@@ -2,7 +2,6 @@ package br.com.dticampossales.appsischamados.adapters.Chamados;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,10 +93,10 @@ public class ChamadosRecyclerViewAdapter extends RecyclerView.Adapter<ChamadosRe
         viewHolder.chamadoId.setText(makeText(position, context.getString(R.string.chamado_id)));
         viewHolder.chamadoCode.setText(makeText(position, context.getString(R.string.chamado_code)));
         viewHolder.chamadoType.setText(getTextById(tipos, position, context.getString(R.string.chamado_type)));
-        viewHolder.chamadoSector.setText(getTextById(setores, position, context.getString(R.string.chamado_sector)));
-        viewHolder.chamadoDate.setText(makeDate(position, context.getString(R.string.chamado_date)));
-        viewHolder.chamadoDatePrev.setText(makeDate(position,  context.getString(R.string.chamado_date)));
-        viewHolder.chamadoTechnician.setText(getTextById(tecnicos, position, context.getString(R.string.chamado_tec)));
+        viewHolder.chamadoSector.setText(getTextById(setores, position, context.getString(R.string.chamado_setor)));
+        viewHolder.chamadoDate.setText(makeDate(position, context.getString(R.string.chamado_dataabr)));
+        viewHolder.chamadoDatePrev.setText(makeDate(position,  context.getString(R.string.chamado_dataprev)));
+        viewHolder.chamadoTechnician.setText(getTextById(tecnicos, position, context.getString(R.string.chamado_tecnico)));
         viewHolder.chamadoStatus.setBackgroundColor(makeStatusColorById(context, position));
     }
 
