@@ -38,6 +38,9 @@
     <string name="chamado_dataprev_prefix">Previsão</string>
     <string name="chamado_dataatm_prefix">Atendimento</string>
 
+    <string name="api_atendimento_up_status_key">status</string>
+    <string name="api_atendimento_up_msg_key">msg</string>
+
     <!--Adapter Reports keys-->
     <string name="report_id">id</string>
     <string name="report_tec">user</string>

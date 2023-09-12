@@ -44,13 +44,12 @@ public class HttpJson {
         return future;
     }
 
-    public CompletableFuture<JSONObject> asyncPostRequest(String urlRequest, String jsonContent) {
+    public CompletableFuture<JSONObject> asyncPostRequest(String urlRequest, RequestBody formData) {
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(jsonContent, MediaType.parse("application/json"));
 
         Request request = new Request.Builder()
                 .url(urlRequest)
-                .post(requestBody)
+                .post(formData)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {

@@ -2,7 +2,6 @@ package br.com.dticampossales.appsischamados;
 
 import static br.com.dticampossales.appsischamados.R.id;
 import static br.com.dticampossales.appsischamados.R.layout;
-import static br.com.dticampossales.appsischamados.R.string;
 
 import android.os.Bundle;
 import android.view.View;
@@ -82,7 +81,7 @@ public class ChamadosActivity extends AppCompatActivity {
         toggleButtonsClick();
 
         ChamadosController chamadosController = new ChamadosController(this,
-                makeFilter(sectorSpinner.getSelected(), statusSpinner.getSelected()));
+                makeFilter(sectorSpinner.getSelectedKey(), statusSpinner.getSelectedKey()));
 
         chamadosRecyclerViewAdapter.applyFilter(chamadosController);
 

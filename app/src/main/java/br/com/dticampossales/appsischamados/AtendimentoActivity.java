@@ -1,18 +1,15 @@
 package br.com.dticampossales.appsischamados;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
@@ -23,10 +20,8 @@ import Utils.Dates;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
-import br.com.dticampossales.appsischamados.controllers.BaseController;
 import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;
 import br.com.dticampossales.appsischamados.widgets.Atendimento.AtendimentoRecyclerView;
-import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosRecyclerView;
 import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
 
 public class AtendimentoActivity extends AppCompatActivity {
@@ -39,6 +34,8 @@ public class AtendimentoActivity extends AppCompatActivity {
     AtendimentoRecyclerView reportsList;
     AtendimentoController atendimentoController;
     BaseSpinner reportSpinner;
+    TextInputLayout reportMessageLayout;
+    TextInputEditText reportMessageText;
     Button sendReportBtn;
 
     @Override
@@ -76,7 +73,11 @@ public class AtendimentoActivity extends AppCompatActivity {
         detailsFab.setOnClickListener(view -> toggleDetailsVisibility());
         reportFormFab.setOnClickListener(view -> toggleReportFormVisibility());
 
+        reportMessageLayout = findViewById(R.id.report_message_layout);
+        reportMessageText = findViewById(R.id.report_message_input);
+
         sendReportBtn = findViewById(R.id.report_submit);
+
         sendReportBtn.setOnClickListener(view -> sendReport());
     }
 
@@ -119,7 +120,7 @@ public class AtendimentoActivity extends AppCompatActivity {
     }
 
     private void sendReport() {
-        atendimentoController.sendReport(reportSpinner.getSelected(), "message");
+        atendimentoController.sendReport(reportSpinner.getSelectedKey(), String.valueOf(reportMessageText.getText()));
     }
 
     private String makeText(JSONObject object, String key) {

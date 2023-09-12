@@ -3,6 +3,7 @@ package br.com.dticampossales.appsischamados.widgets.Common;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -45,9 +46,18 @@ public class BaseSpinner {
         spinner.setAdapter(arrayAdapter);
     }
 
-    public String getSelected() {
+    public String getSelectedKey() {
         Integer key = spinner.getSelectedItemPosition();
         return Objects.requireNonNull(optionsMap.get(key)).get(0);
+    }
+
+    public String getSelectedValue() {
+        Integer key = spinner.getSelectedItemPosition();
+        return Objects.requireNonNull(optionsMap.get(key)).get(1);
+    }
+
+    public String getDefaultValue() {
+        return context.getString(R.string.filter_default);
     }
 
     public void selectInitial() {

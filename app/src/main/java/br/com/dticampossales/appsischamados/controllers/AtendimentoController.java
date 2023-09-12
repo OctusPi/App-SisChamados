@@ -14,6 +14,8 @@ import Utils.JsonRequest;
 import Utils.JsonUtil;
 import Utils.Security;
 import br.com.dticampossales.appsischamados.R;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 public class AtendimentoController extends BaseController {
     private final ArrayList<JSONObject> historico;
@@ -36,16 +38,22 @@ public class AtendimentoController extends BaseController {
 
     public void sendReport(String statusId, String message) {
         String hashLogin = Security.getHashLogin(getContext());
-        JSONObject jsonObject = new JSONObject();
 
         if (!hashLogin.equals("")) {
             try {
-                jsonObject.put("status", statusId);
-                jsonObject.put("message", message);
-                String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento), hashLogin, chamadoId);
-                JSONObject response = JsonRequest.postRequest(chamadosUrl, jsonObject.toString());
+                RequestBody requestBody = new FormBody.Builder()
+                        .add(getContext().getString(R.string.api_atendimento_up_status_key), statusId)
+                        .add(getContext().getString(R.string.api_atendimento_up_msg_key), message)
+                        .build();
+
+                Log.i("msg", requestBody.toString());
+
+                String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento_up), hashLogin, chamadoId);
+
+                JSONObject response = JsonRequest.postRequest(chamadosUrl, requestBody);
+
                 Log.i("msg", response.toString());
-            } catch (ExecutionException | InterruptedException | JSONException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(getContext(), R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
