@@ -17,15 +17,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosRecyclerView;
-import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosSpinner;
+import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
 
 public class ChamadosActivity extends AppCompatActivity {
     private ChamadosRecyclerViewAdapter chamadosRecyclerViewAdapter;
     private ConstraintLayout loadingLayout;
     private Button filterChamadosBtn;
     private Button clearChamadosBtn;
-    private ChamadosSpinner sectorSpinner;
-    private ChamadosSpinner statusSpinner;
+    private BaseSpinner sectorSpinner;
+    private BaseSpinner statusSpinner;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +48,12 @@ public class ChamadosActivity extends AppCompatActivity {
 
         chamadosRecyclerView.build();
 
-        sectorSpinner = new ChamadosSpinner(
+        sectorSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(id.filter_sector),
                 chamadosController.getMappedPropObject(ChamadosController.TypeList.SETORES));
 
-        statusSpinner = new ChamadosSpinner(
+        statusSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(id.filter_status),
                 chamadosController.getMappedPropObject(ChamadosController.TypeList.STATUS));

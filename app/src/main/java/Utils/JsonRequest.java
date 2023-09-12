@@ -15,6 +15,12 @@ public class JsonRequest {
         return future.get();
     }
 
+    public static JSONObject postRequest(String urlApi, String jsonContent) throws ExecutionException, InterruptedException {
+        HttpJson httpJson = new HttpJson();
+        CompletableFuture<JSONObject> future = httpJson.asyncPostRequest(urlApi, jsonContent);
+        return future.get();
+    }
+
     public static JSONObject progressRequest(String urlApi, ProgressBar progressBar) throws ExecutionException, InterruptedException {
 
         /*

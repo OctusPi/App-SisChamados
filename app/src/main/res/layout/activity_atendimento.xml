@@ -82,7 +82,7 @@
         android:background="@color/bs_blue"
         android:paddingHorizontal="12dp"
         android:paddingVertical="16dp"
-        android:translationZ="2dp"
+        android:translationZ="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_topbar">
 
@@ -253,7 +253,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
-            android:id="@+id/report_status"
+            style="@android:style/Widget.Holo.Spinner"
+            android:id="@+id/report_status_spinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_height"
             android:layout_marginTop="6dp"
@@ -279,7 +280,7 @@
             app:iconTint="@color/bs_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/report_status"
+            app:layout_constraintTop_toBottomOf="@+id/report_status_spinner"
             tools:ignore="TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

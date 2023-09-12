@@ -47,15 +47,18 @@ public class ChamadosRecyclerView {
                 super.onItemRangeRemoved(positionStart, itemCount);
                 checkEmpty();
             }
-            void checkEmpty() {
-                emptyView.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-            }
         });
+
+        checkEmpty();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(30);
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private void checkEmpty() {
+        emptyView.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 }

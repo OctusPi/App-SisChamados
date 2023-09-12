@@ -1,4 +1,4 @@
-package br.com.dticampossales.appsischamados.widgets.Chamados;
+package br.com.dticampossales.appsischamados.widgets.Common;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
@@ -13,13 +13,13 @@ import java.util.SortedMap;
 
 import br.com.dticampossales.appsischamados.R;
 
-public class ChamadosSpinner {
+public class BaseSpinner {
     private final Context context;
     private final Spinner spinner;
     private final SortedMap<Integer, ArrayList<String>> optionsMap;
     private final ArrayList<String> options;
 
-    public ChamadosSpinner(Context context, Spinner spinner, SortedMap<Integer, ArrayList<String>> optionsMap) {
+    public BaseSpinner(Context context, Spinner spinner, SortedMap<Integer, ArrayList<String>> optionsMap) {
         this.context = context;
         this.spinner = spinner;
         this.optionsMap = optionsMap;

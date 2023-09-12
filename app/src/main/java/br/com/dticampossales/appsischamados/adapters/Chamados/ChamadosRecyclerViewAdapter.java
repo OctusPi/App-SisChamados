@@ -1,5 +1,6 @@
 package br.com.dticampossales.appsischamados.adapters.Chamados;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ public class ChamadosRecyclerViewAdapter extends RecyclerView.Adapter<ChamadosRe
     private ArrayList<JSONObject> chamados;
     private JSONObject tecnicos;
     private JSONObject setores;
-    private JSONObject status;
     private JSONObject tipos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,7 +53,6 @@ public class ChamadosRecyclerViewAdapter extends RecyclerView.Adapter<ChamadosRe
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(view.getContext(), AtendimentoActivity.class);
                 intent.putExtra(view.getContext().getString(R.string.atendimento_id), Integer.parseInt((String) chamadoId.getText()));
-
                 view.getContext().startActivity(intent);
             });
         }
@@ -63,15 +62,14 @@ public class ChamadosRecyclerViewAdapter extends RecyclerView.Adapter<ChamadosRe
         this.chamados = chamadosController.getChamados();
         this.tecnicos = chamadosController.getTecnicos();
         this.setores = chamadosController.getSetores();
-        this.status = chamadosController.getStatus();
         this.tipos = chamadosController.getTipos();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void applyFilter(ChamadosController chamadosController) {
         this.chamados = chamadosController.getChamados();
         this.tecnicos = chamadosController.getTecnicos();
         this.setores = chamadosController.getSetores();
-        this.status = chamadosController.getStatus();
         this.tipos = chamadosController.getTipos();
 
         notifyDataSetChanged();

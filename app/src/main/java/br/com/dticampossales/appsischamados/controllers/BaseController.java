@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.R;
 
-abstract class BaseController {
+public abstract class BaseController {
     private final Context context;
     private final JSONObject dataSet;
     private final JSONObject tecnicos;

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,9 +23,11 @@ import Utils.Dates;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
+import br.com.dticampossales.appsischamados.controllers.BaseController;
 import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;
 import br.com.dticampossales.appsischamados.widgets.Atendimento.AtendimentoRecyclerView;
 import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosRecyclerView;
+import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
 
 public class AtendimentoActivity extends AppCompatActivity {
 
@@ -35,8 +38,8 @@ public class AtendimentoActivity extends AppCompatActivity {
     ConstraintLayout reportFormLayout;
     AtendimentoRecyclerView reportsList;
     AtendimentoController atendimentoController;
-
-    TextView emptyView;
+    BaseSpinner reportSpinner;
+    Button sendReportBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,14 @@ public class AtendimentoActivity extends AppCompatActivity {
                 findViewById(R.id.atendimento_list_empty));
 
         reportsList.build();
+        
+        reportSpinner = new BaseSpinner(
+                getApplicationContext(),
+                findViewById(R.id.report_status_spinner),
+                atendimentoController.getMappedPropObject(AtendimentoController.TypeList.STATUS)
+        );
+
+        reportSpinner.build();
 
         detailsLayout = findViewById(R.id.details);
         reportFormLayout = findViewById(R.id.report_form);
@@ -64,6 +75,9 @@ public class AtendimentoActivity extends AppCompatActivity {
 
         detailsFab.setOnClickListener(view -> toggleDetailsVisibility());
         reportFormFab.setOnClickListener(view -> toggleReportFormVisibility());
+
+        sendReportBtn = findViewById(R.id.report_submit);
+        sendReportBtn.setOnClickListener(view -> sendReport());
     }
 
     private void toggleDetailsVisibility() {
@@ -92,9 +106,6 @@ public class AtendimentoActivity extends AppCompatActivity {
         binding.detailsSector.setText(makeText(atendimentoController.getSetores(),
                 JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_setor))));
 
-        Log.i("msg", (String) binding.detailsDataabr.getText());
-
-
         binding.detailsDataabr.setText(((String) binding.detailsDataabr.getText())
                 .concat(" " + makeDate(detalhes, getString(R.string.chamado_dataabr))));
         binding.detailsDataprev.setText(((String) binding.detailsDataprev.getText())
@@ -105,6 +116,10 @@ public class AtendimentoActivity extends AppCompatActivity {
         binding.detailsCode.setText(makeText(detalhes, getString(R.string.chamado_code)));
         binding.detailsEquipment.setText(makeText(detalhes, getString(R.string.chamado_equipamento)));
         binding.detailsDescription.setText(makeText(detalhes, getString(R.string.chamado_descricao)));
+    }
+
+    private void sendReport() {
+        atendimentoController.sendReport(reportSpinner.getSelected(), "message");
     }
 
     private String makeText(JSONObject object, String key) {

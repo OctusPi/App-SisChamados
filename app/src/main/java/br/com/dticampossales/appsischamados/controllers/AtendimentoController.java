@@ -3,6 +3,8 @@ package br.com.dticampossales.appsischamados.controllers;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -30,6 +32,24 @@ public class AtendimentoController extends BaseController {
 
     public ArrayList<JSONObject> getHistorico() {
         return this.historico;
+    }
+
+    public void sendReport(String statusId, String message) {
+        String hashLogin = Security.getHashLogin(getContext());
+        JSONObject jsonObject = new JSONObject();
+
+        if (!hashLogin.equals("")) {
+            try {
+                jsonObject.put("status", statusId);
+                jsonObject.put("message", message);
+                String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento), hashLogin, chamadoId);
+                JSONObject response = JsonRequest.postRequest(chamadosUrl, jsonObject.toString());
+                Log.i("msg", response.toString());
+            } catch (ExecutionException | InterruptedException | JSONException e) {
+                Toast.makeText(getContext(), R.string.app_fail, Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
     }
 
     public JSONObject getDetalhes() {

@@ -44,4 +44,39 @@ public class HttpJson {
         return future;
     }
 
+    public CompletableFuture<JSONObject> asyncPostRequest(String urlRequest, String jsonContent) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(jsonContent, MediaType.parse("application/json"));
+
+        Request request = new Request.Builder()
+                .url(urlRequest)
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()) {
+                        ResponseBody respBody = response.body();
+                        if (respBody != null) {
+                            String responseBody = respBody.string();
+                            JSONObject jsonObject = new JSONObject(responseBody);
+                            future.complete(jsonObject);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return future;
+    }
+
 }
