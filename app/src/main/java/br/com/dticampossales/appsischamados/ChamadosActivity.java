@@ -36,7 +36,7 @@ public class ChamadosActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(view -> toggleFilterLayout());
 
         loadingLayout = findViewById(id.loading_view);
-        ChamadosController chamadosController = new ChamadosController(this, getString(string.api_search_default));
+        ChamadosController chamadosController = new ChamadosController(this, "");
 
         chamadosRecyclerViewAdapter = new ChamadosRecyclerViewAdapter(chamadosController);
 
