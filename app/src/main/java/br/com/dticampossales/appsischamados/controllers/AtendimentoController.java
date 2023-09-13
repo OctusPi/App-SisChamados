@@ -41,19 +41,23 @@ public class AtendimentoController extends BaseController {
 
         if (!hashLogin.equals("")) {
             try {
+                String messageStatus = "(" + JsonUtil.getJsonVal(getStatus(), statusId) + ") ";
+                String parsedMessage = messageStatus + message;
+
                 RequestBody requestBody = new FormBody.Builder()
                         .add(getContext().getString(R.string.api_atendimento_up_status_key), statusId)
-                        .add(getContext().getString(R.string.api_atendimento_up_msg_key), message)
+                        .add(getContext().getString(R.string.api_atendimento_up_msg_key), parsedMessage)
                         .build();
 
-                Log.i("msg", requestBody.toString());
-
                 String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento_up), hashLogin, chamadoId);
-
                 JSONObject response = JsonRequest.postRequest(chamadosUrl, requestBody);
 
-                Log.i("msg", response.toString());
-            } catch (ExecutionException | InterruptedException e) {
+                JSONObject responseMessage = response.getJSONObject("message");
+                String messageInfo = JsonUtil.getJsonVal(responseMessage, "info");
+
+                Toast.makeText(getContext(), messageInfo , Toast.LENGTH_SHORT).show();
+
+            } catch (ExecutionException | InterruptedException |  JSONException e) {
                 Toast.makeText(getContext(), R.string.app_fail, Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }

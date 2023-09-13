@@ -1,5 +1,6 @@
 package br.com.dticampossales.appsischamados.adapters.Atendimento;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,15 +44,19 @@ public class AtendimentoRecyclerViewAdapter extends RecyclerView.Adapter<Atendim
         setAdapterData(atendimentoController);
     }
 
-    public void reload() {
+    @SuppressLint("NotifyDataSetChanged")
+    public void refresh() {
         setAdapterData(new AtendimentoController(context, chamadoId));
+        notifyDataSetChanged();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setAdapterData(AtendimentoController atendimentoController) {
         this.context = atendimentoController.getContext();
         this.chamadoId = atendimentoController.getChamadoId();
         this.historico = atendimentoController.getHistorico();
         this.tecnicos = atendimentoController.getTecnicos();
+        notifyDataSetChanged();
     }
 
     @NonNull

@@ -247,7 +247,7 @@
                 android:layout_height="match_parent"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:lines="4"
+                android:lines="6"
                 android:maxLines="6"
                 android:scrollbars="vertical" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -56,8 +56,16 @@ public class BaseSpinner {
         return Objects.requireNonNull(optionsMap.get(key)).get(1);
     }
 
-    public String getDefaultValue() {
-        return context.getString(R.string.filter_default);
+    public void enableError(boolean isEnabled) {
+        TextView view = (TextView) spinner.getSelectedView();
+        if (isEnabled) {
+            view.setError("");
+            view.setTextColor(context.getColor(R.color.bs_red));
+        }
+        else {
+            view.setError(null);
+            view.setTextColor(context.getColor(R.color.bs_white));
+        }
     }
 
     public void selectInitial() {

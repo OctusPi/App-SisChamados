@@ -25,6 +25,7 @@ public class ChamadosActivity extends AppCompatActivity {
     private Button clearChamadosBtn;
     private BaseSpinner sectorSpinner;
     private BaseSpinner statusSpinner;
+    private String spinnerState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class ChamadosActivity extends AppCompatActivity {
 
         loadingLayout = findViewById(id.loading_view);
         ChamadosController chamadosController = new ChamadosController(this, "");
+        setSpinnerState("");
 
         chamadosRecyclerViewAdapter = new ChamadosRecyclerViewAdapter(chamadosController);
 
@@ -63,8 +65,18 @@ public class ChamadosActivity extends AppCompatActivity {
         filterChamadosBtn = findViewById(id.filter_button);
         clearChamadosBtn = findViewById(id.clear_button);
 
-        filterChamadosBtn.setOnClickListener(view -> filter());
+        filterChamadosBtn.setOnClickListener(view -> setFilterBySpinners());
         clearChamadosBtn.setOnClickListener(view -> clear());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        filter(spinnerState);
+    }
+
+    private void setSpinnerState(String state) {
+        spinnerState = state;
     }
 
     private void toggleFilterLayout() {
@@ -76,26 +88,22 @@ public class ChamadosActivity extends AppCompatActivity {
         return sector + "," + status;
     }
 
-    private void filter() {
-        setLoading(true);
-        toggleButtonsClick();
-
-        ChamadosController chamadosController = new ChamadosController(this,
-                makeFilter(sectorSpinner.getSelectedKey(), statusSpinner.getSelectedKey()));
-
+    private void filter(String filter) {
+        ChamadosController chamadosController = new ChamadosController(this, filter);
         chamadosRecyclerViewAdapter.applyFilter(chamadosController);
-
-        setLoading(false);
-        toggleButtonsClick();
-
+    }
+    private void setFilterBySpinners() {
+        setLoading(true); toggleButtonsClick();
+        setSpinnerState(makeFilter(sectorSpinner.getSelectedKey(), statusSpinner.getSelectedKey()));
+        filter(spinnerState);
+        setLoading(false); toggleButtonsClick();
         toggleFilterLayout();
     }
 
     private void clear() {
         sectorSpinner.selectInitial();
         statusSpinner.selectInitial();
-
-        filter();
+        filter("");
     }
 
     private void toggleButtonsClick() {

@@ -21,6 +21,8 @@ import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
 import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;
+import br.com.dticampossales.appsischamados.validation.Atendimento.AtendimentoSpinnerValidator;
+import br.com.dticampossales.appsischamados.validation.Atendimento.AtendimentoTextInputValidator;
 import br.com.dticampossales.appsischamados.widgets.Atendimento.AtendimentoRecyclerView;
 import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
 
@@ -32,6 +34,7 @@ public class AtendimentoActivity extends AppCompatActivity {
     ConstraintLayout detailsLayout;
     ConstraintLayout reportFormLayout;
     AtendimentoRecyclerView reportsList;
+    AtendimentoRecyclerViewAdapter reportsListAdapter;
     AtendimentoController atendimentoController;
     BaseSpinner reportSpinner;
     TextInputLayout reportMessageLayout;
@@ -43,15 +46,21 @@ public class AtendimentoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atendimento);
 
+        binding = ActivityAtendimentoBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         Integer chamadoId = Objects.requireNonNull(getIntent().getExtras()).getInt(getString(R.string.atendimento_id));
         atendimentoController = new AtendimentoController(this, chamadoId);
 
         bindInformations();
 
+        reportsListAdapter = new AtendimentoRecyclerViewAdapter(atendimentoController);
+
         reportsList = new AtendimentoRecyclerView(
                 this,
                 findViewById(R.id.reports_list),
-                new AtendimentoRecyclerViewAdapter(atendimentoController),
+                reportsListAdapter,
                 findViewById(R.id.atendimento_list_empty));
 
         reportsList.build();
@@ -59,8 +68,7 @@ public class AtendimentoActivity extends AppCompatActivity {
         reportSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(R.id.report_status_spinner),
-                atendimentoController.getMappedPropObject(AtendimentoController.TypeList.STATUS)
-        );
+                atendimentoController.getMappedPropObject(AtendimentoController.TypeList.STATUS));
 
         reportSpinner.build();
 
@@ -70,15 +78,15 @@ public class AtendimentoActivity extends AppCompatActivity {
         detailsFab = findViewById(R.id.chamado_floating_details);
         reportFormFab = findViewById(R.id.chamado_floating_report_form);
 
-        detailsFab.setOnClickListener(view -> toggleDetailsVisibility());
-        reportFormFab.setOnClickListener(view -> toggleReportFormVisibility());
+        detailsFab.setOnClickListener(v -> toggleDetailsVisibility());
+        reportFormFab.setOnClickListener(v -> toggleReportFormVisibility());
 
         reportMessageLayout = findViewById(R.id.report_message_layout);
         reportMessageText = findViewById(R.id.report_message_input);
 
         sendReportBtn = findViewById(R.id.report_submit);
 
-        sendReportBtn.setOnClickListener(view -> sendReport());
+        sendReportBtn.setOnClickListener(v -> sendReport());
     }
 
     private void toggleDetailsVisibility() {
@@ -94,10 +102,6 @@ public class AtendimentoActivity extends AppCompatActivity {
     }
 
     private void bindInformations() {
-        binding = ActivityAtendimentoBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-
         JSONObject detalhes = atendimentoController.getDetalhes();
 
         binding.detailsStatus.setText(makeText(atendimentoController.getStatus(),
@@ -120,7 +124,18 @@ public class AtendimentoActivity extends AppCompatActivity {
     }
 
     private void sendReport() {
-        atendimentoController.sendReport(reportSpinner.getSelectedKey(), String.valueOf(reportMessageText.getText()));
+        boolean statusIsValid = AtendimentoSpinnerValidator.validate(reportSpinner),
+                messageIsValid = AtendimentoTextInputValidator.validate(reportMessageLayout, reportMessageText);
+
+        if (statusIsValid && messageIsValid) {
+            reportMessageText.setEnabled(false);
+            atendimentoController.sendReport(reportSpinner.getSelectedKey(), String.valueOf(reportMessageText.getText()));
+            reportsListAdapter.refresh();
+            atendimentoController = new AtendimentoController(this, atendimentoController.getChamadoId());
+            bindInformations();
+            toggleReportFormVisibility();
+            reportMessageText.setEnabled(true);
+        }
     }
 
     private String makeText(JSONObject object, String key) {
