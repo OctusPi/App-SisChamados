@@ -40,7 +40,7 @@
             android:maxWidth="100dp"
             android:text="Suporte técnico"
             android:textColor="?android:textColorSecondary"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +54,7 @@
             android:text="Nome Técnico"
             android:textAlignment="textEnd"
             android:textColor="?android:textColorSecondary"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/chamado_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/chamado_type" />
@@ -68,7 +68,7 @@
             android:fontFamily="@font/poppins_bold"
             android:gravity="center|start"
             android:text="Cód. 1101111111"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/poppins_bold"
             android:text="11/11/2024"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -104,15 +104,17 @@
             android:id="@+id/chamado_sector"
             android:textColor="?android:textColorSecondary"
             android:layout_width="match_parent"
+            android:maxLines="1"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:ellipsize="marquee"
             android:layout_marginBottom="16dp"
             android:elegantTextHeight="true"
             android:fontFamily="@font/poppins_bold"
             android:text="Sec. Educação"
             android:textAlignment="textStart"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +125,7 @@
             android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/label_cod"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@+id/chamado_code"
@@ -136,7 +138,7 @@
             android:textColor="?android:textColorSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="1dp"
             android:text="@string/label_dataopen"
             android:textSize="10sp"
@@ -147,7 +149,7 @@
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_dataprev"
@@ -164,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/label_setor"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
