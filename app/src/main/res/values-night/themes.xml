@@ -2,9 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.AppSisChamados" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/bs_blue</item>
-        <item name="android:colorSecondary">@color/bs_primary_darkest</item>
-        <item name="android:textColorPrimary">@color/bs_white</item>
-        <item name="android:textColorSecondary">@color/bs_gray_light</item>
+        <item name="colorPrimary">@color/nord3</item>
+        <item name="colorSecondary">@color/nord2</item>
+        <item name="android:colorBackground">@color/nord0</item>
+        <item name="android:colorForeground">@color/nord4</item>
+        <item name="android:textColorPrimary">@color/nord4</item>
+        <item name="android:textColorSecondary">@color/nord4</item>
     </style>
 </resources>
