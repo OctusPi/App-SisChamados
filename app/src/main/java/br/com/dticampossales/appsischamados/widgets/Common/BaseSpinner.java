@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
@@ -60,11 +62,9 @@ public class BaseSpinner {
         TextView view = (TextView) spinner.getSelectedView();
         if (isEnabled) {
             view.setError("");
-            view.setTextColor(context.getColor(R.color.bs_red));
         }
         else {
             view.setError(null);
-            view.setTextColor(context.getColor(R.color.bs_white));
         }
     }
 

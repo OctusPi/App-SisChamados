@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="?colorSecondary"
+        android:background="?attr/colorSurface"
         android:layout_height="match_parent">
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_width="8dp"
             android:layout_height="0dp"
             android:layout_gravity="end"
-            android:background="@color/bs_red"
+            android:background="@color/md_theme_card_red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             android:fontFamily="@font/poppins"
             android:maxWidth="100dp"
             android:text="Suporte técnico"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
             android:gravity="end"
             android:text="Nome Técnico"
             android:textAlignment="textEnd"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/chamado_type"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,7 @@
 
         <TextView
             android:id="@+id/chamado_code"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -75,7 +75,7 @@
 
         <TextView
             android:id="@+id/chamado_date"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -90,7 +90,7 @@
 
         <TextView
             android:id="@+id/chamado_date_prev"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -103,7 +103,7 @@
 
         <TextView
             android:id="@+id/chamado_sector"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="match_parent"
             android:maxLines="1"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -136,7 +136,7 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -154,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_dataprev"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@+id/chamado_date_prev"
             app:layout_constraintStart_toStartOf="@+id/chamado_date_prev"
@@ -163,7 +163,7 @@
 
         <TextView
             android:id="@+id/textView8"
-            android:textColor="?android:textColorSecondary"
+            android:textColor="?attr/colorOnBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

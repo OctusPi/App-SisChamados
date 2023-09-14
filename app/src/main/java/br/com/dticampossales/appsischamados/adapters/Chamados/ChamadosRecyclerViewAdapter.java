@@ -3,6 +3,7 @@ package br.com.dticampossales.appsischamados.adapters.Chamados;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.color.MaterialColors;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
@@ -116,25 +119,25 @@ public class ChamadosRecyclerViewAdapter extends RecyclerView.Adapter<ChamadosRe
     }
 
     private Integer makeStatusColorById(Context context, Integer position) {
-        int color = context.getColor(R.color.bs_indigo);
+        int color = context.getColor(R.color.md_theme_card_red);
 
         int statusId = Integer.parseInt(JsonUtil.getJsonVal(chamados.get(position), context.getString(R.string.api_status_key)));
 
         switch (statusId) {
             case 1:
-                color = context.getColor(R.color.bs_red);
+                color = context.getColor(R.color.md_theme_card_red);
                 break;
             case 2:
-                color = context.getColor(R.color.bs_blue);
+                color = context.getColor(R.color.md_theme_card_blue);
                 break;
             case 3:
-                color = context.getColor(R.color.bs_teal);
+                color = context.getColor(R.color.md_theme_card_green);
                 break;
             case 4:
-                color = context.getColor(R.color.bs_orange);
+                color = context.getColor(R.color.md_theme_card_orange);
                 break;
             case 5:
-                color = context.getColor(R.color.bs_gray);
+                color = context.getColor(R.color.md_theme_card_gray);
                 break;
         }
 

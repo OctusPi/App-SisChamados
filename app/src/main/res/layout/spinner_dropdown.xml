@@ -9,6 +9,6 @@
     android:paddingVertical="10dp"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:textColor="@color/bs_gray_light"
+    android:textColor="@color/md_theme_dark_surface"
     android:textSize="15sp"
     app:circularflow_defaultRadius="@dimen/nav_header_vertical_spacing" />
