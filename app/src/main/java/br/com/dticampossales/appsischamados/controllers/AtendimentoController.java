@@ -52,6 +52,8 @@ public class AtendimentoController extends BaseController {
                 String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento_up), hashLogin, chamadoId);
                 JSONObject response = JsonRequest.postRequest(chamadosUrl, requestBody);
 
+                Log.i("msg", response.toString());
+
                 JSONObject responseMessage = response.getJSONObject("message");
                 String messageInfo = JsonUtil.getJsonVal(responseMessage, "info");
 

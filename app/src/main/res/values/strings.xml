@@ -3,6 +3,8 @@
     <string name="preference_key">br.com.dticampossales.appsischamados.preference_key</string>
     <string name="is_authenticated">isAuthenticated</string>
     <string name="is_hash_login">nologin</string>
+    <string name="session_user_id">user_id</string>
+    <string name="session_user_perfil">user_perfil</string>
 
     <!-- Default Values -->
     <string name="app_name">Sis Chamados</string>

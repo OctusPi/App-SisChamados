@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="bs_blue">#0d6efd</color>-->
-<!--    <color name="bs_indigo">#6610f2</color>-->
-<!--    <color name="bs_purple">#6f42c1</color>-->
-<!--    <color name="bs_pink">#d63384</color>-->
-<!--    <color name="bs_red">#FF394C</color>-->
-<!--    <color name="bs_orange">#fd7e14</color>-->
-<!--    <color name="bs_yellow">#ffc107</color>-->
-<!--    <color name="bs_green">#198754</color>-->
-<!--    <color name="bs_teal">#20c997</color>-->
-<!--    <color name="bs_cyan">#0dcaf0</color>-->
-<!--    <color name="bs_white">#fff</color>-->
-<!--    <color name="bs_gray_light">#eee</color>-->
-<!--    <color name="bs_gray">#333A40</color>-->
-<!--    <color name="bs_primary">#0d6efd</color>-->
-<!--    <color name="bs_primary_dark">#0042A0</color>-->
-<!--    <color name="bs_primary_darkest">#111B28</color>-->
-<!--    <color name="bs_primary_light">#D8D8D8</color>-->
-<!--    <color name="bs_primary_shadow">#9F5197FF</color>-->
-<!--    <color name="bs_secondary">#6c757d</color>-->
-<!--    <color name="bs_success">#198754</color>-->
-<!--    <color name="bs_info">#0dcaf0</color>-->
-<!--    <color name="bs_warning">#ffc107</color>-->
-<!--    <color name="bs_danger">#dc3545</color>-->
-<!--    <color name="bs_light">#f8f9fa</color>-->
-<!--    <color name="bs_dark">#1E2022</color>-->
-<!--    <color name="bs_dark_shadow">#56606B76</color>-->
-<!--    <color name="bs_gray_dark">#3B3B3B</color>-->
-
     <color name="seed">#007aef</color>
     <color name="md_theme_light_primary">#005DB8</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>

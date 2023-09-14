@@ -3,6 +3,7 @@ package br.com.dticampossales.appsischamados;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -73,11 +74,10 @@ public class LoginActivity extends AppCompatActivity {
                     String hashLogin = Security.hashLogin(email, passwd);
                     String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
 
-                    JSONObject jsonObject = JsonRequest.request(urlJSON);
-                    boolean isAuth = jsonObject.getInt("id") != 0;
-                    execLogin(isAuth, hashLogin);
+                    JSONObject userResponseJson = JsonRequest.request(urlJSON);
 
-                } catch (NoSuchAlgorithmException | JSONException | ExecutionException | InterruptedException e) {
+                    execLogin(userResponseJson, hashLogin);
+                } catch (NoSuchAlgorithmException | ExecutionException | InterruptedException e) {
                     feedback(getString(R.string.app_fail));
                     e.printStackTrace();
                 }
@@ -85,17 +85,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void execLogin(boolean isAuth, String hashLogin){
-        if(isAuth){
-            //save hash in shared preferences to auto login in next time
-            Security.setHashLogin(getApplicationContext(), hashLogin);
+    private void execLogin(JSONObject authResponse, String hashLogin) {
+        try {
+            boolean userIsValid = authResponse.getInt("id") != 0;
+            if (userIsValid) {
+                Security.setHashLogin(getApplicationContext(), hashLogin);
 
-            // call acitivity list chamados
-            Intent chamadosActivity = new Intent(getApplicationContext(), ChamadosActivity.class);
-            startActivity(chamadosActivity);
-            finish();
-        }else{
+                /* Stores {id} and {perfil} keys in shared prefs */
+                Security.setSessionUser(
+                        getApplicationContext(),
+                        authResponse.getInt("id"),
+                        authResponse.getInt("perfil"));
+
+                Intent chamadosActivity = new Intent(getApplicationContext(), ChamadosActivity.class);
+                startActivity(chamadosActivity);
+                finish();
+            } else {
+                feedback(getString(R.string.app_fail_login));
+            }
+        } catch (JSONException e) {
             feedback(getString(R.string.app_fail_login));
+            e.printStackTrace();
         }
     }
 

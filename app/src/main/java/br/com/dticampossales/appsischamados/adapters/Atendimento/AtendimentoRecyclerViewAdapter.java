@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import Utils.Dates;
 import Utils.JsonUtil;
+import Utils.Security;
 import br.com.dticampossales.appsischamados.R;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
 
@@ -30,6 +32,7 @@ public class AtendimentoRecyclerViewAdapter extends RecyclerView.Adapter<Atendim
         private final TextView tecnico;
         private final TextView reportDate;
         private final TextView reportMsg;
+        private final ConstraintLayout card;
 
         public ViewHolder(View view) {
             super(view);
@@ -37,6 +40,7 @@ public class AtendimentoRecyclerViewAdapter extends RecyclerView.Adapter<Atendim
             tecnico = view.findViewById(R.id.report_tec);
             reportDate = view.findViewById(R.id.report_date);
             reportMsg = view.findViewById(R.id.report_msg);
+            card = view.findViewById(R.id.report_card);
         }
     }
 
@@ -75,6 +79,9 @@ public class AtendimentoRecyclerViewAdapter extends RecyclerView.Adapter<Atendim
         viewHolder.tecnico.setText(getTextById(tecnicos, position, context.getString(R.string.report_tec)));
         viewHolder.reportDate.setText(makeDate(position, context.getString(R.string.report_date)));
         viewHolder.reportMsg.setText(makeText(position, context.getString(R.string.report_msg)));
+        if (Security.getSessionUserProfile(context) != Integer.parseInt(makeText(position, context.getString(R.string.report_tec)))) {
+            viewHolder.card.setBackgroundColor(context.getColor(R.color.md_theme_dark_tertiary));
+        }
     }
 
     @Override
