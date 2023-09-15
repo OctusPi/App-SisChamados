@@ -52,8 +52,6 @@ public class AtendimentoController extends BaseController {
                 String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento_up), hashLogin, chamadoId);
                 JSONObject response = JsonRequest.postRequest(chamadosUrl, requestBody);
 
-                Log.i("msg", response.toString());
-
                 JSONObject responseMessage = response.getJSONObject("message");
                 String messageInfo = JsonUtil.getJsonVal(responseMessage, "info");
 
@@ -64,6 +62,16 @@ public class AtendimentoController extends BaseController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public JSONObject getStatusObjectByProfile() {
+        JSONObject properStatus = getStatus();
+        int profile = Security.getSessionUserProfile(getContext());
+        if (profile == 2) {
+            properStatus.remove("1");
+            properStatus.remove("5");
+        }
+        return properStatus;
     }
 
     public JSONObject getDetalhes() {

@@ -2,6 +2,9 @@ package br.com.dticampossales.appsischamados.adapters.Atendimento;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.color.MaterialColors;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import Utils.Colors;
 import Utils.Dates;
 import Utils.JsonUtil;
 import Utils.Security;
@@ -79,8 +85,13 @@ public class AtendimentoRecyclerViewAdapter extends RecyclerView.Adapter<Atendim
         viewHolder.tecnico.setText(getTextById(tecnicos, position, context.getString(R.string.report_tec)));
         viewHolder.reportDate.setText(makeDate(position, context.getString(R.string.report_date)));
         viewHolder.reportMsg.setText(makeText(position, context.getString(R.string.report_msg)));
-        if (Security.getSessionUserProfile(context) != Integer.parseInt(makeText(position, context.getString(R.string.report_tec)))) {
-            viewHolder.card.setBackgroundColor(context.getColor(R.color.md_theme_dark_tertiary));
+
+        String sessionUser = String.valueOf(Security.getSessionUserId(context));
+        String reportUser = makeText(position, context.getString(R.string.report_tec));
+        
+        if (sessionUser.equals(reportUser)) {
+            viewHolder.card.setBackgroundColor(
+                    Colors.getAttrColor(context, com.google.android.material.R.attr.colorTertiaryContainer));
         }
     }
 

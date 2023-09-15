@@ -20,6 +20,7 @@ import Utils.Dates;
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
+import br.com.dticampossales.appsischamados.controllers.BaseController;
 import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;
 import br.com.dticampossales.appsischamados.validation.Atendimento.AtendimentoSpinnerValidator;
 import br.com.dticampossales.appsischamados.validation.Atendimento.AtendimentoTextInputValidator;
@@ -64,11 +65,12 @@ public class AtendimentoActivity extends AppCompatActivity {
                 findViewById(R.id.atendimento_list_empty));
 
         reportsList.build();
-        
+
+        JSONObject statusObject = atendimentoController.getStatusObjectByProfile();
         reportSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(R.id.report_status_spinner),
-                atendimentoController.getMappedPropObject(AtendimentoController.TypeList.STATUS));
+                atendimentoController.getMappedPropObject(statusObject));
 
         reportSpinner.build();
 

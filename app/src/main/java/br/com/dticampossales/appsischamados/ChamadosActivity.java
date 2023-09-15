@@ -13,7 +13,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosRecyclerViewAdapter;
+import br.com.dticampossales.appsischamados.controllers.BaseController;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosRecyclerView;
 import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
@@ -49,15 +52,17 @@ public class ChamadosActivity extends AppCompatActivity {
 
         chamadosRecyclerView.build();
 
+        JSONObject setoresObject = chamadosController.getSetores();
         sectorSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(id.filter_sector),
-                chamadosController.getMappedPropObject(ChamadosController.TypeList.SETORES));
+                chamadosController.getMappedPropObject(setoresObject));
 
+        JSONObject statusObject = chamadosController.getStatus();
         statusSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(id.filter_status),
-                chamadosController.getMappedPropObject(ChamadosController.TypeList.STATUS));
+                chamadosController.getMappedPropObject(statusObject));
 
         sectorSpinner.build();
         statusSpinner.build();

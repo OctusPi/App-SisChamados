@@ -248,10 +248,12 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/report_message_input"
+                android:fontFamily="@font/poppins"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
+                android:textSize="15sp"
                 android:lines="6"
                 android:maxLines="6"
                 android:scrollbars="vertical" />
@@ -265,6 +267,8 @@
             android:layout_marginTop="6dp"
             android:spinnerMode="dropdown"
             app:circularflow_defaultRadius="@dimen/nav_header_vertical_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/report_message_layout" />
 
         <Button

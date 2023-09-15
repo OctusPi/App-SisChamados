@@ -53,18 +53,8 @@ public abstract class BaseController {
         return this.tipos;
     }
 
-    public SortedMap<Integer, ArrayList<String>> getMappedPropObject(TypeList type) {
-        SortedMap<Integer, ArrayList<String>> mappedPropObject = new TreeMap<>();
-
-        String propKey = getPropKey(context, type);
-
-        try {
-            mappedPropObject = JsonUtil.mapJsonPropObject(dataSet.getJSONObject(propKey));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return mappedPropObject;
+    public SortedMap<Integer, ArrayList<String>> getMappedPropObject(JSONObject propObject) {
+        return JsonUtil.mapJsonPropObject(propObject);
     }
 
     public ArrayList<JSONObject> buildObjectList(String dataSetKey) {
