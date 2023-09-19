@@ -1,11 +1,21 @@
 package br.com.dticampossales.appsischamados;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,6 +28,7 @@ import java.util.Objects;
 
 import Utils.Dates;
 import Utils.JsonUtil;
+import Utils.Notifications;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
 import br.com.dticampossales.appsischamados.controllers.BaseController;
@@ -104,6 +115,8 @@ public class AtendimentoActivity extends AppCompatActivity {
     }
 
     private void bindInformations() {
+        notificateChamado(atendimentoController.getChamadoId(), makeNotification(atendimentoController.getDataSet()));
+
         JSONObject detalhes = atendimentoController.getDetalhes();
 
         binding.detailsStatus.setText(makeText(atendimentoController.getStatus(),
@@ -148,5 +161,48 @@ public class AtendimentoActivity extends AppCompatActivity {
     private String makeDate(JSONObject object, String key) {
         String value = JsonUtil.getJsonVal(object, key);
         return Dates.fmtLocal(value);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void notificateChamado(int notificationId, Notification notification) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        if (notificationManager.areNotificationsEnabled()) {
+            notificationManager.notify(notificationId, notification);
+        }
+    }
+
+    private Notification makeNotification(JSONObject dataSet) {
+        JSONObject sectors = JsonUtil.getJsonObject(dataSet, getString(R.string.api_setores_key));
+        JSONObject detalhes = JsonUtil.getJsonObject(dataSet, getString(R.string.api_detalhes_key));
+
+        assert sectors != null;
+        assert detalhes != null;
+
+        String sectorId = JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_setor));
+
+        String sectorName = makeText(sectors, sectorId);
+        String description = makeText(detalhes, getString(R.string.chamado_descricao));
+
+        NotificationCompat.Builder builder = Notifications.makeNotificationBuilder(this, makeNotificationChannel().getId())
+                .setContentTitle(sectorName)
+                .setContentText(description)
+                .setPriority(getNotificationPriority(sectorId));
+
+        return builder.build();
+    }
+
+    private NotificationChannel makeNotificationChannel() {
+        return Notifications.buildNotificationChannel(
+                getApplicationContext(),
+                getString(R.string.channel_id),
+                getString(R.string.channel_name));
+    }
+
+    private int getNotificationPriority(String sectorId) {
+        final String SETOR_HOSPITAL = "1";
+        if (Objects.equals(sectorId, SETOR_HOSPITAL)) {
+            return NotificationCompat.PRIORITY_HIGH;
+        }
+        return NotificationCompat.PRIORITY_DEFAULT;
     }
 }

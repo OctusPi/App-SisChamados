@@ -41,13 +41,16 @@
     <string name="api_atendimento_up_status_key">status</string>
     <string name="api_atendimento_up_msg_key">msg</string>
 
+    <!---->
+    <string name="channel_id">ChamadosChannel</string>
+    <string name="channel_name">ChamadosChannel</string>
+
     <!--Adapter Reports keys-->
     <string name="report_id">id</string>
     <string name="report_tec">user</string>
     <string name="report_date">data</string>
     <string name="report_msg">msg</string>
 
-<!--    <string name="api_search_default">0,0</string>-->
     <string name="filter_id">id</string>
     <string name="filter_id_default">0</string>
     <string name="filter_name_default">Selecionar</string>

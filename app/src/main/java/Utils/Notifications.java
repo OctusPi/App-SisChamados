@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat;
 import br.com.dticampossales.appsischamados.R;
 
 public class Notifications {
-    public static NotificationCompat.Builder buildNotification(Context context, String notificationChannelId) {
+    public static NotificationCompat.Builder makeNotificationBuilder(Context context, String notificationChannelId) {
         return new NotificationCompat.Builder(context, notificationChannelId)
                 .setSmallIcon(R.drawable.logo);
     }
@@ -18,8 +18,7 @@ public class Notifications {
         NotificationChannel channel = new NotificationChannel(
                 channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_DEFAULT
-        );
+                NotificationManager.IMPORTANCE_DEFAULT);
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);

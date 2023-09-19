@@ -4,9 +4,9 @@ import android.app.NotificationChannel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -14,10 +14,12 @@ import androidx.core.app.NotificationCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import Utils.JsonRequest;
 import Utils.JsonUtil;
+import Utils.Notifications;
 import Utils.Security;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,17 +61,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-    }
-
-    private void executeNotifications() {
-        
-    }
-
-    private int getNotificationPriority(int setor) {
-        final int SETOR_HOSPITAL = 1;
-        if (setor == SETOR_HOSPITAL) {
-            return NotificationCompat.PRIORITY_HIGH;
-        }
-        return NotificationCompat.PRIORITY_DEFAULT;
     }
 }
