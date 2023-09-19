@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void executeNotifications() {
-        
+
     }
 
     private int getNotificationPriority(int setor) {
