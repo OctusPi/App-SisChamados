@@ -6,11 +6,11 @@
 
     <string name="api_chamados">https://dtiararipe.ce.gov.br/appchamados/api.php?app=chamados&amp;action=list&amp;hash=%s&amp;search=%s</string>
 
-    <!-- route view log chamado by id ROTA AINDA NAO IMPLENTADA NO SERVIDOR  -->
+    <!-- route view log chamado by id  -->
     <string name="api_atendimento">https://dtiararipe.ce.gov.br/appchamados/api.php?app=atendimento&amp;action=view&amp;hash=%s&amp;id=%d</string>
 
-    <!-- route update log atendimento by id with data param content ROTA AINDA NAO IMPLEMENTADA NO SERVIDOR -->
-    <string name="api_atendimento_up">https://dtiararipe.ce.gov.br/appchamados/api.php?app=atendimento&amp;action=update&amp;hash=%s&amp;id=%d</string>
+    <!-- check to view notification in app -->
+    <string name="api_notify">https://dtiararipe.ce.gov.br/appchamados/api.php?app=notificacoes&amp;hash=%s</string>
 
     <!--Api Keys-->
     <string name="api_chamados_key">chamados</string>

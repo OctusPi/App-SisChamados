@@ -7,7 +7,7 @@
     <string name="session_user_perfil">user_perfil</string>
 
     <!-- Default Values -->
-    <string name="app_name">Sis Chamados</string>
+    <string name="app_name">Control Chamados</string>
     <string name="app_sub">Gestão e Controle de Chamados</string>
     <string name="app_footer">&#169;2023 Departamento de Tecnologia Araripe</string>
     <string name="app_verify_login">Verificando Acesso…</string>
