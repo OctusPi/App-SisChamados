@@ -9,6 +9,8 @@
     <!-- route view log chamado by id  -->
     <string name="api_atendimento">https://dtiararipe.ce.gov.br/appchamados/api.php?app=atendimento&amp;action=view&amp;hash=%s&amp;id=%d</string>
 
+    <string name="api_atendimento_up">https://dtiararipe.ce.gov.br/appchamados/api.php?app=atendimento&amp;action=update&amp;hash=%s&amp;id=%d</string>
+
     <!-- check to view notification in app -->
     <string name="api_notify">https://dtiararipe.ce.gov.br/appchamados/api.php?app=notificacoes&amp;hash=%s</string>
 
