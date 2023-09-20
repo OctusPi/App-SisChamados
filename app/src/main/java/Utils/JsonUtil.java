@@ -54,4 +54,13 @@ public class JsonUtil {
 
         return jsonMap;
     }
+
+    public static JSONObject getJsonObject(JSONObject obj, String key){
+        try {
+            return obj.getJSONObject(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

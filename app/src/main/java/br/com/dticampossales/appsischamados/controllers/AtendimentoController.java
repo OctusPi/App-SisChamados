@@ -65,9 +65,10 @@ public class AtendimentoController extends BaseController {
     }
 
     public JSONObject getStatusObjectByProfile() {
+        final int PERFIL_TECNICO = 3;
         JSONObject properStatus = getStatus();
         int profile = Security.getSessionUserProfile(getContext());
-        if (profile == 2) {
+        if (profile == PERFIL_TECNICO) {
             properStatus.remove("1");
             properStatus.remove("5");
         }
