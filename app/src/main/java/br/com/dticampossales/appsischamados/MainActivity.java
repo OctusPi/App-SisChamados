@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupWebSocket() {
-        webSocket = WebSocketUtil.create("wss://socketsbay.com/wss/v2/1/demo/", new ChamadosWebSocketListener());
+        webSocket = WebSocketUtil.create("wss://socketsbay.com/wss/v2/1/demo/",
+                new ChamadosWebSocketListener(getApplicationContext()));
     }
 }

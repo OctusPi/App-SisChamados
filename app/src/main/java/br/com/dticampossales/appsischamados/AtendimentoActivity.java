@@ -107,8 +107,6 @@ public class AtendimentoActivity extends AppCompatActivity {
     }
 
     private void bindInformations() {
-//        notificateChamado(atendimentoController.getChamadoId(), makeNotification(atendimentoController.getDataSet()));
-
         JSONObject detalhes = atendimentoController.getDetalhes();
 
         binding.detailsStatus.setText(makeText(atendimentoController.getStatus(),
@@ -143,40 +141,6 @@ public class AtendimentoActivity extends AppCompatActivity {
             toggleReportFormVisibility();
             reportMessageText.setEnabled(true);
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    private void notificateChamado(int notificationId, Notification notification) {
-        NotificationsUtil.notify(getApplicationContext(), notificationId, notification);
-    }
-
-    private Notification makeNotification(JSONObject dataSet) {
-        JSONObject sectors = JsonUtil.getJsonObject(dataSet, getString(R.string.api_setores_key));
-        JSONObject detalhes = JsonUtil.getJsonObject(dataSet, getString(R.string.api_detalhes_key));
-
-        assert sectors != null;
-        assert detalhes != null;
-
-        String sectorId = JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_setor));
-
-        String sectorName = makeText(sectors, sectorId);
-        String description = makeText(detalhes, getString(R.string.chamado_descricao));
-
-        NotificationCompat.Builder builder = NotificationsUtil.makeNotificationBuilder(getApplicationContext(),
-            NotificationsUtil.getNotificationChannel(getApplicationContext(), getString(R.string.channel_id)).getId())
-                .setContentTitle(sectorName)
-                .setContentText(description)
-                .setPriority(getNotificationPriority(sectorId));
-
-        return builder.build();
-    }
-
-    private int getNotificationPriority(String sectorId) {
-        final String SETOR_HOSPITAL = "1";
-        if (Objects.equals(sectorId, SETOR_HOSPITAL)) {
-            return NotificationCompat.PRIORITY_HIGH;
-        }
-        return NotificationCompat.PRIORITY_DEFAULT;
     }
 
     private String makeText(JSONObject object, String key) {

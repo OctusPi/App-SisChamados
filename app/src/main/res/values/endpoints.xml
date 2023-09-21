@@ -47,6 +47,9 @@
     <string name="channel_id">ChamadosChannel</string>
     <string name="channel_name">ChamadosChannel</string>
 
+    <string name="last_created_chamado">last_created_chamado</string>
+    <string name="last_updated_chamado">last_updated_chamado</string>
+
     <!--Adapter Reports keys-->
     <string name="report_id">id</string>
     <string name="report_tec">user</string>

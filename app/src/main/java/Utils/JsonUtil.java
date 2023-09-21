@@ -63,4 +63,14 @@ public class JsonUtil {
             return null;
         }
     }
+
+    public static JSONObject stringToJson(String string) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = new JSONObject(string);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }
