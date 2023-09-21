@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat;
 
 import br.com.dticampossales.appsischamados.R;
 
-public class Notifications {
+public class NotificationsUtil {
     public static void notify(Context context, int notificationId, Notification notification) {
         getNotificationManager(context).notify(notificationId, notification);
     }

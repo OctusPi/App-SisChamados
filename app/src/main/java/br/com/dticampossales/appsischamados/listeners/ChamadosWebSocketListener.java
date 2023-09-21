@@ -2,6 +2,8 @@ package br.com.dticampossales.appsischamados.listeners;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
@@ -9,7 +11,7 @@ import okio.ByteString;
 
 public class ChamadosWebSocketListener extends WebSocketListener {
     @Override public void onOpen(WebSocket webSocket, Response response) {
-        Log.i(TAG, "OPENED:");
+        Log.i(TAG, String.format("OPENED: %s", response.message()));
     }
 
     @Override public void onMessage(WebSocket webSocket, ByteString text) {
@@ -25,5 +27,5 @@ public class ChamadosWebSocketListener extends WebSocketListener {
         t.printStackTrace();
     }
 
-    private static String TAG = "NotificationWebSocket";
+    private static final String TAG = "NotificationWebSocket";
 }

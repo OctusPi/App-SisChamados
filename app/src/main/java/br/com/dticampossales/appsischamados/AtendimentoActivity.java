@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import Utils.Dates;
 import Utils.JsonUtil;
-import Utils.Notifications;
+import Utils.NotificationsUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
 import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;
@@ -147,7 +147,7 @@ public class AtendimentoActivity extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private void notificateChamado(int notificationId, Notification notification) {
-        Notifications.notify(getApplicationContext(), notificationId, notification);
+        NotificationsUtil.notify(getApplicationContext(), notificationId, notification);
     }
 
     private Notification makeNotification(JSONObject dataSet) {
@@ -162,8 +162,8 @@ public class AtendimentoActivity extends AppCompatActivity {
         String sectorName = makeText(sectors, sectorId);
         String description = makeText(detalhes, getString(R.string.chamado_descricao));
 
-        NotificationCompat.Builder builder = Notifications.makeNotificationBuilder(getApplicationContext(),
-            Notifications.getNotificationChannel(getApplicationContext(), getString(R.string.channel_id)).getId())
+        NotificationCompat.Builder builder = NotificationsUtil.makeNotificationBuilder(getApplicationContext(),
+            NotificationsUtil.getNotificationChannel(getApplicationContext(), getString(R.string.channel_id)).getId())
                 .setContentTitle(sectorName)
                 .setContentText(description)
                 .setPriority(getNotificationPriority(sectorId));
