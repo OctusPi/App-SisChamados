@@ -54,9 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordValidator = new LoginPasswordValidator(passwordLayout, passwordText);
         emailValidator    = new LoginEmailValidator(emailLayout, emailText);
 
-        emailText.setText("octuspi@gmail.com");
-        passwordText.setText("Kira@7616");
-
         loginAPI();
     }
 
