@@ -16,12 +16,9 @@ import java.util.concurrent.ExecutionException;
 import Utils.JsonRequest;
 import Utils.NotificationsUtil;
 import Utils.Security;
-import Utils.WebSocketUtil;
-import br.com.dticampossales.appsischamados.listeners.AtendimentoWebSocketListener;
-import okhttp3.WebSocket;
+import br.com.dticampossales.appsischamados.listeners.NotificationsObserver;
 
 public class MainActivity extends AppCompatActivity {
-    private WebSocket webSocket;
     private TextView alertText;
 
     @Override
@@ -34,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setupWebSocket();
 
         isAuthenticate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupWebSocket();
     }
 
     private void isAuthenticate() {
@@ -72,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupWebSocket() {
-        webSocket = WebSocketUtil.create("wss://socketsbay.com/wss/v2/1/demo/",
-                new AtendimentoWebSocketListener(getApplicationContext()));
+        NotificationsObserver observer = new NotificationsObserver(this);
+        observer.setInitialValues();
+        observer.run();
     }
 }

@@ -1,9 +1,7 @@
 package br.com.dticampossales.appsischamados;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -22,7 +20,6 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import Utils.JsonRequest;
-import Utils.JsonUtil;
 import Utils.Security;
 import br.com.dticampossales.appsischamados.validation.Login.LoginEmailValidator;
 import br.com.dticampossales.appsischamados.validation.Login.LoginPasswordValidator;

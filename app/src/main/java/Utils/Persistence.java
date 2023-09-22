@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 
 import br.com.dticampossales.appsischamados.R;
 
-public class PersistenceUtil {
+public class Persistence {
     public static String getStringVal(Context context, String key){
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_key), MODE_PRIVATE);
         return sharedPref.getString(key, "");
