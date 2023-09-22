@@ -3,7 +3,6 @@ package br.com.dticampossales.appsischamados;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,9 +17,8 @@ import Utils.JsonRequest;
 import Utils.NotificationsUtil;
 import Utils.Security;
 import Utils.WebSocketUtil;
-import br.com.dticampossales.appsischamados.listeners.ChamadosWebSocketListener;
+import br.com.dticampossales.appsischamados.listeners.AtendimentoWebSocketListener;
 import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
 
 public class MainActivity extends AppCompatActivity {
     private WebSocket webSocket;
@@ -75,6 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupWebSocket() {
         webSocket = WebSocketUtil.create("wss://socketsbay.com/wss/v2/1/demo/",
-                new ChamadosWebSocketListener(getApplicationContext()));
+                new AtendimentoWebSocketListener(getApplicationContext()));
     }
 }

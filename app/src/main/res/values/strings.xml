@@ -49,4 +49,5 @@
     <string name="atendimento_id">chamado_id</string>
     <string name="atendimento_color">chamado_color</string>
     <string name="atendimento_list_empty">Não há relatórios para mostrar</string>
+    <string name="hospital_id">1</string>
 </resources>

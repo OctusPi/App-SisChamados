@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
@@ -22,12 +21,11 @@ import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-import okio.ByteString;
 
-public class ChamadosWebSocketListener extends WebSocketListener {
+public class AtendimentoWebSocketListener extends WebSocketListener {
     private final Context context;
 
-    public ChamadosWebSocketListener(Context context) {
+    public AtendimentoWebSocketListener(Context context) {
         this.context = context;
     }
 
@@ -40,18 +38,31 @@ public class ChamadosWebSocketListener extends WebSocketListener {
 
     @Override public void onMessage(@NonNull WebSocket webSocket, @NonNull String jsonObjectToString) {
         Log.i(TAG, jsonObjectToString);
-        //        Model = {
-        //            "last_created": 1,
-        //            "last_updated": {"id": 1, "status": "2"}
-        //        }
+
         JSONObject lastData = JsonUtil.stringToJson(jsonObjectToString);
-        String lastCreated = JsonUtil.getJsonVal(lastData, "last_created");
-        String lastUpdated = JsonUtil.getJsonVal(Objects.requireNonNull(JsonUtil.getJsonObject(lastData, "last_updated")), "id");
+        AtendimentoController atendimentoController;
+
+        if (verifyLastCreatedChanged(lastData)) {
+            String chamadoId = JsonUtil.getJsonVal(lastData, "last_created");
+            atendimentoController = new AtendimentoController(context, Integer.parseInt(chamadoId));
+
+            pushNotification(atendimentoController.getDataSet());
+            setLastCreated(chamadoId);
+
+        } else if (verifyLastUpdatedChanged(lastData)) {
+            JSONObject chamadoObject = JsonUtil.getJsonObject(lastData, "last_updated");
+            assert chamadoObject != null;
+            String chamadoId = JsonUtil.getJsonVal(chamadoObject, "id");
+            atendimentoController = new AtendimentoController(context, Integer.parseInt(chamadoId));
+
+            pushNotification(atendimentoController.getDataSet());
+            setLastUpdated(chamadoId);
+        }
     }
 
     @Override public void onClosing(WebSocket webSocket, int code, @NonNull String reason) {
-        webSocket.close(1000, null);
         Log.i(TAG, String.format("CLOSE: %d %s", code, reason));
+        webSocket.close(1000, null);
     }
 
     @Override public void onFailure(@NonNull WebSocket webSocket, Throwable t, Response response) {
@@ -62,24 +73,29 @@ public class ChamadosWebSocketListener extends WebSocketListener {
         return PersistenceUtil.getStringVal(context, context.getString(R.string.last_created_chamado));
     }
 
-    private void setLastCreated(JSONObject lastCreated) {
-        PersistenceUtil.setStringVal(context, context.getString(R.string.last_created_chamado), lastCreated.toString());
+    private void setLastCreated(String lastCreated) {
+        PersistenceUtil.setStringVal(context, context.getString(R.string.last_created_chamado), lastCreated);
     }
 
     private String getLastUpdated() {
         return PersistenceUtil.getStringVal(context, context.getString(R.string.last_updated_chamado));
     }
 
-    private void setLastUpdated(JSONObject lastUpdated) {
-        PersistenceUtil.setStringVal(context, context.getString(R.string.last_updated_chamado), lastUpdated.toString());
+    private void setLastUpdated(String lastUpdated) {
+        PersistenceUtil.setStringVal(context, context.getString(R.string.last_updated_chamado), lastUpdated);
     }
 
-    @SuppressLint("MissingPermission")
-    private void notificateChamado(int notificationId, Notification notification) {
-        NotificationsUtil.notify(context, notificationId, notification);
+    private boolean verifyLastCreatedChanged(JSONObject messageData) {
+        String lastCreated = JsonUtil.getJsonVal(messageData, "last_created");
+        return !lastCreated.equals(getLastCreated());
     }
 
-    private Notification makeNotification(JSONObject dataSet) {
+    private boolean verifyLastUpdatedChanged(JSONObject messageData) {
+        String lastUpdated = JsonUtil.getJsonVal(messageData, "last_updated");
+        return !lastUpdated.equals(getLastUpdated());
+    }
+
+    private void pushNotification(JSONObject dataSet) {
         JSONObject sectors = JsonUtil.getJsonObject(dataSet, context.getString(R.string.api_setores_key));
         JSONObject detalhes = JsonUtil.getJsonObject(dataSet, context.getString(R.string.api_detalhes_key));
 
@@ -97,11 +113,12 @@ public class ChamadosWebSocketListener extends WebSocketListener {
                 .setContentText(description)
                 .setPriority(getNotificationPriority(sectorId));
 
-        return builder.build();
+        int chamadoId = Integer.parseInt(JsonUtil.getJsonVal(detalhes, context.getString(R.string.chamado_id)));
+        NotificationsUtil.notify(context, chamadoId, builder.build());
     }
 
     private int getNotificationPriority(String sectorId) {
-        final String SETOR_HOSPITAL = "1";
+        final String SETOR_HOSPITAL = context.getString(R.string.hospital_id);
         if (Objects.equals(sectorId, SETOR_HOSPITAL)) {
             return NotificationCompat.PRIORITY_HIGH;
         }
@@ -113,5 +130,5 @@ public class ChamadosWebSocketListener extends WebSocketListener {
         return StringEscapeUtils.unescapeHtml4(value);
     }
 
-    private static final String TAG = "NotificationWebSocket";
+    private static final String TAG = "AtendimentoWebSocketListener";
 }
