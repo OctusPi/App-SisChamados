@@ -1,14 +1,11 @@
 package br.com.dticampossales.appsischamados;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,7 +18,6 @@ import java.util.Objects;
 
 import Utils.Dates;
 import Utils.JsonUtil;
-import Utils.NotificationsUtil;
 import br.com.dticampossales.appsischamados.adapters.Atendimento.AtendimentoRecyclerViewAdapter;
 import br.com.dticampossales.appsischamados.controllers.AtendimentoController;
 import br.com.dticampossales.appsischamados.databinding.ActivityAtendimentoBinding;

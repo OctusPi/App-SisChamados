@@ -1,4 +1,4 @@
-package br.com.dticampossales.appsischamados.listeners;
+package br.com.dticampossales.appsischamados.observers;
 
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -23,46 +23,33 @@ import br.com.dticampossales.appsischamados.AtendimentoActivity;
 import br.com.dticampossales.appsischamados.R;
 
 public class NotificationsObserver {
+    private static final String TAG = "NotificationObserver";
     private final Context context;
 
     public NotificationsObserver(Context context) {
         this.context = context;
     }
 
-    public void setInitialValues() {
+    public void bootstrap() {
         JSONObject response = makeRequest();
-        setPersistenceValues(response);
-    }
-
-    public void runAsync() {
-
-    }
-
-    public void run() {
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override public void run() {
-                JSONObject response = makeRequest();
-                if (!response.toString().equals(getLastNotify())) {
-                    pushNotification(JsonUtil.getJsonObject(response, context.getString(R.string.api_detalhes_key)));
-                    setPersistenceValues(response);
-                }
-            }
-        },0,1000 * 10);
+        Log.i(TAG, response.toString());
+        if (!response.toString().equals(getLastNotify())) {
+            pushNotification(JsonUtil.getJsonObject(response, context.getString(R.string.api_detalhes_key)));
+            setPersistenceValues(response);
+        }
     }
 
     private void pushNotification(JSONObject chamadoDetails) {
         int chamadoId = Integer.parseInt(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_id)));
 
-        Log.i("msg", String.valueOf(chamadoId));
-
         NotificationCompat.Builder builder = NotificationsUtil.makeNotificationBuilder(context,
-            NotificationsUtil.getNotificationChannel(context, context.getString(R.string.channel_id)).getId())
+                        NotificationsUtil.getNotificationChannel(context, context.getString(R.string.channel_id)).getId())
                 .setContentTitle(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_code)))
                 .setContentText(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_setor)))
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_descricao))))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(makeNotificationIntent(chamadoId));
+                .setContentIntent(makeNotificationIntent(chamadoId))
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_descricao))));
 
         NotificationsUtil.notify(context, chamadoId, builder.build());
     }
@@ -94,5 +81,8 @@ public class NotificationsObserver {
         }
     }
 
-    private static final String TAG = "AtendimentoWebSocketListener";
+    public void setInitialValues() {
+        JSONObject response = makeRequest();
+        setPersistenceValues(response);
+    }
 }

@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText passwordText;
     private TextView alertText;
     private ProgressBar progressBar;
-    private  Button btnLogin;
+    private Button btnLogin;
     private LoginPasswordValidator passwordValidator;
     private LoginEmailValidator emailValidator;
 
@@ -42,33 +42,31 @@ public class LoginActivity extends AppCompatActivity {
         TextInputLayout emailLayout = findViewById(R.id.form_email);
         TextInputLayout passwordLayout = findViewById(R.id.form_password);
 
-        emailText      = findViewById(R.id.email);
-        passwordText   = findViewById(R.id.password);
-        btnLogin       = findViewById(R.id.form_submit);
-        alertText      = findViewById(R.id.alert_text);
-        progressBar    = findViewById(R.id.progress_bar);
+        emailText = findViewById(R.id.email);
+        passwordText = findViewById(R.id.password);
+        btnLogin = findViewById(R.id.form_submit);
+        alertText = findViewById(R.id.alert_text);
+        progressBar = findViewById(R.id.progress_bar);
 
         passwordValidator = new LoginPasswordValidator(passwordLayout, passwordText);
-        emailValidator    = new LoginEmailValidator(emailLayout, emailText);
-
-        emailText.setText("octuspi@gmail.com");
+        emailValidator = new LoginEmailValidator(emailLayout, emailText);
 
         loginAPI();
     }
 
-    private void loginAPI(){
+    private void loginAPI() {
         btnLogin.setOnClickListener(view -> {
 
-            if(emailValidator.validate() && passwordValidator.validate()){
+            if (emailValidator.validate() && passwordValidator.validate()) {
 
                 feedback("");
 
-                String email     = Objects.requireNonNull(emailText.getText()).toString();
-                String passwd    = Objects.requireNonNull(passwordText.getText()).toString();
+                String email = Objects.requireNonNull(emailText.getText()).toString();
+                String passwd = Objects.requireNonNull(passwordText.getText()).toString();
 
                 try {
                     String hashLogin = Security.hashLogin(email, passwd);
-                    String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
+                    String urlJSON = String.format(getResources().getString(R.string.api_login), hashLogin);
 
                     JSONObject userResponseJson = JsonRequest.request(urlJSON);
 
@@ -87,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
             if (userIsValid) {
                 Security.setHashLogin(getApplicationContext(), hashLogin);
 
-                /* Stores {id} and {perfil} keys in shared prefs */
                 Security.setSessionUser(
                         getApplicationContext(),
                         authResponse.getInt("id"),
@@ -105,10 +102,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void feedback(String msg){
-        if(msg.equals("")){
+    private void feedback(String msg) {
+        if (msg.equals("")) {
             progressBar.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             progressBar.setVisibility(View.GONE);
         }
         alertText.setText(msg);

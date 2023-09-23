@@ -1,7 +1,5 @@
 package Utils;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,14 +8,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class JsonUtil {
 
     public static ArrayList<JSONObject> jsonList(JSONArray jsonArray) throws JSONException {
         ArrayList<JSONObject> jsonObjects = new ArrayList<>();
-        for (int i=0; i<jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             jsonObjects.add(jsonObject);
         }
@@ -25,7 +21,7 @@ public class JsonUtil {
         return jsonObjects;
     }
 
-    public static String getJsonVal(JSONObject obj, String key){
+    public static String getJsonVal(JSONObject obj, String key) {
         try {
             return !obj.getString(key).equals("null") ? obj.getString(key) : "***";
         } catch (JSONException e) {
@@ -55,22 +51,12 @@ public class JsonUtil {
         return jsonMap;
     }
 
-    public static JSONObject getJsonObject(JSONObject obj, String key){
+    public static JSONObject getJsonObject(JSONObject obj, String key) {
         try {
             return obj.getJSONObject(key);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public static JSONObject stringToJson(String string) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject = new JSONObject(string);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
     }
 }

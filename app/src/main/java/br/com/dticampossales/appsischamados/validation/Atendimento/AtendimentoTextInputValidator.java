@@ -1,7 +1,5 @@
 package br.com.dticampossales.appsischamados.validation.Atendimento;
 
-import android.util.Patterns;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

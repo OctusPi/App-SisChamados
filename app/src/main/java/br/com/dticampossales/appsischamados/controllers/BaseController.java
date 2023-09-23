@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import Utils.JsonUtil;
 import br.com.dticampossales.appsischamados.R;
@@ -24,15 +23,16 @@ public abstract class BaseController {
         this.context = context;
         this.dataSet = dataSet;
 
-        this.tecnicos = buildPropObject(TypeList.TECNICOS);
-        this.setores = buildPropObject(TypeList.SETORES);
-        this.tipos = buildPropObject(TypeList.TIPOS);
-        this.status = buildPropObject(TypeList.STATUS);
+        this.tecnicos = buildPropObject(PropType.TECNICOS);
+        this.setores = buildPropObject(PropType.SETORES);
+        this.tipos = buildPropObject(PropType.TIPOS);
+        this.status = buildPropObject(PropType.STATUS);
     }
 
     public Context getContext() {
         return this.context;
     }
+
     public JSONObject getDataSet() {
         return this.dataSet;
     }
@@ -69,7 +69,7 @@ public abstract class BaseController {
         return objects;
     }
 
-    public JSONObject buildPropObject(TypeList type) {
+    public JSONObject buildPropObject(PropType type) {
         JSONObject propObject = new JSONObject();
 
         String propKey = getPropKey(context, type);
@@ -83,35 +83,29 @@ public abstract class BaseController {
         return propObject;
     }
 
-    private String getPropKey(Context context, TypeList type) {
-
+    private String getPropKey(Context context, PropType type) {
         String propKey = "";
-
         switch (type) {
-            case SETORES:
-                propKey = context.getString(R.string.api_setores_key);
-                break;
-            case TECNICOS:
-                propKey = context.getString(R.string.api_tecnicos_key);
-                break;
-            case TIPOS:
-                propKey = context.getString(R.string.api_tipos_key);
-                break;
-            case STATUS:
-                propKey = context.getString(R.string.api_status_key);
-                break;
-            case DETALHES:
-                propKey = context.getString(R.string.api_detalhes_key);
-                break;
+            case SETORES: propKey = context.getString(R.string.api_setores_key); break;
+            case TECNICOS: propKey = context.getString(R.string.api_tecnicos_key); break;
+            case TIPOS: propKey = context.getString(R.string.api_tipos_key); break;
+            case STATUS: propKey = context.getString(R.string.api_status_key); break;
+            case DETALHES: propKey = context.getString(R.string.api_detalhes_key); break;
+        }
+        return propKey;
+    }
+
+    public enum PropType {
+        SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4), DETALHES(5);
+
+        private final int type;
+
+        PropType(int id) {
+            type = id;
         }
 
-        return propKey;
-    };
-
-    public enum TypeList {
-        SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4), DETALHES(5);
-        private final int type;
-        TypeList(int id) { type = id; }
-        public int getTypeList() { return type; }
+        public int getPropType() {
+            return type;
+        }
     }
 }

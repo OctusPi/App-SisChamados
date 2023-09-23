@@ -16,7 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONObject;
 
 import br.com.dticampossales.appsischamados.adapters.Chamados.ChamadosRecyclerViewAdapter;
-import br.com.dticampossales.appsischamados.controllers.BaseController;
 import br.com.dticampossales.appsischamados.controllers.ChamadosController;
 import br.com.dticampossales.appsischamados.widgets.Chamados.ChamadosRecyclerView;
 import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
@@ -97,11 +96,14 @@ public class ChamadosActivity extends AppCompatActivity {
         ChamadosController chamadosController = new ChamadosController(this, filter);
         chamadosRecyclerViewAdapter.applyFilter(chamadosController);
     }
+
     private void setFilterBySpinners() {
-        setLoading(true); toggleButtonsClick();
+        setLoading(true);
+        toggleButtonsClick();
         setSpinnerState(makeFilter(sectorSpinner.getSelectedKey(), statusSpinner.getSelectedKey()));
         filter(spinnerState);
-        setLoading(false); toggleButtonsClick();
+        setLoading(false);
+        toggleButtonsClick();
         toggleFilterLayout();
     }
 

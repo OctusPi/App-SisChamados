@@ -52,8 +52,8 @@ public class AtendimentoController extends BaseController {
                 String chamadosUrl = String.format(getContext().getString(R.string.api_atendimento_up), hashLogin, chamadoId);
                 JSONObject response = JsonRequest.postRequest(chamadosUrl, requestBody);
 
-                JSONObject responseMessage = response.getJSONObject("message");
-                String messageInfo = JsonUtil.getJsonVal(responseMessage, "info");
+                String messageInfo = JsonUtil.getJsonVal(
+                        response.getJSONObject(getContext().getString(R.string.api_up_message_key)), "info");
 
                 Toast.makeText(getContext(), messageInfo , Toast.LENGTH_SHORT).show();
 
@@ -76,7 +76,7 @@ public class AtendimentoController extends BaseController {
     }
 
     public JSONObject getDetalhes() {
-        return buildPropObject(TypeList.DETALHES);
+        return buildPropObject(PropType.DETALHES);
     }
 
     private static JSONObject setDataSet(Context context, Integer chamadoId) {
@@ -88,7 +88,6 @@ public class AtendimentoController extends BaseController {
             try {
                 String chamadosUrl = String.format(context.getString(R.string.api_atendimento), hashLogin, chamadoId);
                 fullDataSet = JsonRequest.request(chamadosUrl);
-                Log.i("msg", chamadosUrl);
 
             } catch (ExecutionException | InterruptedException e) {
                 Toast.makeText(context, R.string.app_fail, Toast.LENGTH_SHORT).show();

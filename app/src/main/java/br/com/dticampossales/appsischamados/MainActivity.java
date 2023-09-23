@@ -1,5 +1,7 @@
 package br.com.dticampossales.appsischamados;
 
+import android.app.ActivityManager;
+import android.app.NotificationChannel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +18,8 @@ import java.util.concurrent.ExecutionException;
 import Utils.JsonRequest;
 import Utils.NotificationsUtil;
 import Utils.Security;
-import br.com.dticampossales.appsischamados.listeners.NotificationsObserver;
+import br.com.dticampossales.appsischamados.observers.NotificationsObserver;
+import br.com.dticampossales.appsischamados.services.NotificationService;
 
 public class MainActivity extends AppCompatActivity {
     private TextView alertText;
@@ -27,32 +30,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         alertText = findViewById(R.id.alert_txt_main);
 
-        setupNotifications();
-        setupWebSocket();
-
-        isAuthenticate();
+        verifyUserAuthentication();
+        setUpNotifications();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setupWebSocket();
     }
 
-    private void isAuthenticate() {
+    private void verifyUserAuthentication() {
 
-        Context context  = getApplicationContext();
+        Context context = getApplicationContext();
         String hashLogin = Security.getHashLogin(context);
-        String urlJSON   = String.format(getResources().getString(R.string.api_login), hashLogin);
+        String urlJSON = String.format(getResources().getString(R.string.api_login), hashLogin);
 
-        if(!hashLogin.equals("")){
+        if (!hashLogin.equals("")) {
             try {
                 JSONObject jsonObject = JsonRequest.request(urlJSON);
                 boolean isAuth = jsonObject.getInt("id") != 0;
 
                 Intent intent = isAuth
-                        ?  new Intent(context, ChamadosActivity.class)
-                        :  new Intent(context, LoginActivity.class);
+                        ? new Intent(context, ChamadosActivity.class)
+                        : new Intent(context, LoginActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -60,23 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 alertText.setText(getString(R.string.app_fail));
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
-    private void setupNotifications() {
-        NotificationsUtil.buildNotificationChannel(
-                getApplicationContext(),
-                getString(R.string.channel_id),
-                getString(R.string.channel_name));
-    }
+    private void setUpNotifications() {
 
-    private void setupWebSocket() {
-        NotificationsObserver observer = new NotificationsObserver(this);
-        observer.setInitialValues();
-        observer.run();
     }
 }

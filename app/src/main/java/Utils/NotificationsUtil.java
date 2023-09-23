@@ -22,13 +22,15 @@ public class NotificationsUtil {
         return getNotificationManager(context).getNotificationChannel(channelId);
     }
 
-    public static void buildNotificationChannel(Context context, String channelId, String channelName) {
+    public static NotificationChannel buildNotificationChannel(Context context, String channelId, String channelName) {
         NotificationChannel channel = new NotificationChannel(
                 channelId,
                 channelName,
                 NotificationManager.IMPORTANCE_DEFAULT);
 
         getNotificationManager(context).createNotificationChannel(channel);
+
+        return channel;
     }
 
     public static NotificationManager getNotificationManager(Context context) {
