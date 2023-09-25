@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.AppSischamados"
         tools:targetApi="31">
-        <service android:name=".services.NotificationService"
+        <service android:name=".workers.NotificationWorker"
             android:enabled="true"
             android:exported="false"/>
         <activity

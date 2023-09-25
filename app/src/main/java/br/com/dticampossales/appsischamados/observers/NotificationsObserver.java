@@ -33,10 +33,10 @@ public class NotificationsObserver {
     public void bootstrap() {
         JSONObject response = makeRequest();
         Log.i(TAG, response.toString());
-        if (!response.toString().equals(getLastNotify())) {
+//        if (!response.toString().equals(getLastNotify())) {
             pushNotification(JsonUtil.getJsonObject(response, context.getString(R.string.api_detalhes_key)));
             setPersistenceValues(response);
-        }
+//        }
     }
 
     private void pushNotification(JSONObject chamadoDetails) {

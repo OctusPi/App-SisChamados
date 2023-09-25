@@ -1,25 +1,29 @@
 package br.com.dticampossales.appsischamados;
 
-import android.app.ActivityManager;
-import android.app.NotificationChannel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
+import androidx.work.Worker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import Utils.JsonRequest;
-import Utils.NotificationsUtil;
 import Utils.Security;
-import br.com.dticampossales.appsischamados.observers.NotificationsObserver;
-import br.com.dticampossales.appsischamados.services.NotificationService;
+import br.com.dticampossales.appsischamados.workers.NotificationWorker;
 
 public class MainActivity extends AppCompatActivity {
     private TextView alertText;
@@ -68,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpNotifications() {
-
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                NotificationWorker.class, 3, TimeUnit.SECONDS)
+                .build();
+        WorkManager.getInstance(getApplicationContext())
+                .enqueueUniquePeriodicWork(
+                        "pushNotifications",
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        workRequest);
     }
 }

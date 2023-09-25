@@ -52,6 +52,9 @@ dependencies {
     val coreVersion = "1.12.0"
     implementation("androidx.core:core-ktx:$coreVersion")
 
+    val workVersion = "2.8.1"
+    implementation("androidx.work:work-runtime:$workVersion")
+
     implementation("org.apache.commons:commons-text:1.10.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
