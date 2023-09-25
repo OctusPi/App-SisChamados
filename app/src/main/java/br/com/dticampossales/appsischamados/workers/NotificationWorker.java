@@ -29,7 +29,6 @@ public class NotificationWorker extends Worker {
                 getApplicationContext().getString(R.string.channel_name));
 
         observer = new NotificationsObserver(getApplicationContext());
-        observer.setInitialValues();
     }
 
     @NonNull
