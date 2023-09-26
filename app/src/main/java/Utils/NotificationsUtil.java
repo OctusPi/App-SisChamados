@@ -15,7 +15,7 @@ public class NotificationsUtil {
     }
     public static NotificationCompat.Builder makeNotificationBuilder(Context context, String notificationChannelId) {
         return new NotificationCompat.Builder(context, notificationChannelId)
-                .setSmallIcon(R.drawable.logo);
+                .setSmallIcon(R.drawable.new_logo);
     }
 
     public static NotificationChannel getNotificationChannel(Context context, String channelId) {
