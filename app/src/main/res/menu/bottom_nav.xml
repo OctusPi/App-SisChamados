@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_detalhes"
+        android:title="@string/menu_detalhes"
+        android:icon="@drawable/baseline_info_24" />
+    <item
+        android:id="@+id/menu_relatorio"
+        android:title="@string/menu_relatorio"
+        android:icon="@drawable/baseline_speaker_notes_24" />
+</menu>

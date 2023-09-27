@@ -6,28 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".AtendimentoActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/chamado_floating_details"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:translationZ="1dp"
+        android:id="@+id/bottom_navigation"
+        app:elevation="0dp"
+        android:background="?attr/colorOnSecondary"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="@string/chamados_floating_desc"
-        android:src="@drawable/baseline_info_24"
-        app:layout_constraintBottom_toTopOf="@+id/chamado_floating_report_form"
-        app:layout_constraintEnd_toEndOf="@+id/chamado_floating_report_form"
-        app:layout_constraintStart_toStartOf="@+id/chamado_floating_report_form" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/chamado_floating_report_form"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="@string/chamados_floating_desc"
-        android:src="@drawable/baseline_speaker_notes_24"
-        app:layout_constraintBottom_toTopOf="@+id/report_form"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/details_topbar"
@@ -41,19 +30,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/details_arrow_back"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/baseline_keyboard_backspace_24"
+            app:drawableTint="?attr/colorOnBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/details_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
+            android:layout_marginStart="4dp"
+            android:drawablePadding="4dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Cod. 1020302340"
             android:textColor="?attr/colorOnBackground"
-            android:textSize="15sp"
-            app:drawableStartCompat="@drawable/baseline_code_24"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:drawableTint="?attr/colorOnBackground" />
+            app:layout_constraintStart_toEndOf="@+id/details_arrow_back"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/details_status"
@@ -63,7 +62,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="Aberto"
             android:textColor="?attr/colorOnBackground"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:drawableStartCompat="@drawable/baseline_circle_24"
             app:drawableTint="?attr/colorOnBackground"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,8 +71,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/details"
         android:visibility="gone"
+        android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorOnSecondary"
@@ -202,8 +201,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_topbar"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/report_card"
-        tools:visibility="visible" />
+        tools:listitem="@layout/report_card" />
 
     <TextView
         android:visibility="gone"
@@ -224,16 +222,15 @@
         app:drawableTint="?android:textColorPrimary" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
         android:id="@+id/report_form"
-        android:visibility="visible"
-        android:translationZ="15dp"
-        android:elevation="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorOnSecondary"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -248,15 +245,15 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/report_message_input"
-                android:fontFamily="@font/poppins"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/poppins"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:textSize="15sp"
                 android:lines="6"
                 android:maxLines="6"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
@@ -273,11 +270,11 @@
 
         <Button
             android:id="@+id/report_submit"
-            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
-            android:maxWidth="400dp"
             android:layout_height="58dp"
+            android:layout_marginTop="6dp"
             android:elegantTextHeight="true"
+            android:maxWidth="400dp"
             android:text="@string/report_button_text"
             app:cornerRadius="8dp"
             app:icon="@drawable/baseline_arrow_forward_24"

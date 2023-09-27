@@ -1,13 +1,15 @@
 package br.com.dticampossales.appsischamados;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -29,8 +31,6 @@ import br.com.dticampossales.appsischamados.widgets.Common.BaseSpinner;
 public class AtendimentoActivity extends AppCompatActivity {
 
     ActivityAtendimentoBinding binding;
-    FloatingActionButton detailsFab;
-    FloatingActionButton reportFormFab;
     ConstraintLayout detailsLayout;
     ConstraintLayout reportFormLayout;
     AtendimentoRecyclerView reportsList;
@@ -39,6 +39,7 @@ public class AtendimentoActivity extends AppCompatActivity {
     BaseSpinner reportSpinner;
     TextInputLayout reportMessageLayout;
     TextInputEditText reportMessageText;
+    TextView backArrow;
     Button sendReportBtn;
 
     @Override
@@ -49,6 +50,9 @@ public class AtendimentoActivity extends AppCompatActivity {
         binding = ActivityAtendimentoBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        backArrow = findViewById(R.id.details_arrow_back);
+        backArrow.setOnClickListener(v -> finish());
 
         Integer chamadoId = Objects.requireNonNull(getIntent().getExtras()).getInt(getString(R.string.atendimento_id));
         atendimentoController = new AtendimentoController(this, chamadoId);
@@ -65,7 +69,7 @@ public class AtendimentoActivity extends AppCompatActivity {
 
         reportsList.build();
 
-        JSONObject statusObject = atendimentoController.getStatusObjectByProfile();
+        JSONObject statusObject = atendimentoController.getPropperStatus();
         reportSpinner = new BaseSpinner(
                 getApplicationContext(),
                 findViewById(R.id.report_status_spinner),
@@ -76,29 +80,34 @@ public class AtendimentoActivity extends AppCompatActivity {
         detailsLayout = findViewById(R.id.details);
         reportFormLayout = findViewById(R.id.report_form);
 
-        detailsFab = findViewById(R.id.chamado_floating_details);
-        reportFormFab = findViewById(R.id.chamado_floating_report_form);
-
-        detailsFab.setOnClickListener(v -> toggleDetailsVisibility());
-        reportFormFab.setOnClickListener(v -> toggleReportFormVisibility());
-
         reportMessageLayout = findViewById(R.id.report_message_layout);
         reportMessageText = findViewById(R.id.report_message_input);
 
         sendReportBtn = findViewById(R.id.report_submit);
 
         sendReportBtn.setOnClickListener(v -> sendReport());
+
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
+
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.menu_detalhes) {
+                makeDetailsVisible();
+                return true;
+            } else if (item.getItemId() == R.id.menu_relatorio) {
+                makeReportVisible();
+                return true;
+            }
+            return false;
+        });
     }
 
-    private void toggleDetailsVisibility() {
-        detailsLayout.setVisibility(
-                detailsLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    private void makeDetailsVisible() {
+        detailsLayout.setVisibility(detailsLayout.getVisibility() != View.VISIBLE ? View.VISIBLE : View.GONE);
         reportFormLayout.setVisibility(View.GONE);
     }
 
-    private void toggleReportFormVisibility() {
-        reportFormLayout.setVisibility(
-                reportFormLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    private void makeReportVisible() {
+        reportFormLayout.setVisibility(reportFormLayout.getVisibility() != View.VISIBLE ? View.VISIBLE : View.GONE);
         detailsLayout.setVisibility(View.GONE);
     }
 
@@ -134,7 +143,8 @@ public class AtendimentoActivity extends AppCompatActivity {
             reportsListAdapter.refresh();
             atendimentoController = new AtendimentoController(this, atendimentoController.getChamadoId());
             bindInformations();
-            toggleReportFormVisibility();
+            detailsLayout.setVisibility(View.GONE);
+            reportFormLayout.setVisibility(View.GONE);
             reportMessageText.setEnabled(true);
         }
     }

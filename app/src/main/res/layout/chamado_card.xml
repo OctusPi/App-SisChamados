@@ -69,7 +69,7 @@
             android:fontFamily="@font/poppins_bold"
             android:gravity="center|start"
             android:text="Cód. 1101111111"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -83,7 +83,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="11/11/2024"
             android:textAlignment="textStart"
-            android:textSize="15sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/chamado_date_prev"
             app:layout_constraintStart_toEndOf="@+id/chamado_code"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -97,7 +97,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/poppins_bold"
             android:text="11/11/2024"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

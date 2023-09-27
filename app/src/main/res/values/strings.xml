@@ -51,4 +51,6 @@
     <string name="atendimento_list_empty">Não há relatórios para mostrar</string>
     <string name="hospital_id">1</string>
     <string name="api_up_message_key">message</string>
+    <string name="menu_detalhes">Detalhes</string>
+    <string name="menu_relatorio">Relatório</string>
 </resources>
