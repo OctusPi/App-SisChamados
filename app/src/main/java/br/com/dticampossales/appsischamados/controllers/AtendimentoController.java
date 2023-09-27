@@ -1,7 +1,6 @@
 package br.com.dticampossales.appsischamados.controllers;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;

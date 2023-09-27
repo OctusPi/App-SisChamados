@@ -2,10 +2,6 @@ package br.com.dticampossales.appsischamados.workers;
 
 import android.app.NotificationChannel;
 import android.content.Context;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Process;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;

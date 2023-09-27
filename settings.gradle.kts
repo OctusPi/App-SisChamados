@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "App SisChamados"
+rootProject.name = "Control Chamados"
 include(":app")
