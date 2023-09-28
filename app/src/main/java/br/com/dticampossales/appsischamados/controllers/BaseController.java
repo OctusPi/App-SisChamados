@@ -18,6 +18,7 @@ public abstract class BaseController {
     private final JSONObject setores;
     private final JSONObject tipos;
     private final JSONObject status;
+    private final JSONObject equipments;
 
     public BaseController(Context context, JSONObject dataSet) {
         this.context = context;
@@ -27,6 +28,7 @@ public abstract class BaseController {
         this.setores = buildPropObject(PropType.SETORES);
         this.tipos = buildPropObject(PropType.TIPOS);
         this.status = buildPropObject(PropType.STATUS);
+        this.equipments = buildPropObject(PropType.EQUIPMENTS);
     }
 
     public Context getContext() {
@@ -51,6 +53,10 @@ public abstract class BaseController {
 
     public JSONObject getTipos() {
         return this.tipos;
+    }
+
+    public JSONObject getEquipments() {
+        return this.equipments;
     }
 
     public SortedMap<Integer, ArrayList<String>> getMappedPropObject(JSONObject propObject) {
@@ -91,12 +97,13 @@ public abstract class BaseController {
             case TIPOS: propKey = context.getString(R.string.api_tipos_key); break;
             case STATUS: propKey = context.getString(R.string.api_status_key); break;
             case DETALHES: propKey = context.getString(R.string.api_detalhes_key); break;
+            case EQUIPMENTS: propKey = context.getString(R.string.api_equipments_key); break;
         }
         return propKey;
     }
 
     public enum PropType {
-        SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4), DETALHES(5);
+        SETORES(1), TECNICOS(2), TIPOS(3), STATUS(4), DETALHES(5), EQUIPMENTS(6);
 
         private final int type;
 

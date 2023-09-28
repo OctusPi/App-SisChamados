@@ -88,6 +88,7 @@ public class AtendimentoActivity extends AppCompatActivity {
         sendReportBtn.setOnClickListener(v -> sendReport());
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.setFocusable(false);
 
         bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.menu_detalhes) {
@@ -120,6 +121,8 @@ public class AtendimentoActivity extends AppCompatActivity {
                 JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_type))));
         binding.detailsSector.setText(makeText(atendimentoController.getSetores(),
                 JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_setor))));
+        binding.detailsEquipment.setText(makeText(atendimentoController.getEquipments(),
+                JsonUtil.getJsonVal(detalhes, getString(R.string.chamado_equipamento))));
 
         binding.detailsDataabr.setText(((String) binding.detailsDataabr.getText())
                 .concat(" " + makeDate(detalhes, getString(R.string.chamado_dataabr))));
@@ -129,7 +132,6 @@ public class AtendimentoActivity extends AppCompatActivity {
                 .concat(" " + makeDate(detalhes, getString(R.string.chamado_dataatm))));
 
         binding.detailsCode.setText(makeText(detalhes, getString(R.string.chamado_code)));
-        binding.detailsEquipment.setText(makeText(detalhes, getString(R.string.chamado_equipamento)));
         binding.detailsDescription.setText(makeText(detalhes, getString(R.string.chamado_descricao)));
     }
 

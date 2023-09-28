@@ -48,6 +48,7 @@ public class NotificationsObserver {
                 .setContentText(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_setor)))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(makeNotificationIntent(chamadoId))
+                .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(JsonUtil.getJsonVal(chamadoDetails, context.getString(R.string.chamado_descricao))));
 
