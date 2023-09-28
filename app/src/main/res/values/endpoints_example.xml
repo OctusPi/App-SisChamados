@@ -22,9 +22,8 @@
 <!--    <string name="api_status_key">status</string>-->
 <!--    <string name="api_historico_key">historico</string>-->
 <!--    <string name="api_detalhes_key">chamado</string>-->
-<!--    <string name="api_notification_key">notify</string>-->
-
-<!--    <string name="sp_notification_key">notify</string>-->
+<!--    <string name="api_up_info_key">info</string>-->
+<!--    <string name="api_equipments_key">equipamentos</string>-->
 
 <!--    &lt;!&ndash;Adapter Chamado keys&ndash;&gt;-->
 <!--    <string name="chamado_id">id</string>-->
@@ -47,8 +46,8 @@
 <!--    <string name="api_atendimento_up_msg_key">msg</string>-->
 
 <!--    &lt;!&ndash;&ndash;&gt;-->
-<!--    <string name="channel_id">AtendimentoChannel</string>-->
-<!--    <string name="channel_name">Atendimento Channel</string>-->
+<!--    <string name="channel_id">ChamadosChannel</string>-->
+<!--    <string name="channel_name">ChamadosChannel</string>-->
 
 <!--    <string name="last_created_chamado">last_created_chamado</string>-->
 <!--    <string name="last_updated_chamado">last_updated_chamado</string>-->
@@ -62,4 +61,5 @@
 <!--    <string name="filter_id">id</string>-->
 <!--    <string name="filter_id_default">0</string>-->
 <!--    <string name="filter_name_default">Selecionar</string>-->
+<!--    <string name="sp_notification_key">notify</string>-->
 </resources>
